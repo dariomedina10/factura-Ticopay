@@ -1,0 +1,148 @@
+﻿@using System.Web.Mvc.Html
+@model TicoPay.Invoices.Dto.CreateInvoiceInput
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        @*if ('@Model.TipoFirma' == '@TicoPay.MultiTenancy.Tenant.FirmType.Todos')
+            $("#FirmTypes_DD").removeAttr('disabled');*@
+
+       
+
+
+
+    });
+
+
+</script>
+<div class="wrapper wrapper-content  fadeInRight white-bg" style="z-index:100">
+    <div class="row">
+        <div class="col-md-7">
+            @*<div class="col-md-2"></div>*@
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xs-12" style="padding-top:7px">
+                    <label>
+                        Nombre del cliente:
+                    </label>
+                </div>
+                <div class="col-md-9 col-lg-9 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" placeholder="Cliente" id="ClientName_text" disabled="disabled" class="form-control" />
+                        <span class="input-group-btn">
+                            <a class="btn btn-default" id="btnShowClientsList" title="Buscar Cliente"><span aria-hidden="true">...</span></a>
+                        </span>
+                        <span class="input-group-btn" style="padding-left:10px">
+                            <a class="btn btn-default" onclick="addClient($(this))"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Cliente</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xs-12" style="padding-top:7px">
+                    <label>
+                        Tipo de identificación:
+                    </label>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xs-12"> @Html.DropDownListFor(s => s.ClientIdentificationType, Model.IdentificationTypes, "Seleccione", new { @id = "IdentificationTypes_DD", @class = "form-control", @disabled = "disabled" })</div>
+                <div class="col-md-2 col-lg-2 col-xs-12"><label>Identificación:</label></div>
+                <div class="col-md-4 col-lg-4 col-xs-12">@Html.TextBoxFor(s => s.ClientIdentification, new { @id = "text_identification", @class = "form-control", @disabled = "disabled", @maxlength = "12", @pattern = @"[0-9]{9,12}", @title = "Debe ingresar solo números " } )</div>
+            </div>
+            @*<br />
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xs-12" style="padding-top:7px">
+                    <label>
+                        Teléfono Habitación:
+                    </label>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon "><i class="fa fa-phone"></i></span>
+                        @Html.TextBoxFor(s => s.ClientPhoneNumber, new { @id = "text_ClientPhoneNumber", @class = "form-control", @disabled = "disabled", @placeholder = "ej. 506-88736221", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 506-88736221" })
+                    </div>
+                    
+                </div>
+                <div class="col-md-2 col-lg-2 col-xs-12"><label>Número Celular:</label></div>
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon "><i class="fa fa-phone"></i></span>
+                        @Html.TextBoxFor(s => s.ClientMobilNumber, new { @id = "text_ClientMobilNumber", @class = "form-control", @disabled = "disabled", @placeholder = "ej. 506-88736221", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 506-88736221" })
+                    </div>
+                </div>
+            </div>*@
+            <br />
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xs-12" style="padding-top:7px">
+                    <label>
+                        Correo Electrónico:
+                    </label>
+                </div>
+                <div class="col-md-9 col-lg-9 col-xs-12">
+                    
+                    <div class="input-group">
+                        @Html.HiddenFor(s => s.TypeDocument, new { @id = "hd_TypeDocument" })
+                        <span class="input-group-addon "><i class="fa fa-envelope"></i></span>
+                        @Html.TextBoxFor(s => s.ClientEmail, new { @id = "text_ClientEmail", @class = "form-control", @disabled = "disabled", @placeholder = "ej. alguien@ejemplo.com", @type = "email", @maxlength = "60" })
+                    </div>
+                   
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-md-5">
+            @if (Model.ValidateHacienda)
+    {
+
+        <div class="row">
+            <div class="col-md-4"><label>Tipo de Firma: </label></div>
+            <div class="col-md-8 col-lg-8 col-xs-12">
+                @Html.DropDownListFor(s => s.TipoFirma, Model.FirmTypes, new { @id = "FirmTypes_DD", @class = "form-control", @disabled = "disabled" })
+            </div>
+        </div>
+        <br />
+}
+
+            <div class="row">
+                @*<div class="col-md-2"></div>*@
+                <div class="col-md-4" style="padding-top:7px">
+                    <label>
+                        Moneda:
+                    </label>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xs-12">
+                    <div class="input-group">
+                        @*<select id=""  class="form-control" >
+                        <option>Seleccione...</option>
+                        <option>USD</option>
+                    </select>*@
+                        @Html.DropDownListFor(m => m.Coin, Model.CoinType, new { @id = "CoinTypes_DD", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                @*<div class="col-md-2"></div>*@
+                <div class="col-md-4" style="padding-top:7px">
+                    <label>
+                        Imprimir Comprobante:
+                    </label>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xs-12">
+                    @Html.CheckBox("Check_Impimir", new
+               {
+                   @id = "Check_Impimir",
+                   @data_toggle = "toggle",
+                   @type = "checkbox",
+                   @data_on = "Si",
+                   @data_off = "No"
+               })
+                </div>
+            </div>
+        </div>
+    </div>
+  
+
+    
+</div>

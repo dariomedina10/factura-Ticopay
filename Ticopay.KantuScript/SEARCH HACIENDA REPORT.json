@@ -1,0 +1,30 @@
+﻿{
+  "CreationDate": "2018-7-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Reportes",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Reporte de Estatus Facturas",
+      "Value": ""
+    }
+  ]
+}

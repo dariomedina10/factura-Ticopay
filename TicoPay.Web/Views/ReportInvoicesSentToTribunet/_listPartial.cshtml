@@ -1,0 +1,260 @@
+﻿@using TicoPay.Invoices
+@model TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput
+@{
+    ViewBag.Title = "Reporte de Facturas";
+}
+@if (Model != null && Model.Invoices != null && Model.Invoices.Any())
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+    <div class="wrapper wrapper-content white-bg text-center">
+        <table id="TableListEntity" class="table table-responsive  dt-responsive" style="font-size: smaller">
+            <thead class="text-center">
+                <tr>
+                    <th style="text-align: center">
+                        No.
+                    </th>
+                    <th style="text-align: center">
+                        Fecha Emisión
+                    </th>
+                    <th style="text-align: center">
+                        Fecha Pago
+                    </th>
+                    <th style="text-align: center">
+                        Forma de Pago
+                    </th>
+                    <th style="text-align: center">
+                        Cliente
+                    </th>
+                    <th style="text-align: center">
+                        Estado
+                    </th>
+                    <th style="text-align: center">
+                        Estado Hacienda
+                    </th>
+                    <th style="text-align: center">
+                        Acuse Recibo
+                    </th>
+                    <th style="text-align: center">
+                        Monto
+                    </th>
+                    <th style="text-align: center">
+                        Débitos
+                    </th>
+                    <th style="text-align: center">
+                        Créditos
+                    </th>
+                    <th style="text-align: center">
+                        Impuestos
+                    </th>
+                    <th style="text-align: center">
+                        Total
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    decimal totalCash = 0;
+                    decimal totalCreditCard = 0;
+                    decimal totalCheck = 0;
+                    decimal totalDeposit = 0;
+                }
+                @foreach (var item in Model.Invoices)
+                {
+                    <tr>
+                        <td style="text-align: center">
+                            @item.Number
+                        </td>
+                        <td style="text-align: center">
+                            @item.DueDate.ToString("dd/MM/yyyy")
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.PaymentDate != null)
+                            {
+                                <p>@item.PaymentDate.Value.ToString("dd/MM/yyyy")</p>
+                            }
+                            else
+                            {
+                                <p>N/D</p>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.PaymentDate != null)
+                            {
+                                if (item.PaymetnMethodType == PaymetnMethodType.Cash)
+                                {<span class="label label-primary">Efectivo</span>
+                                    totalCash += @item.TotalInvoiceLines + @item.TotalNotasDebito - @item.TotalNotasCredito;
+                                }
+                                if (item.PaymetnMethodType == PaymetnMethodType.Card)
+                                {
+                                    <span class="label label-warning">Tarjeta</span>
+                                    totalCreditCard += @item.TotalInvoiceLines + @item.TotalNotasDebito - @item.TotalNotasCredito;
+                                }
+                                if (item.PaymetnMethodType == PaymetnMethodType.Check)
+                                {
+                                    <span class="label label-success">Cheque</span>
+                                    totalCheck += @item.TotalInvoiceLines + @item.TotalNotasDebito - @item.TotalNotasCredito;
+                                }
+                                if (item.PaymetnMethodType == PaymetnMethodType.Deposit)
+                                {
+                                    <span class="label label-info">Deposito/Transferencia</span>
+                                    totalDeposit += @item.TotalInvoiceLines + @item.TotalNotasDebito - @item.TotalNotasCredito;
+                                }
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @item.NombreReceptor
+                        </td>
+                        <td style="text-align: center">
+                            @if (@item.Status == Status.Parked)
+                            {
+                                <span class="label label-success">Pendiente</span>
+                            }
+                            else if (@item.Status == Status.Completed)
+                            {
+                                <span class="label label-primary">Pagada</span>
+                            }
+                            else if (@item.Status == Status.Voided)
+                            {
+                                <span class="label label-danger">Anulada</span>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @if (@item.StatusTribunet == StatusTaxAdministration.Aceptado)
+                            {
+                                <span class="label label-success">Aceptado</span>
+                            }
+                            else if (@item.StatusTribunet == StatusTaxAdministration.Procesando)
+                            {
+                                <span class="label label-info">Procesando</span>
+                            }
+                            else if (@item.StatusTribunet == StatusTaxAdministration.Recibido)
+                            {
+                                <span class="label label-primary">Recibido</span>
+                            }
+                            else if (@item.StatusTribunet == StatusTaxAdministration.Rechazado)
+                            {
+                                <span class="label label-warning">Rechazado</span>
+                            }
+                            else if (@item.StatusTribunet == StatusTaxAdministration.Error)
+                            {
+                                <span class="label label-danger">Error</span>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.IsInvoiceReceptionConfirmed)
+                            {
+                                <span class="label label-primary">Confirmada</span>
+                            }
+                            else
+                            {
+                                <span class="label label-default">Por confirmar</span>
+                            }
+                        </td>
+                        <td style="text-align: right;width:100px">
+                            @Html.FormatValue(@item.TotalInvoiceLines, currencyFmt)
+                        </td>
+                        <td style="text-align: right;width:100px">
+                            @Html.FormatValue(@item.TotalNotasDebito, currencyFmt)
+                        </td>
+                        <td style="text-align: right;width:100px">
+                            @Html.FormatValue(@item.TotalNotasCredito, currencyFmt)
+                        </td>
+                        <td style="text-align: right;width:100px">
+                            @Html.FormatValue(@item.TotalTaxes, currencyFmt)
+                        </td>
+                        @{
+                            decimal total = @item.TotalInvoiceLines + @item.TotalNotasDebito - @item.TotalNotasCredito + item.TotalTaxes;
+                        }
+                        <td style="text-align: right;width:100px">
+                            @Html.FormatValue(@total, currencyFmt)
+                        </td>
+                    </tr>
+                            }
+            </tbody>
+            <tfoot style="font-size: small">
+                <tr>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center" colspan="2">
+                        <h4>Total Monto Facturas Efectivo:</h4>
+                    </td>
+                    <td style="text-align: right">
+                        <h4>@Html.FormatValue(@totalCash, currencyFmt)</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center" colspan="2">
+                        <h4>Total Monto Facturas Tarjetas:</h4>
+                    </td>
+                    <td style="text-align: right">
+                        <h4>@Html.FormatValue(@totalCreditCard, currencyFmt)</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center" colspan="2">
+                        <h4>Total Monto Facturas Cheques:</h4>
+                    </td>
+                    <td style="text-align: right">
+                        <h4>@Html.FormatValue(@totalCheck, currencyFmt)</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center; border: 0"></td>
+                    <td style="text-align: center" colspan="2">
+                        <h4>Total Monto Facturas Depositos/Transferencias:</h4>
+                    </td>
+                    <td style="text-align: right">
+                        <h4>@Html.FormatValue(@totalDeposit, currencyFmt)</h4>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    }
+    else
+    {
+        <div class="alert alert-warning alert-dismissible" role="alert" style="text-align: center;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>¡No se han encontrado ninguna Factura</strong>
+        </div>
+    }
+
+<script>
+    $(document).ready(function () {
+        $('#TableListEntity').DataTable({
+            dom: 'Bpfrti',
+            paging: true,
+            searching: false,
+            "bAutoWidth": false,
+            "sScrollY": "500px",
+            "sScrollX": "100%",
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+    });
+</script>

@@ -1,0 +1,3626 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TicoPay.Application</name>
+    </assembly>
+    <members>
+        <member name="T:TicoPay.Address.Dto.BarrioDto">
+            <summary>
+            Clase que contiene la información del Barrio
+            </summary>
+        </member>
+        <member name="P:TicoPay.Address.Dto.BarrioDto.Id">
+            <summary>
+            Obtiene o Almacena el Id del Barrio.
+            </summary>
+            <value>
+            Id del Barrio.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.BarrioDto.NombreBarrio">
+            <summary>
+            Obtiene o Almacena el nombre del Barrio.
+            </summary>
+            <value>
+            Nombre del Barrio.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.BarrioDto.codigobarrio">
+            <summary>
+            Obtiene o Almacena el Código del Barrio según Hacienda.
+            </summary>
+            <value>
+            Código del Barrio.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.BarrioDto.DistritoID">
+            <summary>
+            Obtiene o Almacena el Id del Distrito al cual pertenece el Barrio.
+            </summary>
+            <value>
+            Id de Distrito.
+            </value>
+        </member>
+        <member name="T:TicoPay.Address.Dto.CantonDto">
+            <summary>
+            Clase que almacena la información de los Cantones
+            </summary>
+        </member>
+        <member name="P:TicoPay.Address.Dto.CantonDto.Id">
+            <summary>
+            Obtiene o Almacena el Id del Canton.
+            </summary>
+            <value>
+            Id de Canton.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.CantonDto.NombreCanton">
+            <summary>
+            Obtiene o Almacena el nombre del Canton.
+            </summary>
+            <value>
+            Nombre del Canton.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.CantonDto.codigocanton">
+            <summary>
+            Obtiene o Almacena el código según Hacienda del Canton.
+            </summary>
+            <value>
+            Código del Canton.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.CantonDto.ProvinciaID">
+            <summary>
+            Obtiene o Almacena el Id de la Provincia a la que pertenece el Canton.
+            </summary>
+            <value>
+            Id de Provincia.
+            </value>
+        </member>
+        <member name="T:TicoPay.Address.Dto.CountryDto">
+            <summary>
+            Clase que contiene la información de los Países Validos
+            </summary>
+        </member>
+        <member name="P:TicoPay.Address.Dto.CountryDto.CountryName">
+            <summary>
+            Obtiene o Almacena el nombre del País.
+            </summary>
+            <value>
+            Nombre del País.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.CountryDto.CountryCode">
+            <summary>
+            Obtiene o Almacena el código de País.
+            </summary>
+            <value>
+            Código de País.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.CountryDto.ResolutionNumber">
+            <summary>
+            Obtiene o Almacena el número de resolución donde aparece el País.
+            </summary>
+            <value>
+            Número de Resolución.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.CountryDto.ResolutionDate">
+            <summary>
+            Obtiene o Almacena la fecha de la resolución donde aparece el País.
+            </summary>
+            <value>
+            Fecha de la resolución.
+            </value>
+        </member>
+        <member name="T:TicoPay.Address.Dto.DistritoDto">
+            <summary>
+            Clase que contiene la información de los Distritos
+            </summary>
+        </member>
+        <member name="P:TicoPay.Address.Dto.DistritoDto.Id">
+            <summary>
+            Obtiene o Almacena el Id del Distrito.
+            </summary>
+            <value>
+            Id de Distrito.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.DistritoDto.NombreDistrito">
+            <summary>
+            Obtiene o Almacena el nombre del Distrito.
+            </summary>
+            <value>
+            Nombre Distrito.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.DistritoDto.codigodistrito">
+            <summary>
+            Obtiene o Almacena el código del Distrito según Hacienda.
+            </summary>
+            <value>
+            Código del Distrito.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.DistritoDto.CantonID">
+            <summary>
+            Obtiene o Almacena el Id del Canton al cual pertenece el Distrito.
+            </summary>
+            <value>
+            Id de Canton al cual pertenece.
+            </value>
+        </member>
+        <member name="T:TicoPay.Address.Dto.ProvinciaDto">
+            <summary>
+            Clase que contiene la información de las provincias de Costa Rica
+            </summary>
+        </member>
+        <member name="P:TicoPay.Address.Dto.ProvinciaDto.Id">
+            <summary>
+            Obtiene o Almacena el código de identificación de la provincia.
+            </summary>
+            <value>
+            Código de identificación de Provincia.
+            </value>
+        </member>
+        <member name="P:TicoPay.Address.Dto.ProvinciaDto.NombreProvincia">
+            <summary>
+            Obtiene o Almacena el nombre de la Provincia.
+            </summary>
+            <value>
+            Nombre de Provincia.
+            </value>
+        </member>
+        <member name="M:TicoPay.Clients.ClientAppService.#ctor(Abp.Domain.Repositories.IRepository{TicoPay.Clients.Client,System.Guid},Abp.Domain.Repositories.IRepository{TicoPay.Services.Service,System.Guid},Abp.Domain.Repositories.IRepository{TicoPay.Clients.Group,System.Guid},Abp.Domain.Repositories.IRepository{TicoPay.Services.ClientService,System.Guid},TicoPay.Clients.IClientManager,TicoPay.Users.UserManager,Abp.Domain.Repositories.IRepository{TicoPay.Invoices.Invoice,System.Guid},TicoPay.MultiTenancy.TenantManager,Abp.Domain.Repositories.IRepository{TicoPay.MultiTenancy.Tenant,System.Int32},Abp.Domain.Repositories.IRepository{TicoPay.Clients.GroupConcepts,System.Guid},Abp.Domain.Uow.IUnitOfWorkManager)">
+             <summary>
+            In constructor, we can get needed classes/interfaces.
+            They are sent here by dependency injection system automatically.
+             </summary>
+        </member>
+        <member name="M:TicoPay.Clients.ClientAppService.SearchClients(TicoPay.Clients.Dto.SearchClientsInput)">
+            <summary>
+            Searches for clients and returns page result
+            </summary>
+            <param name="searchInput"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Clients.ClientAppService.UpdateClientBn(TicoPay.Clients.Dto.ClientBN)">
+            <summary>
+            Afiliar/desafiliar cliente - banco
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="M:TicoPay.Clients.ClientAppService.GetExistClientByCode(TicoPay.MultiTenancy.TipoLLaveAcceso,System.Int64)">
+            <summary>
+            Verifica si el Cliente existe en una lista de tenant - banco
+            </summary>
+            <param name="identification"></param>
+            <param name="listTenant"></param>
+            <returns></returns>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Name">
+            <summary>
+            Obtiene o Almacena el nombre del Cliente.
+            </summary>
+            <value>
+            Nombre del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.LastName">
+            <summary>
+            Obtiene o Almacena el Apellido del Cliente.
+            </summary>
+            <value>
+            Apellido del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.IdentificationType">
+            <summary>
+            Obtiene o Almacena el Tipo de Identificación del Cliente.
+            </summary>
+            <value>
+            Tipo de Identificación del Cliente.
+            </value>        
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Identification">
+            <summary>
+            Obtiene o Almacena el Número de Identificación del Cliente.
+            </summary>
+            <value>
+            Número de Identificación del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.IdentificacionExtranjero">
+            <summary>
+            Obtiene o Almacena el Número de Identificación del Cliente Extranjero (Nº Pasaporte).
+            </summary>
+            <value>
+            Número de Identificación del Cliente Extranjero.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.NameComercial">
+            <summary>
+            Obtiene o Almacena el Nombre Comercial del Cliente.
+            </summary>
+            <value>
+            Nombre Comercial del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Code">
+            <summary>
+            Obtiene el código interno de cliente
+            </summary>
+            <value>
+            código interno de cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.GroupId">
+            <summary>
+            Obtiene o Almacena el Id del Grupo (Categoría) al cual pertenece el cliente.
+            </summary>
+            <value>
+            Id del Grupo.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Birthday">
+            <summary>
+            Obtiene o Almacena la Fecha de Cumpleaños del Cliente.
+            </summary>
+            <value>
+            Fecha de Cumpleaños del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Gender">
+            <summary>
+            Obtiene o Almacena el Genero del Cliente
+            </summary>
+            <value>
+            Genero del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.PhoneNumber">
+            <summary>
+            Obtiene o Almacena el Número Telefónico del Cliente.
+            </summary>
+            <value>
+            Número Telefónico del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.MobilNumber">
+            <summary>
+            Obtiene o Almacena el Número de Teléfono Celular del Cliente.
+            </summary>
+            <value>
+            Número de Teléfono Celular.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Fax">
+            <summary>
+            Obtiene o Almacena el Número de Fax del Cliente.
+            </summary>
+            <value>
+            Número de Fax.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Email">
+            <summary>
+            Obtiene o Almacena el Correo Electrónico del Cliente.
+            </summary>
+            <value>
+            Correo Electrónico.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.WebSite">
+            <summary>
+            Obtiene o Almacena la dirección Web del cliente.
+            </summary>
+            <value>
+            Dirección Web del cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.BarrioId">
+            <summary>
+            Obtiene o Almacena el Id del Barrio del cliente.
+            </summary>
+            <value>
+            Id del Barrio.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.PostalCode">
+            <summary>
+            Obtiene o Almacena el Código Postal del Cliente.
+            </summary>
+            <value>
+            Código Postal.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.IsoCountry">
+            <summary>
+            Obtiene o Almacena el Código ISO del País del Cliente.
+            </summary>
+            <value>
+            Código ISO del País.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Address">
+            <summary>
+            Obtiene o Almacena la dirección del Cliente
+            </summary>
+            <value>
+            Dirección del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Latitud">
+            <summary>
+            Obtiene o Almacena la Latitud (Posicionamiento) del Cliente
+            </summary>
+            <value>
+            Latitud (Posicionamiento).
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Longitud">
+            <summary>
+            Obtiene o Almacena la Longitud (Posicionamiento) del Cliente
+            </summary>
+            <value>
+            Longitud (Posicionamiento).
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.ContactName">
+            <summary>
+            Obtiene o Almacena el Nombre de Contacto del Personal del cliente.
+            </summary>
+            <value>
+            Nombre de Contacto del Personal.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.ContactMobilNumber">
+            <summary>
+            Obtiene o Almacena el Número de teléfono Móvil del contacto de la empresa.
+            </summary>
+            <value>
+            Número de teléfono Móvil del contacto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.ContactPhoneNumber">
+            <summary>
+            Obtiene o Almacena el Número de teléfono del contacto de la empresa.
+            </summary>
+            <value>
+            Número de teléfono del contacto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.ContactEmail">
+            <summary>
+            Obtiene o Almacena la Dirección de Correo Electrónico del Contacto de la empresa.
+            </summary>
+            <value>
+            Dirección de Correo Electrónico del Contacto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Balance">
+            <summary>
+            Gets or sets the balance of your client
+            </summary>
+            <value>
+            The balance.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Categories">
+            <summary>
+            Obtiene o Almacena la Lista de Categorías a las que Pertenece el Cliente.
+            </summary>
+            <value>
+            Categorías a las que Pertenece el Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.ImageUrl">
+            <summary>
+            Obtiene o Almacena la Imagen o Logo del Cliente.
+            </summary>
+            <value>
+            Imagen o Logo del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.Note">
+            <summary>
+            Obtiene o Almacena un Nota adicional sobre el Cliente.
+            </summary>
+            <value>
+            Nota adicional sobre el Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.State">
+            <summary>
+            Obtiene o Almacena el Estado donde se encuentra el Cliente
+            </summary>
+            <value>
+            Estado donde se encuentra el Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.CreditDays">
+            <summary>
+            Obtiene o Almacena la Cantidad de Días de Crédito del Cliente
+            </summary>
+            <value>
+            Cantidad de Días de Crédito.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientDto.CanBeDelete">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Clients.Dto.ClientDto.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:TicoPay.Clients.Dto.ClientDto"/> class.
+            </summary>
+        </member>
+        <member name="T:TicoPay.Clients.Dto.ClientGroupsConceptsDto">
+            <summary>
+            Clase que Almacena el ID de Cliente y la lista de Grupos de Conceptos a los que Pertenece
+            </summary>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientGroupsConceptsDto.ClientId">
+            <summary>
+            Obtiene o Almacena el Id de Cliente.
+            </summary>
+            <value>
+            Id de Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientGroupsConceptsDto.Groups">
+            <summary>
+            Obtiene o Almacena la Lista de Grupos de Concepto a los que pertenece el Cliente.
+            </summary>
+            <value>
+            Lista de Grupos de Concepto.
+            </value>
+        </member>
+        <member name="T:TicoPay.Clients.Dto.ClientGroupsDto">
+            <summary>
+            Clase que almacena los Grupos o Categorías de un Cliente
+            </summary>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientGroupsDto.ClientId">
+            <summary>
+            Obtiene o Almacena el Id de un Cliente.
+            </summary>
+            <value>
+            Id de un Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientGroupsDto.Groups">
+            <summary>
+            Obtiene o Almacena la Lista de Grupos de un cliente.
+            </summary>
+            <value>
+            Lista de Grupos de un cliente.
+            </value>
+        </member>
+        <member name="T:TicoPay.Clients.Dto.ClientServicesDto">
+            <summary>
+            Almacena los Servicios recurrentes Asignados a un Cliente
+            </summary>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientServicesDto.ClientId">
+            <summary>
+            Obtiene o Almacena el Id de Cliente.
+            </summary>
+            <value>
+            Id de Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.ClientServicesDto.Services">
+            <summary>
+            Obtiene o Almacena la Lista de Servicios Recurrentes.
+            </summary>
+            <value>
+            Lista de Servicios Recurrentes.
+            </value>
+        </member>
+        <member name="M:TicoPay.Clients.Dto.CreateClientInput.AddValidationErrors(Abp.Runtime.Validation.CustomValidationContext)">
+            <summary>
+            Validaciones customizadas
+            </summary>
+            <param name="result"></param>
+        </member>
+        <member name="P:TicoPay.Clients.Dto.UpdateClientInput.Groups">
+            <summary>
+            Gets or sets the Groups List
+            </summary>
+        </member>
+        <member name="T:TicoPay.Common.HttpClientHelper">
+            <summary>
+            Helper que expone los metodos necesarios para ejecutar requests a un web api
+            </summary>
+        </member>
+        <member name="M:TicoPay.Common.HttpClientHelper.PostAsync``1(System.String,System.String,System.String)">
+            <summary>
+            Permite ejecutar un POST al recurso <paramref name="requestUri"/> del web api <paramref name="baseAddress"/>
+            </summary>
+            <typeparam name="TResult">Tipo de dato que representa la respuesta optenida</typeparam>
+            <param name="baseAddress">Url base del web api</param>
+            <param name="requestUri">Recurso que se desea acceder</param>
+            <param name="token">Token para autenticacion Bearer</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Common.HttpClientHelper.PostAsJsonAsync``2(System.String,System.String,System.String,``0)">
+            <summary>
+            Permite ejecutar un POST al recurso <paramref name="requestUri"/> del web api <paramref name="baseAddress"/>
+            Enviando la <paramref name="data"/> en el body en formato json 
+            </summary>
+            <typeparam name="TData">Tipo de dato que se desea enviar serializado como un json</typeparam>
+            <typeparam name="TResult">Tipo de dato que representa la respuesta optenida</typeparam>
+            <param name="baseAddress">Url base del web api</param>
+            <param name="requestUri">Recurso que se desea acceder</param>
+            <param name="token">Token para autenticacion Bearer</param>
+            <param name="data">Instancia del objeto a enviar</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Common.HttpClientHelper.GetAsync``1(System.String,System.String,System.String)">
+            <summary>
+            Permite ejecutar un GET al recurso <paramref name="requestUri"/>del web api <paramref name="baseAddress"/>
+            </summary>
+            <typeparam name="TResult">Tipo de dato que representa la respuesta optenida</typeparam>
+            <param name="baseAddress">Url base del web api</param>
+            <param name="requestUri">Recurso que se desea acceder</param>
+            <param name="token">Token para autenticacion Bearer</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Common.HttpClientHelper.CreateClient(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Crea una instancia de <seealso cref="T:System.Net.Http.HttpClient"/>
+            </summary>
+            <param name="baseAddress">Url base para el cliente</param>
+            <param name="token">Token para la autenticacion Bearer</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Common.HttpClientHelper.Authenticate``1(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Ejecuta un POST a un enpoint de authenticación pasando los parámetros comunes.
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="baseAddress"></param>
+            <param name="authenticateUri"></param>
+            <param name="userNameOrEmailAddress"></param>
+            <param name="password"></param>
+            <param name="extraHeaderData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Common.HttpClientHelper.GenericPostAsJsonAsync``2(System.String,System.String,System.String,``0)">
+            <summary>
+            Permite ejecutar un POST al recurso <paramref name="requestUri"/> del web api <paramref name="baseAddress"/>
+            Enviando la <paramref name="data"/> en el body en formato json 
+            </summary>
+            <typeparam name="TData">Tipo de dato que se desea enviar serializado como un json</typeparam>
+            <typeparam name="TResult">Tipo de dato que representa la respuesta optenida</typeparam>
+            <param name="baseAddress">Url base del web api</param>
+            <param name="requestUri">Recurso que se desea acceder</param>
+            <param name="token">Token para autenticacion Bearer</param>
+            <param name="data">Instancia del objeto a enviar</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Common.HttpClientHelper.GenericGetAsync``1(System.String,System.String,System.String)">
+            <summary>
+            Permite ejecutar un GET al recurso <paramref name="requestUri"/>del web api <paramref name="baseAddress"/>
+            </summary>
+            <typeparam name="TResult">Tipo de dato que representa la respuesta optenida</typeparam>
+            <param name="baseAddress">Url base del web api</param>
+            <param name="requestUri">Recurso que se desea acceder</param>
+            <param name="token">Token para autenticacion Bearer</param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Common.ApiResponse`1">
+            <summary>
+            Permite el manejo de los datos optenidos como respuesta de un request a una web api
+            </summary>
+            <typeparam name="TContent"></typeparam>
+        </member>
+        <member name="M:TicoPay.Common.IAuditInfoExtensions.UpdateAuditInfoIfNecesary(TicoPay.Common.IAuditInfo,TicoPay.Users.UserManager,Abp.Domain.Entities.Auditing.IFullAudited)">
+            <summary>
+            Actualiza los nombres de los usuarios relacionados con las columnas de auditoria (CreatorUserId, LastModifierUserId, DeleterUserId)
+            </summary>
+            <param name="dto"></param>
+            <param name="userManager"></param>
+            <param name="entity"></param>
+        </member>
+        <member name="T:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput">
+            <summary>
+            Clase que Almacena los Datos de un Grupo de Conceptos para Facturación Recurrente
+            </summary>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.Name">
+            <summary>
+            Obtiene o Almacena el Nombre del Grupo de Conceptos.
+            </summary>
+            <value>
+            Nombre del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.Description">
+            <summary>
+            Obtiene o Almacena la Descripción del Grupo de Conceptos.
+            </summary>
+            <value>
+            Descripción del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.TenantId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.CronExpression">
+            <summary>
+            Obtiene o Almacena la Expresión Cron utilizada para la Planificación de la tarea (Debe ser Valida).
+            </summary>
+            <value>
+            Expresión Cron utilizada para la Planificación de la tarea (Debe ser Valida).
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.ErrorCode">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.ErrorDescription">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.Action">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.Control">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.Query">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.AvailableServicios">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.Services">
+            <summary>
+            Obtiene o Almacena la Lista de ID de Servicios asociada al Grupo de Conceptos.
+            </summary>
+            <value>
+            Lista de ID de Servicios asociada al Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="M:TicoPay.GroupConcept.Dto.CreateGroupConceptsInput.#ctor">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDetailOutput.Name">
+            <summary>Gets or sets the Name. </summary>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDetailOutput.Description">
+            <summary>Gets or sets the Code. </summary>
+        </member>
+        <member name="T:TicoPay.GroupConcept.Dto.GroupConceptsDto">
+            <summary>
+            Clase que Almacena los Datos de un Grupo de Conceptos para Facturación Recurrente
+            </summary>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDto.IdDetails">
+            <summary>
+            Obtiene o Almacena el ID del Grupo de Conceptos.
+            </summary>
+            <value>
+            ID del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDto.Name">
+            <summary>
+            Obtiene o Almacena el Nombre del Grupo de Conceptos.
+            </summary>
+            <value>
+            Nombre del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDto.Description">
+            <summary>
+            Obtiene o Almacena la Descripción del Grupo de Conceptos.
+            </summary>
+            <value>
+            Descripción del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDto.TenantId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDto.AvailableServicios">
+            <summary>
+            Obtiene o Almacena la Lista de Servicios asociada al Grupo de Conceptos.
+            </summary>
+            <value>
+            Lista de Servicios asociada al Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDto.CronExpression">
+            <summary>
+            Obtiene o Almacena la Expresión Cron utilizada para la Planificación de la tarea (Debe ser Valida).
+            </summary>
+            <value>
+            Expresión Cron utilizada para la Planificación de la tarea (Debe ser Valida).
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDto.Type">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDto.Quantity">
+            <summary>
+            Obtiene o Almacena la Cantidad del Grupo de Conceptos.
+            </summary>
+            <value>
+            Cantidad del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.GroupConceptsDto.DiscountPercentage">
+            <summary>
+            Obtiene o Almacena el Porcentaje de Descuento del Grupo de Conceptos.
+            </summary>
+            <value>
+            Porcentaje de Descuento del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="T:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput">
+            <summary>
+            Clase que Almacena los Datos de un Grupo de Conceptos para Facturación Recurrente
+            </summary>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.Name">
+            <summary>
+            Obtiene o Almacena el Nombre del Grupo de Conceptos.
+            </summary>
+            <value>
+            Nombre del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.Description">
+            <summary>
+            Obtiene o Almacena la Descripción del Grupo de Conceptos.
+            </summary>
+            <value>
+            Descripción del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.TenantId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.Id">
+            <summary>
+            Obtiene o Almacena el ID del Grupo de Conceptos.
+            </summary>
+            <value>
+            ID del Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.ErrorCode">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.ErrorDescription">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.Action">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.Control">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.Query">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.CreatorUserUserName">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.LastModifierUserName">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.DeleterUserName">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.AvailableServicios">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.Services">
+            <summary>
+            Obtiene o Almacena la Lista de ID de Servicios asociada al Grupo de Conceptos.
+            </summary>
+            <value>
+            Lista de ID de Servicios asociada al Grupo de Conceptos.
+            </value>
+        </member>
+        <member name="P:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.CronExpression">
+            <summary>
+            Obtiene o Almacena la Expresión Cron utilizada para la Planificación de la tarea (Debe ser Valida).
+            </summary>
+            <value>
+            Expresión Cron utilizada para la Planificación de la tarea (Debe ser Valida).
+            </value>
+        </member>
+        <member name="M:TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput.#ctor">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Groups.Dto.GroupDetailOutput.Name">
+            <summary>Gets or sets the Name. </summary>
+        </member>
+        <member name="P:TicoPay.Groups.Dto.GroupDetailOutput.Subscribers">
+            <summary>Gets or sets the Subscribers. </summary>
+        </member>
+        <member name="T:TicoPay.Groups.Dto.GroupDto">
+            <summary>
+            Contiene la información de los Grupos o Categorías de Clientes
+            </summary>
+        </member>
+        <member name="P:TicoPay.Groups.Dto.GroupDto.Name">
+            <summary>
+            Obtiene o Almacena el Nombre de la Categoría.
+            </summary>
+            <value>
+            Nombre de la Categoría.
+            </value>
+        </member>
+        <member name="P:TicoPay.Groups.Dto.GroupDto.Description">
+            <summary>
+            Obtiene o Almacena la Descripción de la Categoría.
+            </summary>
+            <value>
+            Descripción de la Categoría.
+            </value>
+        </member>
+        <member name="P:TicoPay.Groups.Dto.GroupDto.TenantId">
+            <exclude />
+        </member>
+        <member name="T:TicoPay.Groups.Dto.UpdateGroupInput">
+            <summary>
+            Clase que contiene los datos a Actualizar de los Grupos (Categorías)
+            </summary>
+        </member>
+        <member name="P:TicoPay.Groups.Dto.UpdateGroupInput.Name">
+            <summary>
+            Obtiene o Almacena el Nombre del Grupo o Categoría.
+            </summary>
+            <value>
+            Nombre del Grupo o Categoría.
+            </value>
+        </member>
+        <member name="P:TicoPay.Groups.Dto.UpdateGroupInput.Description">
+            <summary>
+            Obtiene o Almacena la Descripción del Grupo o Categoría.
+            </summary>
+            <value>
+            Descripción del Grupo o Categoría.
+            </value>
+        </member>
+        <member name="P:TicoPay.Groups.Dto.UpdateGroupInput.TenantId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Groups.Dto.UpdateGroupInput.Id">
+            <summary>
+            Obtiene o Almacena el Id del Grupo o Categoría.
+            </summary>
+            <value>
+            Id del Grupo o Categoría.
+            </value>
+        </member>
+        <member name="P:TicoPay.Groups.Dto.UpdateGroupInput.ErrorCode">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Groups.Dto.UpdateGroupInput.ErrorDescription">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Groups.Dto.UpdateGroupInput.Action">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Groups.Dto.UpdateGroupInput.Control">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Groups.Dto.UpdateGroupInput.Query">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Groups.GroupAppService.#ctor(Abp.Domain.Repositories.IRepository{TicoPay.Clients.Group,System.Guid},TicoPay.Clients.IGroupManager,TicoPay.Users.UserManager,Abp.Domain.Repositories.IRepository{TicoPay.Clients.ClientGroup,System.Guid})">
+             <summary>
+            In constructor, we can get needed classes/interfaces.
+            They are sent here by dependency injection system automatically.
+             </summary>
+        </member>
+        <member name="M:TicoPay.Groups.GroupAppService.SearchGroups(TicoPay.Groups.Dto.SearchGroupsInput)">
+            <summary>
+            Searches for groups and returns page result
+            </summary>
+            <param name="searchInput"></param>
+            <returns></returns>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.TipoMensaje">
+            <summary>
+            El codigo para este mensaje es 200, Tamaño = 4
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.CodigoBanco">
+            <summary>
+            Código de la SUGEF asignado al Banco Nacional. Actualmente 151. Tamaño = 5
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.CodigoAgencia">
+            <summary>
+            Código de la agencia desde donde se envió el pago. Tamaño = 6
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.CodigoTransaccion">
+            <summary>
+            800000 Tamaño = 6
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.ConsecutivoTransaccion">
+            <summary>
+            Identificador único de transacción utilizado para validaciones. Debe ser el mismo que se envíe en la respuesta. Tamaño = 6
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.CodigoConvenio">
+            <summary>
+            Número que identifica al convenio y es asignado por el Banco Nacional. Tamaño = 3
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.ValorServicio">
+            <summary>
+            Valor del servicio al que pertenece el recibo a pagar. Tamaño = 30
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.Periodo">
+            <summary>
+            Periodo del recibo a pagar. Debe enviarse un formato de periodo válido ya sea (AAAAMMDD), (AAAAMM), (AAAA). Tamaño = 8
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.Monto">
+            <summary>
+            Monto total del recibo a pagar. El punto decimal no debe ser especificado. Tamaño = 18(2)
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.FechaVencimiento">
+            <summary>
+            Fecha de vencimiento del recibo a pagar. Tamaño = 8
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.NumeroFactura">
+            <summary>
+            Número de factura del recibo a pagar. Campo requerido. Tamaño = 20
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.Verificador">
+            <summary>
+            Dígito verificador del recibo a pagar. Tamaño = 1
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.FechaTransaccion">
+            <summary>
+            Fecha y hora de la transacción, utilizando el formato AAAAMMDDHH24MISS. Tamaño = 14
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.NotaCredito">
+            <summary>
+            Número de la nota de débito con que se realizará el depósito de lo recaudado(en caso de que todo lo recaudado sea depositado a una sola cuenta). Tamaño = 12
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.CodigoBancoEmisor">
+            <summary>
+            Código, según SUGEF, del banco emisor del cheque. Tamaño = 4
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.NumeroCuenta">
+            <summary>
+            Número de cuenta del cheque. Tamaño = 19
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.NumeroCheque">
+            <summary>
+            Número del cheque con que se realiza el pago. Tamaño = 15
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.NumeroCuotas">
+            <summary>
+            Número de cuotas a pagar.Se utiliza en convenios en los que no se maneja facturas si no cuotas. Tamaño = 4
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.BN.AplicacionPago.CamposAdicionales">
+            <summary>
+            Datos en formato XML, con los valores de los campos adicionales definidos para el convenio.
+            </summary>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetMensaje(System.String)">
+            <summary>
+            Obtiene el Tipo de Mensaje
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <returns>tipo de mensaje segun la peticion del Banco Nacional</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetCodigoBanco(System.String)">
+            <summary>
+            Obtiene Código de la SUGEF asignado al Banco Nacional. Actualmente 151.
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <returns>Codigo de Banco</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetCodigoAgencia(System.String)">
+            <summary>
+            Obtiene Código de la agencia de donde se envió la consulta.
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <returns>Código de la agencia de donde se envió la consulta.</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetCodigoTransaccion(System.String)">
+            <summary>
+            Obtiene el codigo de transaccion
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <returns>codigo de transaccion</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetConsecutivoTransaccion(System.String)">
+            <summary>
+            Obtiene el Identificador único de transacción utilizado para validaciones. Debe ser el mismo que se envíe en la respuesta.
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <returns>Retorna Identificador único de transacción utilizado para validaciones. Debe ser el mismo que se envíe en la respuesta.</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetCodigoConvenio(System.String)">
+            <summary>
+            Obtiene el Número que identifica al convenio y es asignado por el Banco Nacional.
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <returns>Número que identifica al convenio y es asignado por el Banco Nacional.</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetNumero(System.String,System.Int32,System.Int32)">
+            <summary>
+            Obtiene un numero a partir de la cadena enviada como parametro
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <param name="index">Indice donde arranca el campo a extraer</param>
+            <param name="length">Largo del campo a extraer</param>
+            <returns>Numero</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetFechaHoraFromTrama(System.String,System.Int32)">
+            <summary>
+            Obtiene la feha y hora a partir de la trama enviada
+            </summary>
+            <param name="trama">Trama enviada por el BN</param>
+            <param name="index">Indice donde empieza el campo que contiene la fecha y hora</param>
+            <returns>Fecha y Hora</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetFechaFromTrama(System.String,System.Int32)">
+            <summary>
+            Obtiene la feha a partir de la trama enviada
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <param name="index">Indice donde empieza la fecha a extraer</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetMontoFromTrama(System.String,System.Int32,System.Int32)">
+            <summary>
+            Obtiene el monto desde la trama 
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <param name="index">indice donde empieza el campo del monto</param>
+            <param name="length">Largo del campo monto</param>
+            <returns>Monto</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetLlaveAcceso(System.String,System.Int32)">
+            <summary>
+            Obtiene la llave que identifica el servicio
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <param name="index">Indice donde empieza el campo</param>
+            <returns>Llave de acceso</returns>
+        </member>
+        <member name="M:TicoPay.Invoices.BN.BNConectividad.GetCadena(System.String,System.Int32,System.Int32)">
+            <summary>
+            Extrae una subcadena segun el index y length
+            </summary>
+            <param name="trama">Trama enviada por el banco</param>
+            <param name="index">Indice donde empieza el campo</param>
+            <param name="length">Tamaño de la cadena a extraer</param>
+            <returns>Subcadena</returns>
+        </member>
+        <member name="T:TicoPay.Invoices.Dto.CreateInvoiceDTO">
+            <summary>
+            Clase que contiene los datos para la creación de una nueva factura
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.CreateInvoiceDTO.ClientId">
+            <summary>
+            Obtiene o Almacena el ID del Cliente al que se va a facturar.
+            </summary>
+            <value>
+            ID del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.CreateInvoiceDTO.InvoiceLines">
+            <summary>
+            Obtiene o Almacena las Lineas de la factura.
+            </summary>
+            <value>
+            Lineas de la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.CreateInvoiceDTO.ListPaymentType">
+            <summary>
+            Obtiene o Almacena la lista de Medios de Pago de la factura.
+            </summary>
+            <value>
+            Medios de Pago de la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.CreateInvoiceDTO.DiscountGeneral">
+            <summary>
+            Obtiene o Almacena el Monto del Descuento General.
+            </summary>
+            <value>
+            Monto del Descuento General.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.CreateInvoiceDTO.TypeDiscountGeneral">
+            <summary>
+            Obtiene o Almacena el Tipo de Descuento General (0 Monto especifico, 1 % de Descuento.
+            </summary>
+            <value>
+            Tipo de Descuento General.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.CreateInvoiceDTO.CreditTerm">
+            <summary>
+            Obtiene o Almacena el Número de días de crédito de la factura.
+            </summary>
+            <value>
+            Número de días de crédito.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.CreateInvoiceDTO.ExpirationDate">
+            <summary>
+            Obtiene o Almacena la Fecha de Vencimiento de Factura.
+            </summary>
+            <value>
+            Fecha de Vencimiento.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.CreateInvoiceDTO.TipoFirma">
+            <summary>
+            Obtiene o Almacena el Tipo de Firma de la factura.
+            </summary>
+            <value>
+            Tipo de Firma de la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.CreateInvoiceDTO.CodigoMoneda">
+            <summary>
+            Obtiene o Almacena el Tipo de Moneda de la factura.
+            </summary>
+            <value>
+            Tipo de Moneda de la factura.
+            </value>
+        </member>
+        <member name="M:TicoPay.Invoices.Dto.CreateInvoiceDTO.AddValidationErrors(Abp.Runtime.Validation.CustomValidationContext)">
+            <exclude />
+        </member>
+        <member name="T:TicoPay.Invoices.Dto.ItemInvoice">
+            <summary>
+            Clase que almacena los datos de las lineas de la factura
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.ID">
+            <summary>
+            Obtiene o Almacena el Id de la Linea de la factura.
+            </summary>
+            <value>
+            Id de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.IdService">
+            <summary>
+            Obtiene o Almacena el Id del Servicio a Facturar (Si esta Creado en Ticopay, Sino enviar en Nulo).
+            </summary>
+            <value>
+            Id del Servicio a Facturar.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.Cantidad">
+            <summary>
+            Obtiene o Almacena la Cantidad a Facturar.
+            </summary>
+            <value>
+            Cantidad a Facturar.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.Descuento">
+            <summary>
+            Obtiene o Almacena el Monto del Descuento por Linea.
+            </summary>
+            <value>
+            Monto del Descuento por Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.IdImpuesto">
+            <summary>
+            Obtiene o Almacena el Id del Impuesto a Aplicar a la Linea.
+            </summary>
+            <value>
+            Id del Impuesto a Aplicar.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.Impuesto">
+            <summary>
+            Obtiene o Almacena el Monto del Impuesto de la Linea.
+            </summary>
+            <value>
+            Monto del Impuesto de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.Precio">
+            <summary>
+            Obtiene o Almacena el Precio de la Linea.
+            </summary>
+            <value>
+            Precio de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.Servicio">
+            <summary>
+            Obtiene o Almacena la Descripción de la Linea.
+            </summary>
+            <value>
+            Descripción de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.Total">
+            <summary>
+            Obtiene o Almacena el Total de la Linea.
+            </summary>
+            <value>
+            Total de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.TotalDescuento">
+            <summary>
+            Obtiene o Almacena el Total del Descuento de la Linea.
+            </summary>
+            <value>
+            Total del Descuento de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.TotalImpuesto">
+            <summary>
+            Obtiene o Almacena el Total del Impuesto de la Linea.
+            </summary>
+            <value>
+            Total del Impuesto de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.UnidadMedida">
+            <summary>
+            Obtiene o Almacena la Unidad de Medida de la Linea.
+            </summary>
+            <value>
+            Unidad de Medida de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.UnidadMedidaOtra">
+            <summary>
+            Obtiene o Almacena la Descripción de la Unidad de Medida en caso de ser Otra.
+            </summary>
+            <value>
+            Descripción de la Unidad de Medida.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.ItemInvoice.Note">
+            <summary>
+            Obtiene o Almacena una Nota adicional sobre la Linea.
+            </summary>
+            <value>
+            Nota adicional sobre la Linea.
+            </value>
+        </member>
+        <member name="T:TicoPay.Invoices.Dto.InvoiceApiDto">
+            <summary>
+            Clase que contiene la información de la Factura
+            </summary>
+            <seealso cref="!:Abp.Application.Services.Dto.EntityDto&lt;System.Guid&gt;" />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.TenantName">
+            <summary>
+            Obtiene el Nombre del Tenant que creo la factura.
+            </summary>
+            <value>
+            Nombre del Tenant que creo la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.ClientId">
+            <summary>
+            Obtiene el ID de Cliente.
+            </summary>
+            <value>
+            ID de Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.Client">
+            <summary>
+            Obtiene el Cliente.
+            </summary>
+            <value>
+            El Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.Number">
+            <summary>
+            Obtiene el Número de factura.
+            </summary>
+            <value>
+            Número de factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.Alphanumeric">
+            <summary>
+            Obtiene el Alfanumérico.
+            </summary>
+            <value>
+            Alfanumérico.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.Note">
+            <summary>
+            Obtiene la Nota (Sin uso).
+            </summary>
+            <value>
+            Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.ConsecutiveNumber">
+            <summary>
+            Obtiene el Número Consecutivo de la Factura.
+            </summary>
+            <value>
+            Número Consecutivo de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.QRCode">
+            <summary>
+            Obtiene el Código QR de la Factura.
+            </summary>
+            <value>
+            Código QR de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.SubTotal">
+            <summary>
+            Obtiene el Sub Total de la Factura.
+            </summary>
+            <value>
+            Sub Total de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.DiscountPercentaje">
+            <summary>
+            Obtiene el Porcentaje de Descuento Global de la factura.
+            </summary>
+            <value>
+            Descuento Global de la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.PaymentDate">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.Transaction">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.CodigoMoneda">
+            <summary>
+            Obtiene el tipo de Moneda usada en la factura.
+            </summary>
+            <value>
+              Tipo de Moneda usada en la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.SendInvoice">
+            <summary>
+            Obtiene si la factura fue enviada a Hacienda.
+            </summary>
+            <value>
+              <c>true</c> Si fue enviada a Hacienda; Sino, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.DiscountAmount">
+            <summary>
+            Obtiene el Monto del Descuento Global.
+            </summary>
+            <value>
+            Monto del Descuento Global.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.TotalTax">
+            <summary>
+            Obtiene el Total del Impuesto.
+            </summary>
+            <value>
+            Total del Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.Total">
+            <summary>
+            Obtiene el Total de la Factura.
+            </summary>
+            <value>
+            Total de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.Balance">
+            <summary>
+            Obtiene el Saldo Actual de la Factura.
+            </summary>
+            <value>
+            Saldo Actual de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.DueDate">
+            <summary>
+            Obtiene la Fecha de Vencimiento de la Factura.
+            </summary>
+            <value>
+            Fecha de Vencimiento de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.StatusTribunet">
+            <summary>
+            Obtiene el Estatus del Envió de la Factura a Hacienda.
+            </summary>
+            <value>
+            Estatus del Envió de la Factura a Hacienda.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.Status">
+            <summary>
+            Obtiene el Estatus de la Factura.
+            </summary>
+            <value>
+            Estatus de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.TipoFirma">
+            <summary>
+            Obtiene el Tipo de Firma de la Factura.
+            </summary>
+            <value>
+            Tipo de Firma de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.StatusFirmaDigital">
+            <summary>
+            Obtiene el Estatus de la Firma de la Factura.
+            </summary>
+            <value>
+            Estatus de la Firma de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.InvoiceLines">
+            <summary>
+            Obtiene las lineas de la factura.
+            </summary>
+            <value>
+            Lineas de la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.InvoicePaymentTypes">
+            <summary>
+            Obtiene los Pagos Recibidos de la factura.
+            </summary>
+            <value>
+            Pagos Recibidos de la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceApiDto.Notes">
+            <summary>
+            Obtiene las Notas de Crédito o Débito de la Factura.
+            </summary>
+            <value>
+            Notas de Crédito o Débito de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.InvoiceReceiveConsecutiveDto.SendInvoice">
+            <summary>
+            Obtiene si la factura fue enviada a Hacienda.
+            </summary>
+            <value>
+              <c>true</c> Si fue enviada a Hacienda; Sino, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:TicoPay.Invoices.Dto.NoteDto">
+            <summary>
+            Clase que almacena los datos de la Nota de Crédito o Débito
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.Id">
+            <summary>
+            Obtiene o Almacena el ID de la Nota.
+            </summary>
+            <value>
+            ID de la Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.InvoiceId">
+            <summary>
+            Obtiene o Almacena el ID de la factura que afecta la nota.
+            </summary>
+            <value>
+            ID de la factura Afectada.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.NumberInvoiceRef">
+            <summary>
+            Obtiene o Almacena el Número de Referencia de la factura afectada.
+            </summary>
+            <value>
+            Número de Referencia de la factura afectada.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.ClientId">
+            <summary>
+            Obtiene o Almacena el Id del Cliente al que pertenece la nota.
+            </summary>
+            <value>
+            Id del Cliente al que pertenece la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.ClientName">
+            <summary>
+            Obtiene o Almacena el Nombre del Cliente al que pertenece la nota.
+            </summary>
+            <value>
+            Nombre del Cliente al que pertenece la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.CreationTime">
+            <summary>
+            Obtiene o Almacena la Fecha de la nota.
+            </summary>
+            <value>
+            Fecha de la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.Amount">
+            <summary>
+            Obtiene o Almacena el Monto sin impuesto de la Nota.
+            </summary>
+            <value>
+            Monto sin impuesto de la Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.TaxAmount">
+            <summary>
+            Obtiene o Almacena el Monto del Impuesto de la nota.
+            </summary>
+            <value>
+            Monto del Impuesto de la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.DiscountAmount">
+            <summary>
+            Obtiene o Almacena el Monto de Descuento de la Nota.
+            </summary>
+            <value>
+            Monto de Descuento de la Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.Total">
+            <summary>
+            Obtiene o Almacena el Monto Total de la Nota.
+            </summary>
+            <value>
+            Total de la Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.CodigoMoneda">
+            <summary>
+            Obtiene o Almacena la Moneda de la Nota.
+            </summary>
+            <value>
+            Moneda de la Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.ConsecutiveNumber">
+            <summary>
+            Obtiene en Número Consecutivo de la nota (Asignado por Ticopay).
+            </summary>
+            <value>
+            Número Consecutivo de la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.NoteType">
+            <summary>
+            Obtiene o Almacena el Tipo de Nota.
+            </summary>
+            <value>
+            Tipo de Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.SendInvoice">
+            <summary>
+            Obtiene confirmación de que fue enviada a Hacienda.
+            </summary>
+            <value>
+              <c>true</c> Si fue enviada; sino, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.StatusTribunet">
+            <summary>
+            Obtiene o Almacena el Estado de la Nota con respecto a Hacienda.
+            </summary>
+            <value>
+            Estado de la Nota con respecto a Hacienda.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.IsNoteReceptionConfirmed">
+            <summary>
+            Obtiene confirmación si la nota fue recibida.
+            </summary>
+            <value>
+              <c>true</c> Si la nota fue recibida; sino, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.NoteReasons">
+            <summary>
+            Obtiene o Almacena la Razón de la Nota.
+            </summary>
+            <value>
+            Razón de la Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.NoteReasonsOthers">
+            <summary>
+            Obtiene o Almacena la Descripción de la razón de la nota (En caso de NoteReasons sea Otros).
+            </summary>
+            <value>
+            Descripción de la razón de la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.NoteReasonsList">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.TipoFirma">
+            <summary>
+            Obtiene o Almacena el Tipo de Firma de la nota.
+            </summary>
+            <value>
+            Tipo de Firma de la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.StatusFirmaDigital">
+            <summary>
+            Obtiene o Almacena el Estatus de la Firma Digital.
+            </summary>
+            <value>
+            Estatus de la Firma Digital.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.NotesLines">
+            <summary>
+            Obtiene o Almacena las Lineas de la Nota.
+            </summary>
+            <value>
+            Lineas de la Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.ValidateHacienda">
+            <summary>
+            Obtiene confirmación que la nota fue validada con Hacienda.
+            </summary>
+            <value>
+              <c>true</c> Si se valido con hacienda ; sino, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.Status">
+            <summary>
+            Obtiene o Almacena el Estatus de la Nota.
+            </summary>
+            <value>
+            Estatus Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.DueDate">
+            <summary>
+            Obtiene o Almacena la fecha de vencimiento de la Nota.
+            </summary>
+            <value>
+            Estatus Nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.CreditTerm">
+            <summary>
+            Obtiene o Almacena los días de crédito de la nota (Condición de venta a crédito).
+            </summary>
+            <value>
+            Días de crédito de la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.ConditionSaleType">
+            <summary>
+            Obtiene o Almacena la condición de venta de la nota (Crédito o Contado).
+            </summary>
+            <value>
+            Condición de venta de la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.CoinType">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.DocumentRef">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.ErrorCode">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteDto.ErrorDescription">
+            <exclude />
+        </member>
+        <member name="T:TicoPay.Invoices.Dto.NoteLineDto">
+            <summary>
+            Clase que almacena los datos de la Linea de una Nota
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.TenantId">
+            <summary>
+            Obtiene o Almacena el ID del Tenant al que pertenece la nota.
+            </summary>
+            <value>
+            ID del Tenant al que pertenece la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.PricePerUnit">
+            <summary>
+            Obtiene o Almacena el Precio por Unidad.
+            </summary>
+            <value>
+            Precio por Unidad.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.TaxAmount">
+            <summary>
+            Obtiene o Almacena el Monto del Impuesto de la linea.
+            </summary>
+            <value>
+            Monto del Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.Total">
+            <summary>
+            Obtiene o Almacena el Total de la Linea.
+            </summary>
+            <value>
+            Total de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.DiscountPercentage">
+            <summary>
+            Obtiene o Almacena el Porcentaje de Descuento de la linea.
+            </summary>
+            <value>
+            Porcentaje de Descuento de la linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.Note">
+            <summary>
+            Obtiene o Almacena el Detalle o Nota de la linea.
+            </summary>
+            <value>
+            Detalle o Nota de la linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.Title">
+            <summary>
+            Obtiene o Almacena la Descripción de la linea.
+            </summary>
+            <value>
+            Descripción de la linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.Quantity">
+            <summary>
+            Obtiene o Almacena la Cantidad.
+            </summary>
+            <value>
+            Cantidad.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.NoteId">
+            <summary>
+            Obtiene o Almacena el Id de la Nota a la que pertenece la linea.
+            </summary>
+            <value>
+            Id de la Nota a la que pertenece la linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.LineType">
+            <summary>
+            Obtiene o Almacena el Tipo de Linea.
+            </summary>
+            <value>
+            Tipo de Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.ServiceId">
+            <summary>
+            Obtiene o Almacena el Id del Servicio (En caso de ser Tipo Servicio).
+            </summary>
+            <value>
+            Id del Servicio.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.ProductId">
+            <summary>
+            Obtiene o Almacena el Id de Producto (En caso de ser Tipo Producto).
+            </summary>
+            <value>
+            Id de Producto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.LineNumber">
+            <summary>
+            Obtiene o Almacena el Número de Linea.
+            </summary>
+            <value>
+            Número de Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.DescriptionDiscount">
+            <summary>
+            Obtiene o Almacena la Descripción del Descuento.
+            </summary>
+            <value>
+            Descripción del Descuento.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.SubTotal">
+            <summary>
+            Obtiene o Almacena el Sub Total de la linea.
+            </summary>
+            <value>
+            Sub Total de la linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.LineTotal">
+            <summary>
+            Obtiene o Almacena el Total de la Linea.
+            </summary>
+            <value>
+            Total de la Linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.IsDeleted">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.DeleterUserId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.DeletionTime">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.ExonerationId">
+            <summary>
+            Obtiene o Almacena el ID de Exsoneración.
+            </summary>
+            <value>
+            ID de Exsoneración.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.Service">
+            <summary>
+            Obtiene o Almacena el Servicio de la linea.
+            </summary>
+            <value>
+            Servicio de la linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.Tax">
+            <summary>
+            Obtiene o Almacena el Impuesto de la linea.
+            </summary>
+            <value>
+            Impuesto de la linea.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.TaxId">
+            <summary>
+            Obtiene o Almacena el Id del Impuesto de la linea.
+            </summary>
+            <value>
+            Id del Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.UnitMeasurement">
+            <summary>
+            Obtiene o Almacena la Unidad de Medida.
+            </summary>
+            <value>
+            Unidad de Medida.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.NoteLineDto.UnitMeasurementOthers">
+            <summary>
+            Obtiene o Almacena la Descripción de la Unidad de Medida Otros
+            </summary>
+            <value>
+            Descripción de la Unidad de Medida Otros.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.PaymentInvoiceDto.InvoiceId">
+            <summary>Gets or sets the InvoiceId. </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.PaymentInvoiceDto.ExchangeRateId">
+            <summary>Gets or sets the ExchangeRate Id. </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.PaymentInvoiceDto.ExchangeRate">
+            <summary>Gets or sets the ExchangeRate. </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.PaymentInvoiceDto.PaymentInvoiceType">
+            <summary>Gets or sets the PaymentInvoiceType. </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.PaymentInvoiceDto.Reference">
+            <summary>Gets or sets the Reference. Ex: voucher number </summary>
+        </member>
+        <member name="T:TicoPay.Invoices.Dto.PaymentInvoceDto">
+            <summary>
+            Clase que contiene la información de los medios de pago
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.PaymentInvoceDto.TypePayment">
+            <summary>
+            Obtiene o Almacena el Tipo de Pago (0 Efectivo, 1 Tarjeta, 2 Cheque, 3 Deposito/Transferencia, 4 Por Implementar).
+            </summary>
+            <value>
+            Tipo de Pago .
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.PaymentInvoceDto.Trans">
+            <summary>
+            Obtiene o Almacena el Número de comprobante de Deposito/Transferencia.
+            </summary>
+            <value>
+            Número de comprobante de Deposito/Transferencia.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.PaymentInvoceDto.Balance">
+            <summary>
+            Obtiene o Almacena el Monto Pagado.
+            </summary>
+            <value>
+            Monto Pagado.
+            </value>
+        </member>
+        <member name="T:TicoPay.Invoices.Dto.SearchInvoicesApi">
+            <summary>
+            Clase que contiene los parámetros utilizados para la búsqueda de facturas
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchInvoicesApi.StartDueDate">
+            <summary>
+            Obtiene o Almacena la Fecha de Inicio de Búsqueda.
+            </summary>
+            <value>
+            Fecha de Inicio.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchInvoicesApi.EndDueDate">
+            <summary>
+            Obtiene o Almacena la Fecha Tope de Búsqueda.
+            </summary>
+            <value>
+            Fecha Tope.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchInvoicesApi.ClientId">
+            <summary>
+            Obtiene o Almacena el Id del Cliente (Buscar facturas de un cliente Especifico).
+            </summary>
+            <value>
+            Id del Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchInvoicesApi.InvoiceId">
+            <summary>
+            Obtiene o Almacena el ID de Factura (Buscar un factura especifica).
+            </summary>
+            <value>
+            ID de Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchInvoicesApi.Status">
+            <summary>
+            Obtiene o Almacena el Estatus de Factura (Buscar facturas por estatus).
+            </summary>
+            <value>
+            Estatus de Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchInvoicesApi.Page">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchInvoicesApi.PageSize">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchInvoicesApi.EstatusFirma">
+            <summary>
+            Obtiene o Almacena el Estatus de Firma (Buscar facturas por estatus de firma).
+            </summary>
+            <value>
+            Estatus de Firma.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchInvoicesApi.TipoFirma">
+            <summary>
+            Obtiene o Almacena el Tipo de Firma (Buscar facturas por Tipo de Firma).
+            </summary>
+            <value>
+            Tipo de Firma.
+            </value>
+        </member>
+        <member name="T:TicoPay.Invoices.Dto.SearchNotesApi">
+            <summary>
+            Clase que contiene los Parámetros para la búsqueda de Notas
+            </summary>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchNotesApi.StartDueDate">
+            <summary>
+            Obtiene o Almacena la Fecha de Inicio de Búsqueda.
+            </summary>
+            <value>
+            Fecha de Inicio de Búsqueda.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchNotesApi.EndDueDate">
+            <summary>
+            Obtiene o Almacena la Fecha final de Búsqueda.
+            </summary>
+            <value>
+            Fecha final de Búsqueda.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchNotesApi.InvoiceId">
+            <summary>
+            Obtiene o Almacena el Id de la Factura a la que pertenece la nota.
+            </summary>
+            <value>
+            Id de la Factura a la que pertenece la nota.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchNotesApi.NoteId">
+            <summary>
+            Obtiene o Almacena el Id de la Nota especifica a buscar.
+            </summary>
+            <value>
+            Id de la Nota especifica a buscar.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchNotesApi.Status">
+            <summary>
+            Obtiene o Almacena el Estatus de la Nota según Hacienda.
+            </summary>
+            <value>
+            Estatus de la Nota según Hacienda.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchNotesApi.Page">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchNotesApi.PageSize">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchNotesApi.EstatusFirma">
+            <summary>
+            Obtiene o Almacena el Estatus de la Firma Digital de las Notas a buscar.
+            </summary>
+            <value>
+            Estatus de la Firma Digital.
+            </value>
+        </member>
+        <member name="P:TicoPay.Invoices.Dto.SearchNotesApi.TipoFirma">
+            <summary>
+            Obtiene o Almacena el Tipo de Firma de la Notas a buscar.
+            </summary>
+            <value>
+            Tipo de Firma.
+            </value>
+        </member>
+        <member name="F:TicoPay.Invoices.Dto.ValidateTribunet.ClientId">
+            ***************************************************************************************************************************
+        </member>
+        <member name="F:TicoPay.Invoices.Dto.ValidateTribunet.Scopes">
+            ***************************************************************************************************************************
+        </member>
+        <member name="M:TicoPay.Invoices.Dto.ValidateTribunet.GetXmlAttrName(TicoPay.Invoices.XSD.IdentificacionTypeTipo)">
+            <summary>
+            Obtiene el nombre del atributo del XML
+            </summary>
+            <param name="itype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Invoices.Dto.ValidateTribunet.CallApi(System.String,System.String,TicoPay.MultiTenancy.Tenant,System.String,System.DateTime,System.String,System.Boolean)">
+            <summary>
+            Envia Xml 
+            </summary>
+        </member>
+        <member name="M:TicoPay.Invoices.InvoiceAppService.#ctor(Abp.Domain.Repositories.IRepository{TicoPay.Invoices.Invoice,System.Guid},TicoPay.Invoices.IInvoiceManager,TicoPay.Services.IServiceManager,Abp.Domain.Repositories.IRepository{TicoPay.Services.Service,System.Guid},Abp.Domain.Uow.IUnitOfWorkManager,Abp.Domain.Repositories.IRepository{TicoPay.Clients.Client,System.Guid},Abp.Domain.Repositories.IRepository{TicoPay.Invoices.Register,System.Guid},TicoPay.MultiTenancy.TenantManager,TicoPay.Clients.IClientManager,Abp.Domain.Repositories.IRepository{TicoPay.Invoices.Note,System.Guid},Abp.Domain.Repositories.IRepository{TicoPay.Invoices.PaymentInvoice,System.Guid},Abp.Domain.Repositories.IRepository{TicoPay.Invoices.Payment,System.Guid},TicoPay.Users.IUserAppService,TicoPay.Editions.EditionManager,Abp.Notifications.INotificationPublisher,TicoPay.MultiTenancy.ITenantAppService,TicoPay.ReportsSettings.IReportSettingsAppService,Abp.Domain.Repositories.IRepository{TicoPay.Taxes.Tax,System.Guid},TicoPay.Clients.IGroupConceptsManager,TicoPay.Users.UserManager,Abp.Domain.Repositories.IRepository{TicoPay.Services.ClientService,System.Guid},Abp.Domain.Repositories.IRepository{TicoPay.Invoices.PaymentNote,System.Guid})">
+             <summary>
+            In constructor, we can get needed classes/interfaces.
+            They are sent here by dependency injection system automatically.
+             </summary>
+        </member>
+        <member name="M:TicoPay.Invoices.InvoiceAppService.GetInvoicesPendingPay(TicoPay.Clients.Dto.ClientBN)">
+            <summary>
+            Facturas pendientes por pago -- banco
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Invoices.InvoiceAppService.GetInvoicesPendingPayPAR(System.Int32,System.Collections.Generic.List{System.Int32},System.Int32,System.Boolean@)">
+            <summary>
+            Facturas Pendientes PAR - banco
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Invoices.InvoiceAppService.GetInvoicesByNumber(TicoPay.Clients.Dto.ClientBN,System.Int32)">
+            <summary>
+            Obtiene las facturas por numero de factura -- banco
+            </summary>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Invoices.InvoiceAppService.GetInvoicesPendingOld(TicoPay.Clients.Dto.ClientBN,System.DateTime)">
+            <summary>
+            Verifica q no haya facturas mas viejeas por pagar - banco
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Invoices.InvoiceAppService.SearchInvoices(TicoPay.Invoices.Dto.SearchInvoicesInput)">
+            <summary>
+            Searches for clients and returns page result
+            </summary>
+            <param name="searchInput"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Invoices.InvoiceAppService.ReverseInvoice(TicoPay.Invoices.Dto.InvoicePendingPayBN,System.String)">
+            <summary>
+            Reversar factura banco - banco
+            </summary>
+            <param name="factura"></param>
+            <param name="reference"></param>
+        </member>
+        <member name="M:TicoPay.Invoices.InvoiceAppService.PayInvoiceBn(TicoPay.Invoices.Dto.InvoicePendingPayBN,System.Int32,System.String)">
+            <summary>
+            Pagar factura BN - banco
+            </summary>
+            <param name="factura"></param>
+            <param name="codigoAgencia"></param>
+            <param name="trama"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Invoices.InvoiceAppService.CreateNoteCorreccion(System.Guid,System.Double,System.Int32,System.Int32,System.Decimal,System.Decimal,System.Int32)">
+            <summary>
+            Método para hacer una NCR a una factura pagada
+            </summary>
+            <param name="invoiceId"></param>
+            <param name="amount"></param>
+            <param name="reason"></param>
+            <param name="type"></param>
+            <param name="montotax"></param>
+            <param name="totalNota"></param>
+            <param name="tenantid"></param>
+        </member>
+        <member name="T:TicoPay.MultiTenancy.Dto.TenantDto">
+            <summary>
+            Clase que contiene la información actualizada del Tenant
+            </summary>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.Id">
+            <summary>
+            Obtiene el ID del Tenant o Sub Dominio.
+            </summary>
+            <value>
+            Obtiene el ID del Tenant o Sub Dominio.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.TenancyName">
+            <summary>
+            Obtiene el Nombre del Tenant o Sub Dominio (Usado en el URL y la Autentificación).
+            </summary>
+            <value>
+            Obtiene el Nombre del Tenant o Sub Dominio (Usado en el URL y la Autentificación).
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.Name">
+            <summary>
+            Obtiene o Almacena la Razón Social del Tenant.
+            </summary>
+            <value>
+            Razón Social del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.BussinesName">
+            <summary>
+            Obtiene o Almacena el Nombre de Negocio del Tenant (Usualmente el mismo que ComercialName).
+            </summary>
+            <value>
+            Nombre de Negocio del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.ComercialName">
+            <summary>
+            Obtiene o Almacena el Nombre Comercial del Tenant.
+            </summary>
+            <value>
+            Nombre Comercial del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.IdentificationType">
+            <summary>
+            Obtiene o Almacena el Tipo de Identificación del Tenant.
+            </summary>
+            <value>
+            Tipo de Identificación del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.IdentificationNumber">
+            <summary>
+            Obtiene el Número de Identificación del Tenant.
+            </summary>
+            <value>
+            Número de Identificación del Tenant
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.PhoneNumber">
+            <summary>
+            Obtiene o Almacena el Número de Teléfono del Tenant.
+            </summary>
+            <value>
+            Número de Teléfono del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.Fax">
+            <summary>
+            Obtiene o Almacena el Número de Fax del Tenant.
+            </summary>
+            <value>
+            Número de Fax del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.Email">
+            <summary>
+            Obtiene o Almacena el Email del Tenant.
+            </summary>
+            <value>
+            Email del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.AlternativeEmail">
+            <summary>
+            Obtiene o Almacena el Email Alternativo del Tenant.
+            </summary>
+            <value>
+            Email Alternativo del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.CodigoMoneda">
+            <summary>
+            Obtiene o Almacena la Moneda por Defecto del Tenant.
+            </summary>
+            <value>
+            Moneda por Defecto del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.BarrioId">
+            <summary>
+            Obtiene o Almacena el ID de Barrio del Tenant.
+            </summary>
+            <value>
+            ID de Barrio del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.Address">
+            <summary>
+            Obtiene o Almacena la Dirección del Tenant.
+            </summary>
+            <value>
+            Dirección del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.CountryID">
+            <summary>
+            Obtiene o Almacena el ID de País del Tenant.
+            </summary>
+            <value>
+            ID de País del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.EditionId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.RegisterID">
+            <summary>
+            Obtiene el Id de Registro del Tenant
+            </summary>
+            <value>
+            Id de Registro del Tenant
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.LastInvoiceNumber">
+            <summary>
+            Obtiene o Almacena el Ultimo Número de Factura
+            </summary>
+            <value>
+            Ultimo Número de Factura
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.LastNoteDebitNumber">
+            <summary>
+            Obtiene o Almacena el Ultimo Número de Nota de Débito
+            </summary>
+            <value>
+            Ultimo Número de Nota de Débito
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.LastNoteCreditNumber">
+            <summary>
+            Obtiene o Almacena el Ultimo Número de Nota de Crédito
+            </summary>
+            <value>
+            Ultimo Número de Nota de Crédito
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.SmsNoficicarFacturaACobro">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.CostoSms">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.TenantDto.LastPayNotificationSendedAt">
+            <exclude />
+        </member>
+        <member name="T:TicoPay.MultiTenancy.Dto.UpdateTenantInput">
+            <summary>
+            Clase que contiene los Datos del Tenant
+            </summary>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Id">
+            <summary>
+            Obtiene el ID del Tenant o Sub Dominio.
+            </summary>
+            <value>
+            Obtiene el ID del Tenant o Sub Dominio.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.TenancyName">
+            <summary>
+            Obtiene el Nombre del Tenant o Sub Dominio (Usado en el URL y la Autentificación).
+            </summary>
+            <value>
+            Obtiene el Nombre del Tenant o Sub Dominio (Usado en el URL y la Autentificación).
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Name">
+            <summary>
+            Obtiene o Almacena la Razón Social del Tenant.
+            </summary>
+            <value>
+            Razón Social del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.BussinesName">
+            <summary>
+            Obtiene o Almacena el Nombre de Negocio del Tenant (Usualmente el mismo que ComercialName).
+            </summary>
+            <value>
+            Nombre de Negocio del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.ComercialName">
+            <summary>
+            Obtiene o Almacena el Nombre Comercial del Tenant.
+            </summary>
+            <value>
+            Nombre Comercial del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.IdentificationType">
+            <summary>
+            Obtiene el Tipo de Identificación del Tenant.
+            </summary>
+            <value>
+            Tipo de Identificación del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.IdentificationNumber">
+            <summary>
+            Obtiene el Número de Identificación del Tenant.
+            </summary>
+            <value>
+            Número de Identificación del Tenant
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.PhoneNumber">
+            <summary>
+            Obtiene o Almacena el Número de Teléfono del Tenant.
+            </summary>
+            <value>
+            Número de Teléfono del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Fax">
+            <summary>
+            Obtiene o Almacena el Número de Fax del Tenant.
+            </summary>
+            <value>
+            Número de Fax del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Email">
+            <summary>
+            Obtiene o Almacena el Email del Tenant.
+            </summary>
+            <value>
+            Email del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.AlternativeEmail">
+            <summary>
+            Obtiene o Almacena el Email Alternativo del Tenant.
+            </summary>
+            <value>
+            Email Alternativo del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CodigoMoneda">
+            <summary>
+            Obtiene o Almacena la Moneda por Defecto del Tenant.
+            </summary>
+            <value>
+            Moneda por Defecto del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.currencyCode">
+            <summary>
+            Obtiene o Almacena el Código de Moneda por Defecto del Tenant.
+            </summary>
+            <value>
+            Código de Moneda por Defecto del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Barrio">
+            <summary>
+            Obtiene o Almacena el Barrio del Tenant.
+            </summary>
+            <value>
+            Barrio del Tenant.
+            </value>        
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.BarrioId">
+            <summary>
+            Obtiene o Almacena el ID de Barrio del Tenant.
+            </summary>
+            <value>
+            ID de Barrio del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.BarriosList">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Province">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.ProvinciaID">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CantonID">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Cantons">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Distritos">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.DistritoID">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Address">
+            <summary>
+            Obtiene o Almacena la Dirección del Tenant.
+            </summary>
+            <value>
+            Dirección del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Country">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CountryID">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.EditionId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.EditionSelect">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.RegisterID">
+            <summary>
+            Obtiene o Almacena el Id de Registro del Tenant.
+            </summary>
+            <value>
+            Id de Registro del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.LastInvoiceNumber">
+            <summary>
+            Obtiene o Almacena el Ultimo Número de Factura
+            </summary>
+            <value>
+            Ultimo Número de Factura
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.LastNoteDebitNumber">
+            <summary>
+            Obtiene o Almacena el Ultimo Número de Nota de Débito
+            </summary>
+            <value>
+            Ultimo Número de Nota de Débito
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.LastNoteCreditNumber">
+            <summary>
+            Obtiene o Almacena el Ultimo Número de Nota de Crédito
+            </summary>
+            <value>
+            Ultimo Número de Nota de Crédito
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.LastVoucherNumber">
+            <summary>
+            Obtiene o Almacena el Ultimo Número de Comprobante Electrónico
+            </summary>
+            <value>
+            Ultimo Número de Comprobante Electrónico
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.ConnectionString">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.local">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.ConditionSaleType">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Sector">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.TipoFirma">
+            <summary>
+            Obtiene o Almacena el Tipo de Firma del Tenant.
+            </summary>
+            <value>
+            Tipo de Firma del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.FirmaRecurrente">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CountrySelect">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.ValidateHacienda">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CertifiedID">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.file">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CertifiedPath">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CertifiedRoute">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CertifiedPassword">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.FileName">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CertifiedChange">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.FirmaRecurrentes">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CodigoMonedas">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.ErrorCode">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.ErrorDescription">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Action">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Control">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.Query">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.LogoFile">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.LogoData">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.LogoBase64String">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.IsTutorialCompania">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.IsTutorialServices">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.IsTutorialClients">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.IdentificationTypes">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.SmsNoficicarFacturaACobro">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.CostoSms">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.IsAddressShort">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.AddressShort">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.DeleteLogo">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.UnitMeasurementDefault">
+            <summary>
+            Obtiene o Almacena la Unidad de Medida por Defecto del Tenant.
+            </summary>
+            <value>
+            Unidad de Medida por Defecto del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.UnitMeasurementOthersDefault">
+            <summary>
+            Obtiene o Almacena la Descripción de la Unidad de Medida Otros por Defecto del Tenant.
+            </summary>
+            <value>
+            Descripción de la Unidad de Medida Otros por Defecto del Tenant.
+            </value>
+        </member>
+        <member name="M:TicoPay.MultiTenancy.Dto.UpdateTenantInput.AddValidationErrors(Abp.Runtime.Validation.CustomValidationContext)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.MultiTenancy.Dto.UpdateTenantInput.ValidateCertified(System.String,System.String)">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.MultiTenancy.Dto.UpdateTenantInput.IsFreeEdition">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.MultiTenancy.TenantAppService.GetCertifiedTenant(System.Int32)">
+            <summary>
+            Obtiene el certificado de un Tenant
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.MultiTenancy.TenantAppService.GetCertified(System.Int32)">
+            <summary>
+            Obtiene el certificado de un Tenant
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.MultiTenancy.TenantAppService.GetTenantsByPort(System.Int32)">
+            <summary>
+            Obtiene los tenat que estan configurados a ese puerto - banco
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.MultiTenancy.TenantAppService.GetTenantTipoAcceso(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Obtiene el tipo de acceso configurado -- banco
+            </summary>
+            <param name="listTenant"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput">
+            <summary>
+            Clase que define los parámetros de búsqueda para el reporte de facturas de hacienda
+            </summary>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.NombreCliente">
+            <summary>
+            Obtiene o Almacena el Nombre de Cliente.
+            </summary>
+            <value>
+            Nombre de Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.CedulaCliente">
+            <summary>
+            Obtiene o Almacena el Número de Identificación del cliente de las facturas a buscar.
+            </summary>
+            <value>
+             Número de Identificación del cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.ClienteId">
+            <summary>
+            Obtiene o Almacena el Id de Cliente de las facturas a buscar.
+            </summary>
+            <value>
+            Id de Cliente de las facturas a buscar.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.NumeroFactura">
+            <summary>
+            Obtiene o Almacena el Número consecutivo de la factura a buscar.
+            </summary>
+            <value>
+            Número consecutivo de la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.MedioPago">
+            <summary>
+            Obtiene o Almacena el Medio de Pago de las facturas a buscar.
+            </summary>
+            <value>
+            Medio de Pago de las facturas.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.CondicionVenta">
+            <summary>
+            Obtiene o Almacena la Condición de venta del Documento.
+            </summary>
+            <value>
+            Condición de venta del Documento.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.FechaEmisionDesde">
+            <summary>
+            Obtiene o Almacena la Fecha emisión desde la cual buscar.
+            </summary>
+            <value>
+            Fecha emisión desde.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.FechaEmisionHasta">
+            <summary>
+            Obtiene o Almacena la Fecha emisión hasta la cual buscar.
+            </summary>
+            <value>
+            Fecha emisión hasta.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.StatusTribunet">
+            <summary>
+            Obtiene o Almacena el Estado según Hacienda de la factura a buscar.
+            </summary>
+            <value>
+            Estado según Hacienda de la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.RecepcionConfirmada">
+            <summary>
+            Obtiene o Almacena el Indicador para buscar facturas que fueron recibidas.
+            </summary>
+            <value>
+            Indicador de si la factura fue recibida.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.Status">
+            <summary>
+            Obtiene o Almacena el Estatus de Factura según Ticopay a buscar.
+            </summary>
+            <value>
+            Estatus de Factura según Ticopay.
+            </value>
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.Invoices">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.StatusesInvoice">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput.StatusesTribunet">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.ReportsSettings.ReportSettingsAppService.GetSupportedFonts">
+            <summary>
+            Retorna la lista de fonts soportadas por iTextSharp
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Roles.Dto.PermissionListDto">
+            <summary>
+            Clase que contiene los Permisos asignados a un usuario
+            </summary>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.PermissionListDto.Children">
+            <summary>
+            Obtiene o Almacena la lista de Sub Permisos (Hojas) que forman parte del Permiso Raíz.
+            </summary>
+            <value>
+            Sub-Permisos.
+            </value>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.PermissionListDto.DisplayName">
+            <summary>
+            Obtiene o Asigna el nombre a mostrar del Permiso.
+            </summary>
+            <value>
+            Nombre a mostrar del Permiso.
+            </value>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.PermissionListDto.Name">
+            <summary>
+            Obtiene o Asigna el nombre real del Permiso.
+            </summary>
+            <value>
+            Nombre real del Permiso.
+            </value>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.PermissionListDto.Parent">
+            <summary>
+            Obtiene o Almacena el Permiso Raíz del cual forma parte un Sub-Permiso.
+            </summary>
+            <value>
+            Permiso Raíz.
+            </value>
+        </member>
+        <member name="T:TicoPay.Roles.Dto.RolesDTO">
+            <summary>
+            Clase que Define contenido de los Roles de seguridad
+            </summary>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.RolesDTO.Name">
+            <summary>
+            Obtiene o Almacena el Nombre del Role.
+            </summary>
+            <value>
+            Nombre del Role.
+            </value>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.RolesDTO.CreationTime">
+            <summary>
+            Obtiene o Almacena la fecha de creación del Role.
+            </summary>
+            <value>
+            Fecha de creación del Role.
+            </value>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.RolesDTO.LastModificationTime">
+            <summary>
+            Obtiene o Almacena la Fecha de ultima modificación del Role.
+            </summary>
+            <value>
+            Fecha de ultima modificación del Role.
+            </value>
+        </member>
+        <member name="T:TicoPay.Roles.Dto.UserRoleDto">
+            <summary>
+            Clase que contiene los datos de los Roles asignados a un usuario
+            </summary>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.UserRoleDto.TenantId">
+            <summary>
+            Obtiene o Almacena el código de identificación del tenant al que el role pertenece.
+            </summary>
+            <value>
+            Código de identificación del Tenant.
+            </value>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.UserRoleDto.UserId">
+            <summary>
+            Obtiene o Almacena el código del usuario.
+            </summary>
+            <value>
+            Código del Usuario.
+            </value>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.UserRoleDto.RoleId">
+            <summary>
+            Obtiene o Almacena el código del Role.
+            </summary>
+            <value>
+            Código del Role.
+            </value>
+        </member>
+        <member name="P:TicoPay.Roles.Dto.UserRoleDto.Role">
+            <summary>
+            Obtiene o Almacena el Role asignado.
+            </summary>
+            <value>
+            Role.
+            </value>
+        </member>
+        <member name="T:TicoPay.Services.Dto.ServiceDto">
+            <summary>
+            Contiene los Datos de los Servicios a facturar le al cliente
+            </summary>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.IdDetails">
+            <summary>
+            Obtiene o Almacena el ID del Servicio.
+            </summary>
+            <value>
+            ID del Servicio Recurrente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.Name">
+            <summary>
+            Obtiene o Almacena el Nombre del Servicio.
+            </summary>
+            <value>
+            Nombre del Servicio Recurrente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.Price">
+            <summary>
+            Obtiene o Almacena el Precio del Servicio.
+            </summary>
+            <value>
+            Precio del Servicio Recurrente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.TaxId">
+            <summary>
+            Obtiene o Almacena el ID del Impuesto del Servicio.
+            </summary>
+            <value>
+            Id del Impuesto del Servicio Recurrente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.Tax">
+            <summary>
+            Obtiene o Almacena el Impuesto del Servicio.
+            </summary>
+            <value>
+            Impuesto del Servicio Recurrente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.UnitMeasurement">
+            <summary>
+            Obtiene o Almacena el Unidad de medida del Servicio.
+            </summary>
+            <value>
+            Unidad de medida del Servicio Recurrente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.UnitMeasurementOthers">
+            <summary>
+            Obtiene o Almacena la Descripción de la Unidad de media otros del Servicio.
+            </summary>
+            <value>
+            Descripción de la Unidad de medida otros.
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.IsRecurrent">
+            <summary>
+            Obtiene o Almacena Si el Servicio es Recurrente..
+            </summary>
+            <value>
+              <c>true</c> Si es recurrente ; sino, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.CronExpression">
+            <summary>
+            Obtiene o Almacena la Expresión Cron utilizada para la Planificación de la tarea (Debe ser Valida).
+            </summary>
+            <value>
+            Expresión Cron utilizada para la Planificación de la tarea (Debe ser Valida).
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.Quantity">
+            <summary>
+            Obtiene o Almacena la Cantidad del Servicio Recurrente.
+            </summary>
+            <value>
+            Cantidad del Servicio Recurrente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.DiscountPercentage">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Services.Dto.ServiceDto.Type">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Services.ServiceAppService.#ctor(Abp.Domain.Repositories.IRepository{TicoPay.Services.Service,System.Guid},Abp.Domain.Repositories.IRepository{TicoPay.Taxes.Tax,System.Guid},TicoPay.MultiTenancy.TenantManager,Abp.Domain.Repositories.IRepository{TicoPay.MultiTenancy.Tenant,System.Int32},TicoPay.Services.IServiceManager,TicoPay.Users.UserManager,Abp.Domain.Repositories.IRepository{TicoPay.Services.ClientService,System.Guid})">
+             <summary>
+            In constructor, we can get needed classes/interfaces.
+            They are sent here by dependency injection system automatically.
+             </summary>
+        </member>
+        <member name="M:TicoPay.Services.ServiceAppService.SearchServices(TicoPay.Services.Dto.SearchServicesInput)">
+            <summary>
+            Searches for services and returns page result
+            </summary>
+            <param name="searchInput"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Taxes.Dto.CreateTaxInput">
+            <summary>
+            Contiene los Datos para la Creación del Impuesto
+            </summary>
+            <seealso cref="T:TicoPay.Common.IDtoViewBaseFields" />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.CreateTaxInput.Name">
+            <summary>
+            Obtiene o Almacena el Nombre del Impuesto.
+            </summary>
+            <value>
+            Nombre del Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.CreateTaxInput.Rate">
+            <summary>
+            Obtiene o Almacena la Tasa del Impuesto.
+            </summary>
+            <value>
+            Tasa del Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.CreateTaxInput.TaxTypes">
+            <summary>
+            Obtiene o Almacena el Tipo de Impuesto.
+            </summary>
+            <value>
+            Tipo de Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.CreateTaxInput.ErrorCode">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.CreateTaxInput.ErrorDescription">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.CreateTaxInput.Action">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.CreateTaxInput.Control">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.CreateTaxInput.Query">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.CreateTaxInput.ListTaxTypes">
+            <exclude />
+        </member>
+        <member name="T:TicoPay.Taxes.Dto.TaxDto">
+            <summary>
+            Clase que contiene la información de un Impuesto
+            </summary>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.TaxDto.Name">
+            <summary>
+            Obtiene o Almacena el Nombre del Impuesto.
+            </summary>
+            <value>
+            Nombre del Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.TaxDto.Rate">
+            <summary>
+            Obtiene o Almacena la Tasa del Impuesto (Porcentaje).
+            </summary>
+            <value>
+            Tasa del Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.TaxDto.TaxTypes">
+            <summary>
+            Obtiene o Almacena el Tipo de Impuesto.
+            </summary>
+            <value>
+            Tipo de Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.TaxDto.CreationTime">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.TaxDto.LastModificationTime">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.TaxDto.LastModifierUserId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.TaxDto.CreatorUserId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.TaxDto.Users">
+            <exclude />
+        </member>
+        <member name="T:TicoPay.Taxes.Dto.UpdateTaxInput">
+            <summary>
+            Clase que contiene Datos para Actualización del Impuesto
+            </summary>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.Id">
+            <summary>
+            Obtiene o Almacena el Id del Impuesto.
+            </summary>
+            <value>
+            Id del Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.TenantId">
+            <summary>
+            Obtiene o Almacena el Tenant al que pertenece el Impuesto.
+            </summary>
+            <value>
+            Tenant al que pertenece el Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.Name">
+            <summary>
+            Obtiene o Almacena el Nombre del Impuesto.
+            </summary>
+            <value>
+            Nombre del Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.Rate">
+            <summary>
+            Obtiene o Almacena la Tasa del Impuesto (Porcentaje).
+            </summary>
+            <value>
+            Tasa del Impuesto (Porcentaje).
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.TaxTypes">
+            <summary>
+            Obtiene o Almacena el Tipo de Impuesto.
+            </summary>
+            <value>
+            Tipo de Impuesto.
+            </value>
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.IsDeleted">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.DeleterUserId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.DeletionTime">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.CreationTime">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.CreatorUserId">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.CreatorUser">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.ErrorCode">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.ErrorDescription">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.Action">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.Control">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.Query">
+            <exclude />
+        </member>
+        <member name="P:TicoPay.Taxes.Dto.UpdateTaxInput.ListTaxTypes">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Taxes.TaxAppService.#ctor(Abp.Domain.Repositories.IRepository{TicoPay.Taxes.Tax,System.Guid},TicoPay.Taxes.ITaxManager,TicoPay.Users.UserManager,Abp.Domain.Repositories.IRepository{TicoPay.Services.Service,System.Guid})">
+             <summary>
+            In constructor, we can get needed classes/interfaces.
+            They are sent here by dependency injection system automatically.
+             </summary>
+        </member>
+        <member name="M:TicoPay.Taxes.TaxAppService.SearchTaxes(TicoPay.Taxes.Dto.SearchTaxesInput)">
+            <summary>
+            Searches for taxes and returns page result
+            </summary>
+            <param name="searchInput"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.TicoPayAppServiceBase">
+            <summary>
+            Derive your application services from this class.
+            </summary>
+        </member>
+        <member name="T:TicoPay.Users.Dto.UserListDto">
+            <summary>
+            Clase que contiene los usuarios asignados a un tenant
+            </summary>
+        </member>
+        <member name="P:TicoPay.Users.Dto.UserListDto.Name">
+            <summary>
+            Obtiene o Almacena el nombre del Usuario.
+            </summary>
+            <value>
+            Nombre del Usuario.
+            </value>
+        </member>
+        <member name="P:TicoPay.Users.Dto.UserListDto.Surname">
+            <summary>
+            Obtiene o Almacena el apellido del Usuario.
+            </summary>
+            <value>
+            Apellido del Usuario.
+            </value>
+        </member>
+        <member name="P:TicoPay.Users.Dto.UserListDto.UserName">
+            <summary>
+            Obtiene o Almacena el nombre del usuario a utilizar en el inicio de sesión.
+            </summary>
+            <value>
+            Nombre de usuario para sesiones.
+            </value>
+        </member>
+        <member name="P:TicoPay.Users.Dto.UserListDto.FullName">
+            <summary>
+            Obtiene o Almacena el nombre completo del Usuario.
+            </summary>
+            <value>
+            Nombre completo del usuario.
+            </value>
+        </member>
+        <member name="P:TicoPay.Users.Dto.UserListDto.EmailAddress">
+            <summary>
+            Obtiene o Almacena el correo electrónico del Usuario.
+            </summary>
+            <value>
+            Correo electrónico del Usuario.
+            </value>
+        </member>
+        <member name="P:TicoPay.Users.Dto.UserListDto.IsEmailConfirmed">
+            <summary>
+            Obtiene o Almacena la confirmación de que el correo de usuario es valido.
+            </summary>
+            <value>
+              <c>true</c> Si el correo de usuario es valido; sino es, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:TicoPay.Users.Dto.UserListDto.LastLoginTime">
+            <summary>
+            Obtiene o Almacena la fecha y tiempo del ultimo inicio de sesión del usuario.
+            </summary>
+            <value>
+            Ultimo inicio de sesión del usuario.
+            </value>
+        </member>
+        <member name="P:TicoPay.Users.Dto.UserListDto.IsActive">
+            <summary>
+            Obtiene o Almacena si el usuario esta Activo o no.
+            </summary>
+            <value>
+              <c>true</c> Si el usuario esta activo; sino, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:TicoPay.Users.Dto.UserListDto.CreationTime">
+            <summary>
+            Obtiene o Almacena la fecha y tiempo en la cual fue creado el usuario.
+            </summary>
+            <value>
+            Fecha de creación del Usuario.
+            </value>
+        </member>
+        <member name="T:TicoPay.Vouchers.Dto.SearchVoucherApi">
+            <summary>
+            Clase utilizada para definir los parámetros de búsqueda de los comprobantes electrónicos
+            </summary>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.SearchVoucherApi.Identification">
+            <summary>
+            Obtiene o Almacena el número de identificación del Emisor del Documento especifico a buscar.
+            </summary>
+            <value>
+            Número de Identificación del Emisor.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.SearchVoucherApi.ConsecutiveNumberInvoice">
+            <summary>
+            Obtiene o Almacena el número consecutivo de Factura especifica a buscar.
+            </summary>
+            <value>
+            Número consecutivo de Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.SearchVoucherApi.ConsecutiveNumber">
+            <summary>
+            Obtiene o Almacena el número consecutivo del comprobante especifico a buscar.
+            </summary>
+            <value>
+            Número consecutivo del Comprobante.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.SearchVoucherApi.StartDueDate">
+            <summary>
+            Obtiene o Almacena la fecha a partir de la cual se buscaran los comprobantes.
+            </summary>
+            <value>
+            Fecha de inicio.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.SearchVoucherApi.EndDueDate">
+            <summary>
+            Obtiene o Almacena la fecha hasta donde se buscaran los comprobantes..
+            </summary>
+            <value>
+            Fecha fin.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.SearchVoucherApi.Name">
+            <summary>
+            Obtiene o Almacena el nombre de un Emisor especifico para la búsqueda de comprobantes.
+            </summary>
+            <value>
+            Nombre del Emisor.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.SearchVoucherApi.StatusTribunet">
+            <summary>
+            Obtiene o Almacena el estatus con respecto a Hacienda de los comprobantes a buscar.
+            </summary>
+            <value>
+            Estatus del comprobante con respecto a Hacienda.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.SearchVoucherApi.TipoFirma">
+            <summary>
+            Almacena o Obtiene el Tipo de firma utilizada para el comprobante.
+            </summary>
+            <value>
+            Tipo de firma.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.SearchVoucherApi.StatusFirmaDigital">
+            <summary>
+            Obtiene o Almacena el estatus de la firma digital de los Comprobantes a buscar.
+            </summary>
+            <value>
+            Estatus firma digital.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDto.Coin">
+            <summary>
+            Clave foranea de moneda
+            </summary>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDto.VoucherKey">
+            <summary>
+            Clave del comprobante
+            </summary>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDto.ConsecutiveNumber">
+            <summary>
+            Consecutivo de mensases de confirmación
+            </summary>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDto.Message">
+            <summary>
+            Código del mensaje de respuesta
+            </summary>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDto.DetailsMessage">
+            <summary>
+            Detalle del mensaje
+            </summary>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDto.ElectronicBill">
+            <summary>
+            XML del comprobante
+            </summary>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDto.SendVoucher">
+            <summary>
+            Indica si el comprobante fue enviado a Hacienda
+            </summary>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDto.StatusTribunet">
+            <summary>
+            Estatus del comprobate en hacienda
+            </summary>
+        </member>
+        <member name="T:TicoPay.Vouchers.Dto.VoucherDtoApi">
+            <summary>
+            Clase que contiene los datos del comprobante electrónico
+            </summary>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.Id">
+            <summary>
+            Obtiene o Almacena el Identificador único del Comprobante.
+            </summary>
+            <value>
+            ID del Comprobante.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.IdentificationSender">
+            <summary>
+            Obtiene o Almacena el Número de identificación del Emisor del documento.
+            </summary>
+            <value>
+            Número de Identificación del Emisor.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.NameSender">
+            <summary>
+            Obtiene o Almacena el Nombre del emisor del documento.
+            </summary>
+            <value>
+            Nombre del Emisor.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.Email">
+            <summary>
+            Obtiene o Almacena el correo electrónico del Emisor.
+            </summary>
+            <value>
+            Correo electrónico del Emisor.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.NameReceiver">
+            <summary>
+            Obtiene o Almacena el Nombre del Receptor.
+            </summary>
+            <value>
+            Nombre del Receptor.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.IdentificationReceiver">
+            <summary>
+            Obtiene o Almacena el número de identificación del Receptor.
+            </summary>
+            <value>
+            Número de identificación del Receptor.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.ConsecutiveNumberInvoice">
+            <summary>
+            Obtiene o Almacena el número de consecutivo de la factura.
+            </summary>
+            <value>
+            Número de consecutivo de la factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.DateInvoice">
+            <summary>
+            Obtiene o Almacena la Fecha de la factura.
+            </summary>
+            <value>
+            Fecha de Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.Coin">
+            <summary>
+            Obtiene o Almacena el Tipo de Moneda utilizada en la Operación.
+            </summary>
+            <value>
+            Tipo de Moneda.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.Totalinvoice">
+            <summary>
+            Obtiene o Almacena el Monto total del Documento.
+            </summary>
+            <value>
+            Monto Total del Documento.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.TotalTax">
+            <summary>
+            Obtiene o Almacena el monto total del Impuesto del Documento.
+            </summary>
+            <value>
+            The total tax.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.VoucherKey">
+            <summary>
+            Obtiene o Almacena la llave interna del comprobante.
+            </summary>
+            <value>
+            Llave interna del comprobante.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.VoucherKeyRef">
+            <summary>
+            Obtiene o Almacena la llave interna del documento.
+            </summary>
+            <value>
+            Llave interna del documento.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.ConsecutiveNumber">
+            <summary>
+            Obtiene o Almacena el número consecutivo del comprobante electrónico.
+            </summary>
+            <value>
+            Número consecutivo del comprobante electrónico.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.Message">
+            <summary>
+            Obtiene o Almacena la respuesta al documento a firmar.
+            </summary>
+            <value>
+            Respuesta al documento a firmar.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.DetailsMessage">
+            <summary>
+            Obtiene o Almacena el detalle de la respuesta al documento.
+            </summary>
+            <value>
+            Detalle de la respuesta al documento.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.ElectronicBill">
+            <summary>
+            Obtiene o Almacena el XML Firmado del comprobante electrónico.
+            </summary>
+            <value>
+            XML Firmado del comprobante electrónico.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.SendVoucher">
+            <summary>
+            Obtiene o Almacena si el comprobante fue enviado a hacienda.
+            </summary>
+            <value>
+              <c>true</c> Si el comprobante fue enviado a Hacienda; sino, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.StatusTribunet">
+            <summary>
+            Obtiene o Almacena el estado del comprobante según Hacienda.
+            </summary>
+            <value>
+            Estado del comprobante según Hacienda.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.TipoFirma">
+            <summary>
+            Obtiene o Almacena el tipo de firma del comprobante electrónico.
+            </summary>
+            <value>
+            Tipo de firma del comprobante electrónico.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.StatusFirmaDigital">
+            <summary>
+            Obtiene o Almacena el estatus de la firma del comprobante.
+            </summary>
+            <value>
+            Estatus de la firma del comprobante.
+            </value>
+        </member>
+        <member name="P:TicoPay.Vouchers.Dto.VoucherDtoApi.CreationTime">
+            <summary>
+            Obtiene la fecha de creación del comprobante.
+            </summary>
+            <value>
+            Fecha de creación del comprobante.
+            </value>
+        </member>
+    </members>
+</doc>

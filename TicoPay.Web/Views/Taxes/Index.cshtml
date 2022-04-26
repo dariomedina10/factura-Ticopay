@@ -1,0 +1,84 @@
+﻿@using Abp.Web.Mvc.Extensions
+@model TicoPay.Taxes.Dto.SearchTaxesInput
+@{
+    ViewBag.Title = "Mantenimiento de Impuesto";
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Scripts/taxes.js")
+}
+<script src="@Url.Content("~/Scripts/ListPager.js")" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        $('#searchText').keyup($.debounce(400, searchDebounce));
+    });
+    var searchDebounceUrl = "/Taxes/SearchDebounce";
+    this.searchDebounce = function () {
+        $("#IndexAlerts").html("");
+        $.ajax({
+            url: searchDebounceUrl,
+            type: "POST",
+            cache: false,
+            data: { query: $("#searchText").val() },
+            success: function (data) {
+                $("#anyListEntity").html(data);
+            }, error: function (err) { writeError("IndexAlerts", "¡Error al consultar los Impuestos!", "error"); }
+        });
+        return false;
+    };
+    function writeError(control, msg, type) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+            $("#" + control).html(alert);
+        } else { abp.notify.warn(msg, ""); }
+    }
+</script>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Mantenimiento de Impuestos</h2>
+    </div>
+    <br/>
+    <a class="btn btn-default btnCreateForm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Impuesto</a>
+</div>
+<br/>
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchTaxes", Model);}
+<br/>
+<div id="anyListEntity">
+    @{Html.RenderPartial("_taxesListPartial", Model);}
+</div>
+<div id="anyModalForm" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="DeleteConfirmation_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="ItemToDelete_hidden" />
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmación de borrado del Impuesto.</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea borrar el Impuesto?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning" id="btnModalOkDeleteConfirmation">Continuar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,155 @@
+﻿@using System.Web.Mvc.Html
+@model TicoPay.Vouchers.Dto.SearchVoucher
+
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>Opciones de búsqueda</h5>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+
+        </div>
+    </div>
+    <div class="ibox-content">
+        @using (Html.BeginForm("Search", "Voucher", FormMethod.Post, new { @id = "searchForm" }))
+    {
+
+        <div class="form-horizontal">
+
+            <div class="form-group">
+
+                <div class="col-md-6">
+                    @Html.HiddenFor(model => model.isKey)
+                    @Html.LabelFor(model => model.StartDueDate, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.StartDueDate, new { @class = "form-control", @type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.EndDueDate, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.EndDueDate, new { @class = "form-control", @type = "date" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <div class="col-lg-6">
+                    @Html.Label(" Sucursal:", new { @class = "control-label col-lg-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.BranchOfficeId, new SelectList(Model.BranchOffice.ToArray(), "Id", "Name"), "Todas",
+                                new
+                                {
+                                    @class = "form-control",
+                                    data_cascade_combo = "#Drawer_DD",
+                                    data_cascade_combo_source = Url.Action("GetDrawer", "ReportClosing"),
+                                    data_cascade_combo_param_name = "id",
+
+                                    @title = "Seleccione una Sucursal",
+                                       //  onchange = "getCajas();",
+                                       @Id = "Branch_DD"
+                                }
+                                )
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    @Html.Label(" Caja:", new { @class = "control-label col-lg-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.DrawerId, Model.DrawerUser, "Todas",
+                                new
+                                {
+                                    @class = "form-control",
+
+                                    @title = "Seleccione una Caja",
+                                    @id = "Drawer_DD"
+
+                                })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @type = "text", @maxlength = "80" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.ConsecutiveNumber, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.ConsecutiveNumber, new { @class = "form-control numeric", @type = "text", @pattern = "[0-9]{0,10}", @title = "Solo números. Tamaño máximo: 10" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(s => s.Status, Model.ListStatus, "Todos", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.StatusTribunet, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(s => s.StatusTribunet, Model.ListStatusTribunet, "Todos", new { @class = "form-control" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <div class="col-md-6">
+                    <label class="control-label col-md-4">Monto Total <span class="label label-primary" data-toggle="tooltip" data-placement="right" title="Filtra las compras por un rango del monto total"> ?</span></label>
+                    <div class="col-md-4">
+                        @{ string value = "";
+                            if (Model.MinimumAmount == 0)
+                            {
+                                value = "";
+                            }
+                            else
+                            {
+                                value = Convert.ToString(Model.MinimumAmount);
+                            }
+                        }
+                        @Html.TextBoxFor(model => model.MinimumAmount, new { @class = "form-control", @placeholder = "Mínimo", @type = "number", @min = "0", @max= "999999999", @Value = @value, @id = "MinimumAmount_text", @title = "Solo números. " })
+                    </div>
+                    <div class="col-md-4">
+                        @{
+                            if (Model.MaxAmount == 0)
+                            {
+                                value = "";
+                            }
+                            else
+                            {
+                                value = Convert.ToString(Model.MaxAmount);
+                            }
+                        }
+                        @Html.TextBoxFor(model => model.MaxAmount, new { @class = "form-control", @placeholder = "Máximo", @type = "number", @min = "0", @max = "999999999", @Value = @value, @id = "MaxAmount_text" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-8 pull-right">
+                        <button type="submit" class="btn btn-primary pull-right" id="btnSearch"><i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;Buscar</button>
+                    </div>
+                    
+                </div>
+
+                </div>
+           
+
+        </div>
+}
+    </div>
+
+   
+</div>

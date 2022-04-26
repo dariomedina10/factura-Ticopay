@@ -1,0 +1,70 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "//*[@id=\"contentMaintenance\"]/span[1]",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Sucursales",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=searchCode",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=searchCode",
+      "Value": "999"
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"searchForm\"]/div/div[5]/span/button",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"TableListEntity\"]/tbody/tr/td[4]/a[3]/span",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=btnModalOkDeleteConfirmation",
+      "Value": ""
+    }
+  ]
+}

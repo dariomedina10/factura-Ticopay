@@ -1,0 +1,69 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">
+                <img src="https://www.ticopays.com/images/ticopay-facturacion-electronica-logo-completo-blanco.png" class="img-responsive"
+                    style="width: 90px">
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
+                <li routerLinkActive="active">
+                    <a [routerLink]="['invoiceIndex']">
+                        <span class="glyphicon glyphicon-check"></span> Facturación
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Notificaciones:
+                        <span class="badge">{{_newNotifications}}</span>
+                    </a>
+                    <ul class="dropdown-menu messages">
+                        <app-notifications-menu (notifyMessage)='onNotificationSent($event)'></app-notifications-menu>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user"></span> {{_user.userName}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!--
+                        <li>
+                            <a>Opciones de Usuario</a>
+                        </li>
+                        <li>
+                            <a>Cambiar Clave</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        -->
+                        <li>
+                            <a (click)='logOut()'>
+                                <span class="glyphicon glyphicon-power-off"></span> Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<div id="page-wrapper">
+    <div class="container-fluid">        
+        <router-outlet></router-outlet>
+        <app-notification-bar></app-notification-bar>
+    </div>
+</div>

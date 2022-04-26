@@ -1,0 +1,98 @@
+﻿@using TicoPay.Invoices
+@model IList<TicoPay.Invoices.Dto.ListItems>
+@{ 
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+}
+<div class="row">
+    <div class="col-lg-10">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content" style="padding-bottom: 0px; padding-right: 0px; padding-left: 0px;">
+                <div class="table-responsive">
+                    <table class="table invoice-table">
+                        <thead>
+                            <tr>
+                                <th>Detalle de los Servicios</th>
+                                <th style="text-align: right">Cantidad</th>
+                                <th style="text-align: right;">Precio</th>
+                                <th>Impuesto</th>
+                                <th style="text-align: right;">Precio Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--template bindings={}-->
+                            @foreach (var item in @Model.FirstOrDefault().InvoiceLines)
+                            {
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <strong>@item.Service.Name</strong>
+                                        </div>
+                                        <small>@item.Service.Name</small>
+                                    </td>
+                                    <td>1</td>
+                                    <td>@Html.FormatValue(item.PricePerUnit, currencyFmt)</td>
+                                    <td>@Html.FormatValue(item.TaxAmount, currencyFmt)</td>
+                                    <td>@Html.FormatValue(item.Total, currencyFmt)</td>
+                                </tr>
+                            }
+                            @foreach (var item in @Model.FirstOrDefault().Notes)
+                            {
+                                <tr>
+                                    <td>
+                                        <div>
+                                            @if (item.NoteType == NoteType.Credito)
+                                            {
+                                                <strong>Nota de Crédito</strong>
+                                            }
+                                            else
+                                            {
+                                                <strong>Nota de Débito</strong>
+                                            }
+
+                                        </div>
+                                        <small>@item.StatusVoucher</small>
+                                    </td>
+                                    <td>1</td>
+                                    <td>@Html.FormatValue(item.Amount, currencyFmt)</td>
+                                    <td>>@Html.FormatValue(0.00m, currencyFmt)</td>
+                                    <td>>@Html.FormatValue(item.Amount,currencyFmt)</td>
+                                </tr>
+                            }
+
+
+                            <tr></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <table class="table invoice-total">
+                    <tbody>
+                        @{
+                            decimal subtotal = @Model.FirstOrDefault().InvoiceLines.Sum(a => a.PricePerUnit) + @Model.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.Amount) - @Model.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.Amount);
+                            decimal total = subtotal + Model.FirstOrDefault().InvoiceLines.Sum(a => a.TaxAmount);
+                        }
+                        <tr>
+                            <td><strong>Sub Total :</strong></td>
+                            <td>@Html.FormatValue(subtotal, currencyFmt)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Impuesto :</strong></td>
+                            <td>@Html.FormatValue(Model.FirstOrDefault().InvoiceLines.Sum(a => a.TaxAmount), currencyFmt)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total :</strong></td>
+                            <td>@Html.FormatValue(total, currencyFmt)</td>
+                        </tr>
+                    </tbody>
+                </table>
+               </div>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content text-center ">
+               <a title="Imprimir factura en formato PDF" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs" href='@Url.Action("InvoiceDetails", "PdfGenerator", new { id = @Model.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId})'><i class="fa fa-print"></i>&nbsp;Imprimir </a>
+               </div>
+        </div>
+    </div>
+
+</div>

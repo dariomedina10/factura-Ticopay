@@ -1,0 +1,82 @@
+﻿@using TicoPay.Invoices
+@model TicoPay.ReportStatusInvoices.Dto.ReportStatusInvoicesInputDto<TicoPay.ReportStatusInvoices.Dto.IntegracionZohoSVConta>
+<div class="wrapper wrapper-content white-bg">
+    @if (Model != null && Model.InvoicesList != null && Model.InvoicesList.Any())
+    {
+        <script>
+
+            $(document).ready(function () {
+                var table = $('#TableListEntity').DataTable({
+                    "paging": true,
+                    "searching": true,
+                    "dom": 'ftipr',
+                    "ordering": false,
+                    "bAutoWidth": false,
+                    "sScrollY": "500px",
+                    "sScrollX": "100%",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                });
+            });
+        </script>
+
+
+        <div class="btn-group" role="group" aria-label="...">
+            <a id="exportCSV" href="@Url.Action("DownloadCSV", "ExportCSVExcel",
+                                       new {
+                                            @initialDate=Model.InitialDate,
+                                            @finalDate=Model.FinalDate,
+                                            @clientId=Model.ClientId,
+                                            @consecutive=Model.NumberInvoice,
+                                            @statusPay=Model.StatusPay,
+                                            @moneda=Model.CodigoMoneda,
+                                            @type =Model.Type,
+                                            @fileName =TicoPay.ReportStatusInvoices.Dto.IntegrationZohoSVConta.Zoho
+                                       })" class="btn btn-default">CSV</a>
+            <a id="exportCSV" href="@Url.Action("DownloadExcel", "ExportCSVExcel",
+                                       new {
+                                            @initialDate=Model.InitialDate,
+                                            @finalDate=Model.FinalDate,
+                                            @clientId=Model.ClientId,
+                                            @consecutive=Model.NumberInvoice,
+                                            @statusPay=Model.StatusPay,
+                                            @moneda=Model.CodigoMoneda,
+                                            @type =Model.Type,
+                                            @fileName =TicoPay.ReportStatusInvoices.Dto.IntegrationZohoSVConta.Zoho
+                                       })" class="btn btn-default">Excel</a>
+        </div>
+        switch ((int)Model.Type)
+        {
+            case 0:
+                {
+                    Html.RenderPartial("_listPartialNoteDebit", Model);
+                    break;
+                };
+            case 1:
+                {
+                    Html.RenderPartial("_listPartialNoteCredit", Model);
+                    break;
+                };
+            case 2:
+                {
+                    Html.RenderPartial("_listPartialInvoice", Model);
+                    break;
+                }
+            case 3:
+                {
+                    Html.RenderPartial("_listPartialInvoice", Model);
+                    break;
+                }
+        }
+
+    }
+    else
+    {
+        <div class="alert alert-warning alert-dismissible" role="alert" style="text-align: center;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>¡No se han encontrado ningún Documento</strong>
+        </div>
+    }
+</div>
+

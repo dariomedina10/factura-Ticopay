@@ -1,0 +1,44 @@
+﻿@using System.Web.Mvc.Html
+@model TicoPay.Drawers.Dto.SearchDrawerInput
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    @using (Html.BeginForm(Model.Action, Model.Control, FormMethod.Post, new { @id = "searchForm" }))
+    {
+    <div class="row">
+        <div class="col-lg-1" style="padding-top:7px">
+            <label>
+                C&oacute;digo
+            </label>
+        </div>
+        <div class="col-lg-3">
+            @Html.TextBoxFor(model => model.CodeFilter, new { @placeholder = "Introducir Codigo...", @id = "searchName", @type = "text", @class = "form-control", maxlength = "5" })
+        </div>
+        <div class="col-lg-1" style="padding-top:7px">
+            <label>
+                Sucursal
+            </label>
+        </div>
+        <div class="col-lg-3">
+            @{
+
+                @Html.DropDownListFor(model => model.BranchOfficeFilter, new SelectList(Model.BranchOffices, "Id", "Name"), "Seleccione Sucursal", new
+            {
+                @id = "branchOffice_DD",
+                @class = "form-control"
+            })
+
+
+            }
+        </div>
+        <div class="col-lg-4">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-success">Buscar</button>
+            </span>
+        </div>
+
+    </div>
+        @*<br />
+        <div class="row">
+            
+        </div>*@
+    }
+</div>

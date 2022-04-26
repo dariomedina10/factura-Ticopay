@@ -1,0 +1,96 @@
+﻿@model  TicoPay.Invoices.Dto.SearchRegistersInvoicesInput
+@using PagedList.Mvc;
+<script>
+    function searchDebounce() {
+        $.ajax({
+            url: '@Url.Action("SearchRegisters", "Invoice")',
+            type: "POST",
+            cache: false,
+            data: { q: $("#searchBoxRegister").val() },
+            success: function (data) {
+                $("#anyModalForm").html(data);
+            }, error: function (err) { writeError("IndexAlerts", "¡Error al consultar las Cajas!", "error"); }
+        });
+        return false;
+    };
+
+    function writeError(control, msg, type) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+            $("#" + control).html(alert);
+        } else { abp.notify.warn(msg, ""); }
+    }
+</script>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Lista de Cajas</h4>
+</div>
+<br />
+<div class="col-lg-12">
+    <div class="input-group">
+        @Html.TextBoxFor(model => model.Query, new { @class = "form-control", @id = "searchBoxRegister", @placeholder = "Búsqueda de Cajas...", @type = "text" })
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="searchDebounce()">Buscar</button>
+        </span>
+    </div><!-- /input-group -->
+</div><!-- /.col-lg-6 -->
+
+<br />
+<hr />
+<div class="dataTables_wrapper" id="">
+    @if (Model.Entities.TotalItemCount > 0)
+    {
+        <div class="pull-right" style="margin-right: 2%;">
+            @*@Html.Pager(Model.Entities.PageSize, Model.Entities.PageNumber, Model.Entities.TotalItemCount, new AjaxOptions {UpdateTargetId = "anyModalForm"}).Options(o => o.Action("SearchRegisters").DisplayTemplate("Bootstrap3Pagination").AddRouteValue("q", Model.Query))*@
+            Página @(Model.Entities.PageCount < Model.Entities.PageNumber ? 0 : Model.Entities.PageNumber) de @Model.Entities.PageCount
+
+            @Html.PagedListPager(Model.Entities, page => Url.Action("SearchRegisters", new { page, q = Model.Query }),
+                       PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "anyModalForm", OnBegin = "onBegin(this)", OnComplete = "onComplete(this)" }))
+
+
+        </div>
+
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th style="text-align: center">
+                        Código
+                    </th>
+                    <th style="text-align: center">
+                        Nombre
+                    </th>
+                    <th style="text-align: center">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Entities.OrderBy(a => a.RegisterCode))
+                {
+                    <tr>
+                        <td style="text-align: center">
+                            @item.RegisterCode
+                        </td>
+                        <td style="text-align: center">
+                            @item.Name
+                        </td>
+
+                        <td style="text-align: center">
+                            <div class="btn btn-default btn-xs" data-dismiss="modal" onclick="saveRegisterData('@item.Id','@item.Name','@item.RegisterCode')">Usar</div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <br />
+        <div class="alert alert-info" style="text-align: center">
+            No existen Cajas Registrados.
+        </div>
+    }
+</div>

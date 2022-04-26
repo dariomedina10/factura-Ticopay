@@ -1,0 +1,82 @@
+﻿@model TicoPay.Web.Models.Account.RegisterViewModel
+@section Styles
+{
+    <link href="~/Views/Account/Login.css" rel="stylesheet" />
+}
+@section Scripts{
+    <script type="text/javascript" src="~/Views/Account/Register.js"></script>
+}
+<div class="back"><a class="arrow-left" href="@Url.Action("LandingPage", "Home")">@L("Back")</a></div>
+<div class="signup-backdrp"></div>
+<div class="container">
+    <div id="LoginArea" class="row">
+        <div class="col-lg-12">
+            <div class="well bs-component">
+                <form class="form-horizontal register-form" action="@(Url.Action("Register","Account"))" method="POST">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.EditionId)
+
+                    <h1 align="center">@L("Register")</h1>
+                    <h3 align="center">@L("Plan") @Model.EditionDisplayName</h3>
+                    <hr />
+                    <fieldset>
+
+                        @if (@ViewBag.ErrorMessage != null)
+                        {
+                            <div class="alert alert-danger">
+                                <i class="fa fa-warning"></i> @ViewBag.ErrorMessage
+                            </div>
+                        }
+
+                        @if (ViewBag.IsMultiTenancyEnabled)
+                        {
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <input type="text" class="form-control" name="TenancyName" placeholder="@L("TenancyName")" value="@Model.TenancyName" required maxlength="@TicoPay.MultiTenancy.Tenant.MaxTenancyNameLength">
+                                </div>
+                            </div>
+                        }
+
+                        <input type="hidden" name="IsExternalLogin" value="@Model.IsExternalLogin.ToString()" />
+
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <input type="text" class="form-control" name="Name" value="@Model.Name" placeholder="@L("Name")" required maxlength="@TicoPay.Users.User.MaxNameLength">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <input type="text" class="form-control" name="Surname" value="@Model.Surname" placeholder="@L("Surname")" required maxlength="@TicoPay.Users.User.MaxSurnameLength">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <input type="email" class="form-control" name="EmailAddress" value="@Model.EmailAddress" placeholder="@L("EmailAddress")" required maxlength="@TicoPay.Users.User.MaxEmailAddressLength">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <input type="text" class="form-control" name="UserName" value="@Model.UserName" placeholder="@L("UserName")" required maxlength="@TicoPay.Users.User.MaxUserNameLength">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <input type="password" class="form-control" name="Password" placeholder="@L("Password")" required maxlength="@TicoPay.Users.User.MaxPlainPasswordLength">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <button type="submit" id="RegisterButton" class="btn btn-primary"><i class="fa fa-sign-in"></i> @L("Register")</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

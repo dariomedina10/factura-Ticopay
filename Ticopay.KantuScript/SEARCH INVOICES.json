@@ -1,0 +1,115 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "storeEval",
+      "Target": "var d= new Date(); var m=((d.getMonth()+1)<10)?'0'+(d.getMonth()+1):(d.getMonth()+1); var el=((d.getDate())<10)?'0'+(d.getDate()):(d.getDate()); d.getFullYear()+\"-\"+m+\"-\"+el;",
+      "Value": "eldia"
+    },
+    {
+      "Command": "click",
+      "Target": "id=StartDueDate",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=StartDueDate",
+      "Value": "${eldia}"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=EndDueDate",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=EndDueDate",
+      "Value": "${eldia}"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-default.pull-right",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=Status",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=Status",
+      "Value": "label=Pagada"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-default.pull-right",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=btnShowClientsList",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=div.btn.btn-default.btn-xs",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-default.pull-right",
+      "Value": ""
+    }
+  ]
+}

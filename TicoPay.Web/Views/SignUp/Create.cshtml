@@ -1,0 +1,512 @@
+﻿@using TicoPay.Web.Helpers
+@model TicoPay.MultiTenancy.Dto.CreateTenantInput
+@{
+    ViewBag.Title = "Registro de TicoPay - Facturación Electrónica";
+}
+<style>
+    body {
+        background-repeat: round;
+        background-image: url('../../images/ticopay-facturacion-electronica-factura-register-background.png');
+        height: 100%;
+    }
+
+    .signup-backdrp {
+        background-color: #050505;
+        opacity: .8;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+    }
+
+    .responsive-img {
+        width: 100%;
+        height: auto;
+    }
+
+    div.progress > .progress-bar > span.password-verdict {
+        color: black;
+        margin-bottom: 0px;
+    }
+
+    div.progress {
+        margin-bottom: 0px;
+    }
+
+    .ibox-title {
+        padding: 8px 10px 7px;
+        min-height: 35px;
+    }
+
+    .well {
+        padding: 5px;
+        ;
+    }
+
+    .navbar {
+        min-height: 0px;
+    }
+
+    .glyphicon.glyphicon-question-sign {
+        font-size: 15px;
+        vertical-align: middle;
+        color: rgb(42, 49, 89);
+    }
+</style>
+
+<div id="termsAndConditionsModal" class="modal fade" style="overflow-y: initial !important;z-index: 50000 !important;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Términos y Condiciones de TicoPay - Software de Facturación Electrónica</h4>
+            </div>
+            <div class="modal-body" style="max-height:400px;overflow-y: auto;">
+                <div id="termsAndConditionsContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="signup-backdrp"></div>
+    <div class="container-fluid">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                </div>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="well bs-component">
+                    <div align="center">
+                        <img class="responsive-img" src="~/images/ticopay-facturacion-electronica-logo-completo-verde-azul.png" id="header-logo" alt="Logo" style="max-width: 15%; height: auto;" />
+                    </div>
+                    @using (Html.BeginForm("Create", "SignUp", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                    {
+                        @Html.AntiForgeryToken();
+                        <div class="row wrapper">
+                            <h3 align="center">@L("CreateNewTenant")</h3>
+                            <h4 align="center">@L("Plan") @Model.EditionDisplayName</h4>
+                        </div>
+                        <div id="FormaPago" class="alert alert-info">
+                            @*<img width="80" src="http://www.bncr.fi.cr/BNCR/images/logo.gif" alt="" />*@
+                            <span>
+                                <strong> Forma de Pago!</strong> Para su comodidad, en la factura le enviamos los datos para realizar el pago de su suscripción a nuestra plataforma de facturación electrónica.
+                            </span>
+                        </div>
+                        if (Model != null)
+                        {
+                        <fieldset style="position: relative;z-index: 9999;">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.EditionName)
+                            @Html.HiddenFor(model => model.EditionId)
+                            @Html.HiddenFor(model => model.StepRegister, new { @id = "stepRegisterHidden" })
+                            <div class="animated fadeIn">
+                                @if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok)
+                                {
+                                    <div class="row ">
+                                        <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <strong>@Model.ErrorDescription</strong>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error)
+                                {
+                                    <div class="row ">
+                                        <div class="col-lg-12">
+                                            <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <strong>@Model.ErrorDescription</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="row" id="rowFirstStep">
+                                    <div class="col-lg-12">
+                                        <div class="ibox float-e-margins">
+                                            <div class="ibox-content">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-md-offset-3 small">
+                                                        <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25); text-align:center; margin-bottom:8px;">
+                                                            <h5>@L("SignUpMessageTitle")</h5>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">@L("EmailAddress"):</label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon "><i class="fa fa-envelope"></i></span>@Html.TextBoxFor(model => model.AdminEmailAddress, new { @class = "form-control input-sm", @placeholder = "ej. alguien@ejemplo.com", @type = "email", @required = "required", @maxlength = @TicoPay.Users.User.MaxEmailAddressLength })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">@L("Name"):</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(model => model.AdminName, new { @class = "form-control input-sm", @placeholder = L("Name"), @required = "required", @maxlength = @TicoPay.Users.User.MaxNameLength })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">@L("Surname"):</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(model => model.AdminSurname, new { @class = "form-control input-sm", @placeholder = L("Surname"), @required = "required", @maxlength = @TicoPay.Users.User.MaxSurnameLength })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">@L("UserName"):</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(model => model.AdminUserName, new { @class = "form-control input-sm", @placeholder = L("UserName"), @required = "required", @maxlength = @TicoPay.Users.User.MaxUserNameLength, @pattern = @"^[a-z]\w{1,32}" })
+                                                            </div>
+                                                            <a href="#" data-toggle="popover" data-trigger="hover" data-content="Nombre de usuario que lo identificará en Ticopay. Debe empezar por una letra, seguido de letras o dígitos, no se permite espacios en blanco ni letras en mayúsculas."><span class="glyphicon glyphicon-question-sign"></span></a>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">@L("Password"):</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(model => model.AdminPassword, new { @id = "AdminPasswordInput", @class = "form-control input-sm", @placeholder = L("Password"), @type = "password", @required = "required", @maxlength = @TicoPay.Users.User.MaxPasswordLength, @minlenght = 6, @pattern = @"(?=^.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$", @title = "Debe ingresar al menos 8 caracteres, incluyendo número, letra mayúscula y letra minúscula" })
+                                                            </div>
+                                                            <a href="#" data-toggle="popover" data-trigger="hover" data-content="Especifique la contraseña para ingresar a su cuenta de Ticopay"><span class="glyphicon glyphicon-question-sign"></span></a>
+                                                        </div>
+                                                        <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25); margin-bottom:8px;">
+                                                            <h5>Datos Fiscales</h5>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Nombre:</label>
+                                                            <div class="col-sm-8">@Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm", @placeholder = "ej. TicoPay", @type = "text", @required = "required", @maxlength = "128" })</div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Tipo:</label>
+                                                            <div class="col-sm-8">
+                                                                @{
+                                                                    if (Model.EditionDisplayName == TicoPay.Editions.EditionManager.ProfesionalJrEditionDisplayName || Model.EditionDisplayName == TicoPay.Editions.EditionManager.ProfesionalJrAnualEditionDisplayName || Model.EditionDisplayName == TicoPay.Editions.EditionManager.ProfesionalEditionDisplayName || Model.EditionDisplayName == TicoPay.Editions.EditionManager.ProfesionalAnnualEditionDisplayName)
+                                                                    {
+                                                                        @Html.DropDownListFor(model => model.IdentificationType, Model.IdentificationTypes.Where(i => i.Text != "Cédula Jurídica"), "Seleccione un Tipo", new { @id = "typeidentificacion_DD", @class = "form-control", @required = "required" })
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.DropDownListFor(model => model.IdentificationType, Model.IdentificationTypes, "Seleccione un Tipo", new { @id = "typeidentificacion_DD", @class = "form-control", @required = "required" })
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Número:</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.TextBoxFor(model => model.IdentificationNumber, new { @class = "form-control input-sm", @placeholder = "Número de Identificación", @type = "text", @required = "required", @maxlength = "12" })
+                                                                @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Correo:</label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon "><i class="fa fa-envelope"></i></span>@Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm", @placeholder = "ej. alguien@ejemplo.com", @type = "email", @required = "required", @maxlength = "60" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-lg-offset-9">
+                                                                <button id="rowControlPag" type="submit" class="btn btn-primary">Siguiente</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3"> 
+                                                        <a title="Contactanos" href="https://wa.me/50685046881" target="_blank">
+                                                        <img src="../../images/ticopay-facturacion-electronica-whatsapp.png" alt="Contactanos" style="width:100%;height:auto"/>   
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="rowSecondStep">
+                                    <div class="col-lg-12">
+                                        <div class="ibox float-e-margins">
+                                            <div class="ibox-content">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-md-offset-3">
+                                                        <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25); text-align:center; margin-bottom:8px;">
+                                                            <h5>@L("SignUpMessageOther")</h5>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Sub-Dominio:</label>
+                                                            <div class="col-sm-4">
+                                                                @Html.TextBoxFor(model => model.TenancyName, new { @id = "tenancyName", @class = "form-control input-sm", @placeholder = "TicoPay", @required = "required", @type = "text", @maxlength = "64", @pattern = "^[a-zA-Z][a-zA-Z0-9_-]{1,}$" })
+                                                            </div>
+                                                            <div class="col-sm-4" style="margin-left:-25px; margin-top:4px;">
+                                                                @((Request.Url.Authority.AllIndexesOf(".").Count > 1) ? Request.Url.Authority.Substring(Request.Url.Authority.IndexOf(".")) : "." + Request.Url.Authority )
+                                                            </div>
+                                                            <a href="#" data-toggle="popover" data-trigger="hover" data-content="El sub-dominio es un identificador en la dirección URL para ingresar a su cuenta de Ticopay. Debe tener una longitud minima de dos caracteres, debe empezar con letras, se pemite usar numeros y el caracter especial '_'. Ejemplo: Si ingresa 'pedro' su URL sera: 'pedro.ticopays.com'"><span class="glyphicon glyphicon-question-sign"></span></a>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Nombre Comercial:</label>
+                                                            <div class="col-sm-7">
+                                                                @Html.TextBoxFor(model => model.ComercialName, new { @id = "comercialName", @class = "form-control input-sm", @placeholder = "ej. TicoPay", @required = "required", @type = "text", @maxlength = "80" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Código Moneda:</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.EnumDropDownListFor(model => model.CodigoMoneda, "Seleccione un Tipo", new { @id = "moneda_DD", @class = "form-control", @required = "required" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Teléfono:</label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon "><i class="fa fa-phone"></i></span>@Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control input-sm", @placeholder = "ej. 123-45678900", type = "text", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 123-45678900" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Vendedor o Distribuidor:</label>
+                                                            <div class="col-sm-7">
+                                                                @{
+                                                                    SelectList seller = new SelectList(Model.Sellers.OrderBy(s => s.Id), "Id", "Name");
+                                                                    @Html.DropDownListFor(model => model.SellerCode, seller, "Seleccione un vendedor o distribuidor", new { @id = "Seller", @class = "form-control" })
+                                                                }
+                                                            </div>
+                                                            <a href="#" data-toggle="popover" data-trigger="hover" data-content="Seleccione el Nombre de su Vendedor/Distribuidor, sino posee seleccione la opción 'Ninguno'"><span class="glyphicon glyphicon-question-sign"></span></a>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-offset-1" style="font-size:medium;">
+                                                                <p><input type="checkbox" onchange="document.getElementById('submit').disabled = !this.checked;" /> Acepto los <a id="termsAndConditions">términos y condiciones de uso de TicoPay.</a></p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <!--<div class="col-lg-offset-9">-->
+                                                            <div class="pull-right">
+                                                                <button id="rowControlBack" type="button" class="btn btn-primary">Atrás</button>
+                                                                <a class="btn btn-default" href="@Url.Action("LandingPage", "Home")">Cancelar</a>
+                                                                <button id="submit" type="submit" class="btn btn-primary" disabled>Guardar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            @*<div class="row ">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+                        </fieldset>
+                            <div class="row small" id="rowTerminos">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-content">
+                                            @*<div class="row">
+                                                <div class="col-lg-offset-4" style="font-size:medium;">
+                                                    <p><input type="checkbox" onchange="document.getElementById('submit').disabled = !this.checked;" /> Acepto los <a id="termsAndConditions">términos y condiciones de uso de TicoPay.</a></p>
+                                                </div>
+                                            </div>*@
+                                            @*<div class="col-lg-offset-5">
+                                                <a class="btn btn-default" href="@Url.Action("LandingPage", "Home")">Cancelar</a>
+                                                <button id="submit" type="submit" class="btn btn-primary" disabled>Guardar</button>
+                                            </div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#termsAndConditions").on("click", function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("TermsAndConditions", "Home")',
+                success: function (data) {
+                    $('#termsAndConditionsContent').html(data);
+                    $("#termsAndConditionsModal").modal("show");
+                },
+                fail: function () {
+                    alert("Error leyendo los términos y condiciones.");
+                }
+            })
+        });
+
+        var rowControlPag = $("#rowControlPag");
+        var rowControlBack = $("#rowControlBack");
+
+        var tenancyName = $("#tenancyName");
+        var comercialName = $("#comercialName");
+
+
+        rowControlPag.on("click", function (e) {
+            if (tenancyName.val().length == 0) {
+                tenancyName.val("xyz");
+            }
+            if (comercialName.val().length == 0) {
+                comercialName.val(" ");
+            }
+            $("form").submit();
+        })
+
+        var stepHidden = $("#stepRegisterHidden");
+
+        rowControlBack.on("click", function (e) {
+            //stepHidden.val(0);
+            //$("form").submit();
+            window.history.back();
+        });
+
+        $("#submit").on("click", function (e) {
+            stepHidden.val(2);
+            $("form").submit();
+        });
+
+        $("#form").submit(function (event) {
+            var dobleClic = $("#submit").attr('disabled');
+            if (dobleClic == undefined && $("#stepRegisterHidden").val() == 2) {
+            $("#submit").attr('disabled', 'disabled');
+            var button = form.ownerDocument.createElement('input');
+            button.style.display = 'none';
+            button.type = 'submit';
+            form.appendChild(button).click();
+            form.removeChild(button);
+            event.preventDefault();
+            }
+        });
+
+        i18next.init({
+            lng: 'es',
+            resources: {
+                es: {
+                    translation: {
+                        "wordLength": "Tu contraseña es demasiado corta",
+                        "wordNotEmail": "No uses tu email como tu contraseña",
+                        "wordSimilarToUsername": "Tu contraseña no puede contener tu nombre de usuario",
+                        "wordTwoCharacterClasses": "Mezcla diferentes clases de caracteres",
+                        "wordRepetitions": "Demasiadas repeticiones",
+                        "wordSequences": "Tu contraseña contiene secuencias",
+                        "errorList": "Errores:",
+                        "veryWeak": "Muy Débil",
+                        "weak": "Débil",
+                        "normal": "Normal",
+                        "medium": "Media",
+                        "strong": "Fuerte",
+                        "veryStrong": "Muy Fuerte",
+
+                        "start": "Comience a escribir la contraseña",
+                        "label": "Contraseña",
+                        "pageTitle": "Bootstrap 3 Password Strength Meter - Ejemplo de Traducciones",
+                        "goBack": "Atrás"
+                    }
+                }
+            }
+        }, function () {
+            // Initialized and ready to go
+
+            var options = {};
+            options.ui = {
+                showVerdictsInsideProgressBar: true
+            };
+            options.rules = {
+                activated: {
+                    wordNotEmail: true,
+                    wordMinLength: true,
+                    wordMaxLength: false,
+                    wordInvalidChar: true,
+                    wordSimilarToUsername: false,
+                    wordSequences: true,
+                    wordTwoCharacterClasses: false,
+                    wordRepetitions: false,
+                    wordLowercase: true,
+                    wordUppercase: false,
+                    wordOneNumber: true,
+                    wordThreeNumbers: false,
+                    wordOneSpecialChar: false,
+                    wordTwoSpecialChar: false,
+                    wordUpperLowerCombo: false,
+                    wordLetterNumberCombo: false,
+                    wordLetterNumberCharCombo: false
+                }
+            };
+            options.common = {
+                minChar: 6
+            };
+            $('#AdminPasswordInput').pwstrength(options);
+        });
+
+        var edition = $("#EditionName").val();
+        if (edition == "Free") {
+            $("#FormaPago").css("display", "none");
+        }
+
+        var rowTerminos = $("#rowTerminos");
+        var rowFirstStep = $("#rowFirstStep");
+        var rowSecondStep = $("#rowSecondStep");
+
+        if (stepHidden.val() == 1) {
+            rowTerminos.hide();
+            rowFirstStep.show();
+            rowSecondStep.hide();            
+            rowControlPag.show();
+            rowControlBack.hide();
+        } else if (stepHidden.val() == 2) {
+            rowTerminos.show();
+            rowFirstStep.hide();
+            rowSecondStep.show();
+            document.getElementById("Seller").required = true;
+            rowControlPag.hide();
+            rowControlBack.show();
+            if (tenancyName.val() == "xyz") {
+                tenancyName.val("");
+            }
+            if (comercialName.val() == " ") {
+                comercialName.val("");
+            }
+        }
+
+        var mondeaDD = $("#moneda_DD");
+        mondeaDD.val(36);
+
+    });
+
+
+    $(document).on('change', '[data-cascade-combo]', function (event) {
+        var id = $(this).attr('data-cascade-combo');
+        var url = $(this).attr('data-cascade-combo-source');
+        var paramName = $(this).attr('data-cascade-combo-param-name');
+        var data = {};
+        data[paramName] = id;
+
+        $.ajax({
+            url: url,
+            data: {
+                id: $(this).val()
+            },
+            success: function (data) {
+                $(id).html('');
+                $.each(data.result, function (index, type) {
+                    var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                    $(id).append(content);
+                });
+            }
+        });
+    });
+</script>

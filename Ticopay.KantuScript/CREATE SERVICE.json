@@ -1,0 +1,125 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Servicios",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=contentCreateNew",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=nameText",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=nameText",
+      "Value": "SERVICIO DE BASES DE DATOS NUEVO"
+    },
+    {
+      "Command": "type",
+      "Target": "id=priceText",
+      "Value": "22000"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=measurement_DD",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=measurement_DD",
+      "Value": "label=Servicios Profesionales"
+    },
+    {
+      "Command": "click",
+      "Target": "css=#anyModalBody #Taxes_DD.form-control",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "css=#anyModalBody #Taxes_DD.form-control",
+      "Value": "label=exento"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=Taxes_DD",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=Recurrent_CHK",
+      "Value": "true"
+    },
+    {
+      "Command": "click",
+      "Target": "id=Recurrent_CHK",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "name=cron-period",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "name=cron-period",
+      "Value": "label=mes"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-primary",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#form > div.modal-footer > button.btn.btn-default",
+      "Value": ""
+    }
+  ]
+}

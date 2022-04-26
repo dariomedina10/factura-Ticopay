@@ -1,0 +1,227 @@
+<div class="container text-center">
+    <app-loader></app-loader>
+</div>
+<div class="loader-screen" *ngIf="_loading"></div>
+<div class="container-fluid" *ngIf='_invoice && !_loading' class="form-horizontal" role="form">
+  <div class="wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12 text-center" *ngIf='_invoice.typeDocument == tipoDocumento.Invoice'>
+      <h4>Detalle de la Factura Nº {{_invoice.consecutiveNumber}}</h4>
+    </div>
+    <div class="col-lg-12 text-center" *ngIf='_invoice.typeDocument == tipoDocumento.Ticket'>
+        <h4>Detalle del Tickete Nº {{_invoice.consecutiveNumber}}</h4>
+      </div>
+  </div>
+  <div class="panel-body">
+    <!-- Inicio Lista de Servicios Facturados -->
+    <div class="form-group">
+      <div class="table-responsive" style="padding: 1px 15px;">
+        <table datatable [dtOptions]='dtOptions' class="table table-striped table-hover" *ngIf='_invoice.invoiceLines && _invoice.invoiceLines.length'>
+          <!-- Inicio table Headers -->
+          <thead>
+            <tr>
+              <th>Servicio</th>
+              <th>Cantidad</th>
+              <th>Precio Individual</th>
+              <th>% Descuento</th>
+              <th>Impuesto Total</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <!-- Fin table Headers -->
+          <!-- Inicio table Rows -->
+          <tbody>
+            <tr *ngFor='let invoiceLines of _invoice.invoiceLines'>
+              <td>{{invoiceLines.title}}</td>
+              <td>{{invoiceLines.quantity}}</td>
+              <td>{{invoiceLines.pricePerUnit | currency:_invoice.simboloMoneda:'code':'1.2-2'}}</td>
+              <td>{{invoiceLines.discountPercentage | number :'1.2-2'}}</td>
+              <td>{{invoiceLines.taxAmount | currency:_invoice.simboloMoneda:'code':'1.2-2'}}</td>
+              <td>{{invoiceLines.total | currency: _invoice.simboloMoneda:'code':'1.2-2'}}</td>
+            </tr>
+          </tbody>
+          <!-- Fin table Rows -->
+        </table>
+      </div>
+      <!-- Fin Lista de Servicios Facturados -->
+    </div>
+    <!-- Inicio Totalización -->
+    <div class="form-group" *ngIf="!_descuentoGlobal">
+      <pre style="line-height: 1.2em; font-size: 1em; white-space:pre;" class="text-right col-xs-5 col-md-5">
+Sub Total :
+Descuento :
+Impuesto  :
+Total     :
+          </pre>
+      <pre style="line-height: 1.2em; font-size: 1em; white-space:pre;" class="text-right col-xs-7 col-md-7">
+{{(_invoice.total - _invoice.totalTax) | currency:_invoice.simboloMoneda:'code':'1.2-2'}}
+{{_invoice.discountAmount | currency:_invoice.simboloMoneda:'code':'1.2-2'}}
+{{_invoice.totalTax | currency:_invoice.simboloMoneda:'code':'1.2-2'}}
+{{_invoice.total | currency:_invoice.simboloMoneda:'code':'1.2-2'}}
+          </pre>
+    </div>
+    <!-- fin Totalización -->
+    <div class="form-group" *ngIf='_invoice.clientEmail'>
+      <div class="text-center">
+        <h4>Enviada al correo : {{_invoice.clientEmail}}</h4>
+      </div>
+    </div>
+    <div *ngIf="_facturaPendiente">
+      <app-loader></app-loader>
+      <form autocomplete="off" novalidate #payInvoiceForm="ngForm" (ngSubmit)="payInvoice(payInvoiceForm)" [hidden]="_procesando">
+        <!-- Inicio Selección de tipos de pago -->
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-center">
+            <label for="paymentType">Seleccione las modalidades de pago :</label>
+          </div>
+          <div class="col-xs-12 col-md-12 text-center">
+            <div class="checkbox">
+              <label class="checkbox-inline">
+                <input #PaymentCash name="PaymentCash" [(ngModel)]='_invoicePaymentCash' type="checkbox" (change)="invoicePaymentCashChange()">Efectivo</label>
+              <label class="checkbox-inline">
+                <input #PaymentCreditCard name="PaymentCreditCard" type="checkbox" [(ngModel)]='_invoicePaymentCreditCard' (change)="invoicePaymentCreditCardChange()">Tarjeta de Crédito</label>
+              <label class="checkbox-inline">
+                <input #PaymentCheck name="PaymentCheck" type="checkbox" [(ngModel)]='_invoicePaymentCheck' (change)="invoicePaymentCheckChange()">Cheque</label>
+              <label class="checkbox-inline">
+                <input #PaymentDeposit name="PaymentDeposit" type="checkbox" [(ngModel)]='_invoicePaymentDeposit' (change)="invoicePaymentDepositChange()">Deposito / Transferencia</label>
+            </div>
+          </div>
+        </div>
+        <!-- Fin Selección de tipos de pago -->
+        <!-- Inicio Detalles del pago -->
+        <!-- Inicio pago efectivo -->
+        <div *ngIf="_invoicePaymentCash">
+          <div class="form-group">
+            <div class="col-xs-12 col-md-12 text-center">
+              <label class="control-label">Pago en Efectivo :</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 col-md-6 text-right">
+              <label class="control-label" for="invoicePaymentCash">Monto </label>
+            </div>
+            <div class="col-xs-6 col-md-6 text-left">
+              <input required #invoicePaymentCash="ngModel" name="invoicePaymentCash" id="invoicePaymentCash" [(ngModel)]='_invoiceAmountCash'
+                type="number" placeholder="ej. 125,00" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <!-- Fin pago efectivo -->
+        <!-- Inicio pago Tarjeta -->
+        <div *ngIf="_invoicePaymentCreditCard">
+          <div class="form-group">
+            <div class="col-xs-12 col-md-12 text-center">
+              <label class="control-label">Pago en Tarjeta :</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 col-md-6 text-right">
+              <label class="control-label" for="invoicePaymentCreditCard">Monto </label>
+            </div>
+            <div class="col-xs-6 col-md-6 text-left">
+              <input required #invoicePaymentCreditCard="ngModel" name="invoicePaymentCreditCard" id="invoicePaymentCreditCard" [(ngModel)]='_invoiceamountCreditCard'
+                type="number" placeholder="ej. 125,00" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 col-md-6 text-right">
+              <label class="control-label" for="invoiceTransNumberCreditCard">Nro. de Transacción </label>
+            </div>
+            <div class="col-xs-6 col-md-6 text-left">
+              <input required #invoiceTransNumberCreditCard="ngModel" name="invoiceTransNumberCreditCard" id="invoiceTransNumberCreditCard"
+                [(ngModel)]='_invoiceTransNumberCreditCard' type="text" placeholder="#" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <!-- Fin pago Tarjeta -->
+        <!-- Inicio pago Cheque -->
+        <div *ngIf="_invoicePaymentCheck">
+          <div class="form-group">
+            <div class="col-xs-12 col-md-12 text-center">
+              <label class="control-label">Pago en Cheque :</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 col-md-6 text-right">
+              <label class="control-label" for="invoicePaymentCheck">Monto </label>
+            </div>
+            <div class="col-xs-6 col-md-6 text-left">
+              <input required #invoicePaymentCheck="ngModel" name="invoicePaymentCheck" id="invoicePaymentCheck" [(ngModel)]='_invoiceAmountCheck'
+                type="number" placeholder="ej. 125,00" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 col-md-6 text-right">
+              <label class="control-label" for="invoiceTransNumberCheck">Nro. de Cheque </label>
+            </div>
+            <div class="col-xs-6 col-md-6 text-left">
+              <input required #invoiceTransNumberCheck="ngModel" name="invoiceTransNumberCheck" id="invoiceTransNumberCheck" [(ngModel)]='_invoiceTransNumberCheck'
+                type="text" placeholder="#" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <!-- Fin pago Cheque -->
+        <!-- Inicio pago Deposito -->
+        <div *ngIf="_invoicePaymentDeposit">
+
+          <div class="form-group">
+            <div class="col-xs-12 col-md-12 text-center">
+              <label class="control-label">Pago en Deposito / Transferencia :</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 col-md-6 text-right">
+              <label class="control-label" for="invoicePaymentDeposit">Monto </label>
+            </div>
+            <div class="col-xs-6 col-md-6 text-left">
+              <input required #invoicePaymentDeposit="ngModel" name="invoicePaymentDeposit" id="invoicePaymentDeposit" [(ngModel)]='_invoiceAmountDeposit'
+                type="number" placeholder="ej. 125,00" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 col-md-6 text-right">
+              <label class="control-label" for="invoiceTransNumberDeposit">Nro. de Deposito / Transferencia </label>
+            </div>
+            <div class="col-xs-6 col-md-6 text-left">
+              <input required #invoiceTransNumberDeposit="ngModel" name="invoiceTransNumberDeposit" id="invoiceTransNumberDeposit" [(ngModel)]='_invoiceTransNumberDeposit'
+                type="text" placeholder="#" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <!-- Fin pago Deposito -->
+        <!-- Fin Detalles del pago -->
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-right">
+            <button type="submit" title="Pagar" class="btn btn-primary btn-responsive" (click)="payInvoice()">Pagar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 col-md-12 text-center" *ngIf="_dataImpresion != null">          
+        <a [href]="_ticketFormat" class="btn btn-primary btn-responsive">Imprimir</a>
+      </div>   
+    </div>
+    <div class="form-group">
+      <!-- style="padding: 10px 1px;" -->
+      <div class="col-xs-4 col-md-4 text-center" *ngIf="_invoice.clientEmail">
+        <button type="button" title="Reenviar" class="btn btn-primary btn-responsive" (click)="resendInvoice()">
+          <span class="glyphicon glyphicon-envelope"></span> Reenviar
+        </button>
+      </div>
+      <div class="col-xs-4 col-md-4 text-center">
+        <button type="button" title="DescargarPdf" class="btn btn-primary btn-responsive" (click)="downloadPdf()">
+          <span class="glyphicon glyphicon-file"></span> Descargar
+        </button>
+      </div>      
+      <div class="col-xs-4 col-md-4 text-center">
+        <button type="button" title="Regresar" class="btn btn-primary btn-responsive" type="button" (click)="returnToIndex()">
+          <span class="glyphicon glyphicon-arrow-left"></span> Regresar</button>
+      </div>
+    </div>
+    <!--
+    <div class="input-group" style="padding: 10px 1px;">
+      <button title="Imprimir" class="btn" (click)="printInvoice()">Imprimir</button>
+    </div>
+    -->
+  </div>
+</div>

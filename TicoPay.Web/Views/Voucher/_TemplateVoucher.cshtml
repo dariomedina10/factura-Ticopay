@@ -1,0 +1,66 @@
+﻿@model TicoPay.Vouchers.Dto.VoucherDto
+    @{ 
+        string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+        bool showStatus = ViewBag.showStatus != null ? ViewBag.showStatus : false;
+    }
+<div class="wrapper wrapper-content animated fadeInRight gray-bg">
+    <div class="ibox-content p-xl">
+
+        <h3>Datos @Model.Type</h3>
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>De:</h5>
+                <address>
+                    <strong>@Model.NameSender</strong><br>
+                    <span><strong>Nº Identificación:</strong>@Model.IdentificationSender</span><br>
+                    @Model.Email
+                </address>
+
+                <span>Para:</span>
+                <address>
+                    <strong>@Model.NameReceiver</strong><br />
+                    <span><strong>Nº Identificación:</strong>@Model.IdentificationReceiver</span><br>
+                </address>
+
+            </div>
+
+            <div class="col-sm-6 text-right">
+                <h4>Nº Documento.</h4>
+                <h4 class="text-navy">@Model.ConsecutiveNumberInvoice</h4>
+                <p>
+                    <span><strong>Fecha Factura:</strong>@Model.DateInvoice.ToString("dd/MM/yyyy")</span><br>
+                </p>
+            </div>
+        </div>
+
+        <table class="table invoice-total">
+            <tbody>
+                <tr>
+                    <td><strong>Total Documento:</strong></td>      
+                    <td style="width:60% !important">@Model.Coin @string.Format("{0:0,0.00000}", Model.Totalinvoice) </td>
+                </tr>
+                <tr>
+                    <td><strong>Total Impuesto:</strong></td>
+                    <td style="width:60% !important">@Model.Coin @string.Format("{0:0,0.00000}", Model.TotalTax) </td>
+                </tr>
+            </tbody>
+        </table>
+        @if (showStatus)
+        {
+            <div class="m-t">
+                <div class="row">
+                    <div class="col-sm-6 text-right"><strong>Estado de hacienda:</strong></div>
+                    <div class="col-sm-4 text-left">
+                        @TicoPay.Application.Helpers.EnumHelper.GetDescription(Model.StatusTribunet)
+                    </div>
+                </div>
+            </div>
+        }
+        
+        @*<div class="well m-t">
+                <strong>Comments</strong>
+                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
+            </div>*@
+
+    </div>
+</div>

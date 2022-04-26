@@ -1,0 +1,70 @@
+﻿@using Microsoft.AspNet.Identity
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top gray-bg" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+        </div>
+        @Html.Partial("_LoginPartial")
+        <br/>
+        <div class="row col-lg-10" style="margin-top: -5px;z-index: -1000;">
+            <div class="col-lg-7 col-md-4 col-xs-2" style="margin-top: 5px;">
+            <p id="confirmUserTest" style="text-align:center;" class="hidden" data-toggle="tooltip" data-placement="bottom" title="Para disfrutar del servicio de facturación debe confirmar su correo electrónico"><span class="hidden-sm hidden-xs hidden-md">Confirme el correo electrónico de su cuenta en su buzón de correo</span><span class="hidden-lg">Confirme correo electrónico</span></p>
+            </div>
+            <div class="col-lg-2 col-md-1 col-xs-1" style="text-align:left;">
+                <button id="reSendConfirmationMail" type="button" class="btn btn-default btn-sm hidden" data-placement="bottom" data-toggle="tooltip" title="Haga clic para reenviar correo de confirmación" data-user-id="@User.Identity.GetUserId()">
+                    <span class="glyphicon glyphicon-repeat"></span> Reenviar
+                </button>
+            </div>
+            <div class="col-lg-1 col-md-1 col-xs-1">
+                <button id="updateAddress" type="button" class="btn btn-warning btn-sm hidden" data-toggle="tooltip" data-placement="bottom" title="Haga clic para completar su dirección fiscal y disfrutar del servicio de facturación">
+                <span class="hidden-sm hidden-xs hidden-md">Complete su dirección fiscal</span><span class="hidden-lg">Complete dirección</span>
+                </button>
+            </div>
+        </div>
+</nav>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var urlAccount = '@Url.Action("IsEmailConfirmedAsync", "Account")';
+        $.get(urlAccount, function (data, status) {
+            if (!data.result.isEmailConfirmed) {
+                $("#confirmUserTest").removeClass('hidden');
+                $("#reSendConfirmationMail").removeClass('hidden');
+            }
+        });
+
+        var urlTenants = '@Url.Action("IsAddressCompleted", "Tenants")';
+        $.get(urlTenants, function (data, status) {
+            if (!data.result.isAddressCompleted) {
+                $("#updateAddress").removeClass('hidden');
+            }
+        });
+
+        var urlTenantsUpdate = '@Url.Action("Index", "Tenants")';
+        $("#updateAddress").on('click', function () {
+            window.open(urlTenantsUpdate, "_self");
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();   
+
+        $('#reSendConfirmationMail').on('click', function (e) { 
+            abp.ui.setBusy();
+            $.ajax({
+                url: '/SignUp/ReSendConfirmEmail?userId=' + this.dataset.userId,
+                success: function (data) {
+                    abp.ui.clearBusy();
+                    if (data.result.value == "1") {
+                        abp.notify.success("Se ha re enviado el enlace de confirmación a su correo electrónico.", "");
+                    }
+                    else if (data.result.value == "-1") {
+                        abp.notify.error(data.result.error, "");
+                    }
+                }, error: function (err) {
+                    abp.notify.error(data.result.error, "");
+                    abp.ui.clearBusy();
+                }
+            });
+        });
+    });
+</script>

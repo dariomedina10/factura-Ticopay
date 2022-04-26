@@ -1,0 +1,51 @@
+﻿@using MvcPaging
+@model TicoPay.ReportsSettings.Dto.ReportSettingsListDto
+
+@if (Model != null && Model.ReportsSettings != null && Model.ReportsSettings.Count > 0)
+{
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    <div class="wrapper-conten">
+        <div class="table-responsive">
+            <table id="TableListEntity" class="table" style="font-size: small">
+                <thead class="text-center">
+                    <tr>
+                        <th style="text-align: center">
+                            Nombre del Reporte
+                        </th>
+                        <th style="text-align: center">
+                            Título del Reporte
+                        </th>
+                        <th style="text-align: center">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ReportsSettings)
+                    {
+                        <tr>
+                            <td style="text-align: center">
+                                @item.ReportName
+                            </td>
+                            <td style="text-align: center">
+                                @item.ReportTitle
+                            </td>
+
+                            <td style="text-align: center">
+                                <a class="btn btn-xs btn-default" onclick="editFunc($(this))" data-id='@item.Id' title="Editar el Configuración"><span class="glyphicon glyphicon-edit"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+}
+else
+{
+    <div class="alert alert-info alert-dismissible" role="alert" style="text-align: center;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>¡No se han encontrado ninguna personalización de formatos!</strong>
+    </div>
+
+}

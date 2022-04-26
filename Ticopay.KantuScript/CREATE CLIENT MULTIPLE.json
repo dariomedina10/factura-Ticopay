@@ -1,0 +1,120 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Clientes",
+      "Value": ""
+    },
+    {
+      "Command": "store",
+      "Target": "60",
+      "Value": "loopcounter"
+    },
+    {
+      "Command": "store",
+      "Target": "140000068",
+      "Value": "labase"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "while",
+      "Target": "(${loopcounter} <= 100)",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=contentCreateNew",
+      "Value": ""
+    },
+    {
+      "Command": "storeEval",
+      "Target": "${labase}+${loopcounter}",
+      "Value": "elid"
+    },
+    {
+      "Command": "type",
+      "Target": "id=IdIdentificacion",
+      "Value": "${elid}"
+    },
+    {
+      "Command": "type",
+      "Target": "id=Name",
+      "Value": "CLIENTE${loopcounter}"
+    },
+    {
+      "Command": "type",
+      "Target": "id=clientLastName",
+      "Value": "PEREZ${loopcounter}"
+    },
+    {
+      "Command": "type",
+      "Target": "id=NameComercial",
+      "Value": "CLIENTE${loopcounter}"
+    },
+    {
+      "Command": "type",
+      "Target": "id=Email",
+      "Value": "CLIENTE${loopcounter}@YAHOO.COM"
+    },
+    {
+      "Command": "click",
+      "Target": "id=MobilNumber",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=MobilNumber",
+      "Value": "123-12345678"
+    },
+    {
+      "Command": "click",
+      "Target": "id=MobilNumber",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=btnSave",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Cerrar",
+      "Value": ""
+    },
+    {
+      "Command": "storeEval",
+      "Target": "${loopcounter}+1",
+      "Value": "loopcounter"
+    },
+    {
+      "Command": "endWhile",
+      "Target": "",
+      "Value": ""
+    }
+  ]
+}

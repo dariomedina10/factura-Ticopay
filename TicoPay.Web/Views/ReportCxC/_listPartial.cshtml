@@ -1,0 +1,384 @@
+﻿@using TicoPay.Invoices
+@model TicoPay.ReportAccountsReceivable.Dto.ReportAccountsReceivableInputDto
+@{
+    ViewBag.Title = "Reporte de Cuentas por Cobrar";
+}
+<script>
+    $(document).ready(function () {
+        var table = $('#TableListEntity').DataTable({
+
+            drawCallback: function () {
+
+                $('[data-toggle="popover"]').popover({
+                    html: true,
+                    container: 'body',
+                    trigger: 'focus'
+                });
+
+            },
+
+
+            dom: 'Bfrtip',
+            "bAutoWidth": true,
+            "scrollX": true,
+            buttons: [{
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                customize: function (doc) {
+                    doc.pageMargins = [20, 10, 5, 10];
+                    doc.styles.tableHeader.fontSize = 7;
+                    doc.defaultStyle.fontSize = 7;
+                    var rowCount = doc.content[1].table.body.length;
+                    for (i = 1; i < rowCount; i++) {
+                        var name = doc.content[1].table.body[i][4].text;
+                        var delimiter = name.split(" ");
+                        var namef = '';
+                        $.each(delimiter, function (index, value) {
+                            if (value.length > 8) {
+                                text = value.substring(0, 8) + '...';
+                            }
+                            else {
+                                text = value;
+                            }
+                            namef += text + ' ';
+                        });
+                        doc.content[1].table.body[i][4].text = namef;
+
+                        //Tipo Pago
+                        var PaymetnMethodType = doc.content[1].table.body[i][10].text;
+                        var PaymetnMethodTypeF = '';
+                        pat = /Efectivo/
+                        if (pat.test(PaymetnMethodType)) {
+                            PaymetnMethodTypeF += 'Efectivo' + ' ';
+                        };
+                        pat = /Tarjeta/
+                        if (pat.test(PaymetnMethodType)) {
+                            PaymetnMethodTypeF += 'Tarjeta' + ' ';
+                        };
+                        pat = /Cheque/
+                        if (pat.test(PaymetnMethodType)) {
+                            PaymetnMethodTypeF += 'Cheque' + ' ';
+                        };
+                        pat = /Depósito\/\Transferencia/
+                        if (pat.test(PaymetnMethodType)) {
+                            PaymetnMethodTypeF += 'Depósito/Transferencia' + ' ';
+                        };
+                        doc.content[1].table.body[i][10].text = PaymetnMethodTypeF;
+                    };
+                }
+
+            },
+                {
+                    extend: 'excelHtml5',
+                    footer: true,
+                    exportoptions: {
+                        columns: ':visible',
+                    },
+                    customizeData: function (data) {
+                        debugger;
+                        //for (var i = 0; i < data.body.length; i++) {
+                        //    data.body[i][3] = '\u200c' + data.body[i][3];
+                        //}
+
+                        for (i = 0; i < data.body.length; i++) {
+                            //Tipo de pago
+                            var PaymetnMethodType = data.body[i][10];
+                            var PaymetnMethodTypeF = '';
+                            pat = /Efectivo/
+                            if (pat.test(PaymetnMethodType)) {
+                                PaymetnMethodTypeF += 'Efectivo' + ' ';
+                            };
+                            pat = /Tarjeta/
+                            if (pat.test(PaymetnMethodType)) {
+                                PaymetnMethodTypeF += 'Tarjeta' + ' ';
+                            };
+                            pat = /Cheque/
+                            if (pat.test(PaymetnMethodType)) {
+                                PaymetnMethodTypeF += 'Cheque' + ' ';
+                            };
+                            pat = /Depósito\/\Transferencia/
+                            if (pat.test(PaymetnMethodType)) {
+                                PaymetnMethodTypeF += 'Depósito/Transferencia' + ' ';
+                            };
+
+                            data.body[i][10] = PaymetnMethodTypeF;
+
+
+                        };
+                    }
+                },
+
+                {
+                    extend: 'copy',
+                    text: 'Copiar al portapapeles',
+                    footer: true
+                }, 'csv', 'print'],
+            language: {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                buttons: {
+                    copyTitle: 'Copiar al portapapeles',
+                    copySuccess: {
+                        _: 'Copiado %d filas al portapapeles',
+                        1: 'Copiado una fila al portapapeles'
+                    }
+                }
+            }
+        });
+    });
+</script>
+<style>
+    .ClientName {
+        white-space: nowrap;
+        min-width: 100px;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .popover-content {
+        background-color: #37743d !important;
+        border-color: #37743d !important;
+    }
+
+    .popover {
+        border-color: #37743d !important;
+        background-color: #37743d !important;
+    }
+
+        .popover.bottom > .arrow:after {
+            border-bottom-color: #37743d !important;
+        }
+</style>
+@if (Model != null && Model.InvoicesList != null && Model.InvoicesList.Any())
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+    <div class="wrapper wrapper-content white-bg text-center">
+        <table id="TableListEntity" class="table table-responsive" style="font-size: small">
+            <thead class="text-center">
+                <tr>
+                    @*<th style="text-align: center">
+            No.
+        </th>*@
+                    <th style="text-align: center">
+                        Tipo Documento
+                    </th>
+                    <th style="text-align: center">
+                        Nro Documento
+                    </th>
+                    <th style="text-align: center">
+                        Fecha
+                    </th>
+                    <th style="text-align: center">
+                        Fecha Pago
+                    </th>
+                    <th style="text-align: center">
+                        Cliente
+                    </th>
+                    <th style="text-align: center">
+                        Estado
+                    </th>
+                    <th style="text-align: center">
+                        Moneda
+                    </th>
+                    <th style="text-align: center">
+                        Monto
+                    </th>
+                    <th style="text-align: center">
+                        Débitos
+                    </th>
+                    <th style="text-align: center">
+                        Créditos
+                    </th>
+                    <th style="text-align: center">
+                        Forma de Pago
+                    </th>
+                    <th style="text-align: center">
+                        Tasa USD
+                    </th>
+                    <th style="text-align: center">
+                        Conversión                        
+                    </th>
+                    <th style="text-align: center">
+                        Total
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    string content = "";
+                    string title = "";
+                    string color = " ";
+                }
+                @foreach (var item in Model.InvoicesList.OrderByDescending(a => a.Number).OrderBy(a => a.Status == Status.Parked))
+                {
+                    <tr>
+                        <td style="text-align: center">
+                            @TicoPay.Application.Helpers.EnumHelper.GetDescription(item.TypeDocument)
+                        </td>
+                        <td style="text-align: center">
+                            @item.ConsecutiveNumber
+                        </td>
+                        <td style="text-align: center">
+                            @item.DueDate.ToString("dd/MM/yyyy")
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.InvoicePaymentTypes.Count > 0)
+                            {
+                                <p>@item.InvoicePaymentTypes.FirstOrDefault().CreationTime.ToString("dd/MM/yyyy")</p>
+                            }
+                            else
+                            {
+                                <p>N/D</p>
+                            }
+                        </td>
+                        <td class="ClientName" style="text-align: center">
+                            @{
+                                string clientName = string.Empty;
+                                var clientItem = item.ClientName;// Model.ClientList.FirstOrDefault(a => a.Id == item.ClientId);
+                                                                 //if (clientItem != null)
+                                                                 //{
+                                                                 //    clientName = clientItem.Name;
+                                                                 //}
+                            }
+                            @Html.Raw(clientItem)
+                        </td>
+                        <td style="text-align: center">
+                            @if (@item.Status == Status.Parked)
+                            {
+                                <span class="label label-success">Pendiente</span>
+                            }
+                            else if (@item.Status == Status.Completed)
+                            {
+                                <span class="label label-primary">Pagada</span>
+                            }
+                            else if (@item.Status == Status.Voided)
+                            {
+                                <span class="label label-danger">Anulada</span>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @item.CodigoMoneda
+                        </td>
+                        <td style="text-align: center">
+                            @{
+                                decimal monto = @item.InvoiceLines.Where(a => a.InvoiceId == item.Id).Sum(a => a.LineTotal);
+                            }
+                            @Html.FormatValue(monto, currencyFmt)
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.Notes != null)
+                            {
+                                <p>
+                                    @Html.FormatValue(@item.Notes.Where(a => a.InvoiceId == item.Id && a.NoteType == NoteType.Debito).Sum(a => a.Total), currencyFmt)
+                                </p>
+                            }
+                            else
+                            {
+                                <p>0.00</p>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.Notes != null)
+                            {
+                                <p>
+                                    @Html.FormatValue(@item.Notes.Where(a => a.InvoiceId == item.Id && a.NoteType == NoteType.Credito).Sum(a => a.Total), currencyFmt)
+                                </p>
+                            }
+                            else
+                            {
+                                <p>0.00</p>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.InvoicePaymentTypes.Count > 0)
+                            {
+                                foreach (var payment in item.InvoicePaymentTypes)
+                                {
+                                    title = TicoPay.Application.Helpers.EnumHelper.GetDescription(payment.PaymetnMethodType);
+                                    content += "<div>" + TicoPay.Application.Helpers.EnumHelper.GetDescription(payment.PaymetnMethodType) + "&nbsp;" + Html.FormatValue(payment.Amount, currencyFmt) + "</br></div>";
+                                }
+                                if (title == "Efectivo") { color = "label label-primary"; }
+                                if (title == "Tarjeta") { color = "label label-warning"; }
+                                if (title == "Cheque") { color = "label label-success"; }
+                                if (title == "Depósito") { color = "label label-info"; }
+                                if (title == "Depósito/Transferencia") { color = "label label-info"; }
+                                <span class="@color">
+                                    @title
+                                    <a style="color: #ffffff;" href="#" onclick="return false;" data-toggle="popover" data-placement="bottom" data-content=@content><span class="glyphicon glyphicon-plus"></span></a>
+                                </span>
+                                content = "";
+                            }
+                        </td>
+                        @{
+
+                            decimal total = @item.InvoiceLines.Where(a => a.InvoiceId == item.Id).Sum(a => a.LineTotal) + @item.Notes.Where(a => a.InvoiceId == item.Id && a.NoteType == NoteType.Debito).Sum(a => a.Total) - @item.Notes.Where(a => a.InvoiceId == item.Id && a.NoteType == NoteType.Credito).Sum(a => a.Total);
+
+                        }
+                        @{
+                            decimal totalLinea = @item.InvoiceLines.Where(a => a.InvoiceId == item.Id).Sum(a => a.LineTotal) + @item.Notes.Where(a => a.InvoiceId == item.Id && a.NoteType == NoteType.Debito).Sum(a => a.Total) - @item.Notes.Where(a => a.InvoiceId == item.Id && a.NoteType == NoteType.Credito).Sum(a => a.Total);
+                            decimal montoConvert = item.TypeConversion(totalLinea, item.ChangeType, Model.MonedaTenant);
+                            bool mostrarConversion = (montoConvert != monto) ? true : false;
+                        }
+                        <td style="text-align:center">
+                            @if (mostrarConversion)
+                            {
+                                @Html.FormatValue(item.ChangeType, currencyFmt)
+                            }
+                            else
+                            {
+                                <p>1.00</p>
+                            }
+                        </td>
+                        <td style="text-align:center">
+                            @if (mostrarConversion)
+                            {
+                                @Html.FormatValue(montoConvert.ToString("N2"), currencyFmt)
+                            }
+                            else
+                            {
+                                <p>@Html.FormatValue(montoConvert, currencyFmt)</p>
+                            }
+                        </td>
+                        <td style="text-align:center">
+                            @Html.FormatValue(totalLinea, currencyFmt)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning alert-dismissible" role="alert" style="text-align: center;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>¡No se han encontrado ninguna Factura</strong>
+    </div>
+
+}

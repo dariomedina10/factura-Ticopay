@@ -1,0 +1,581 @@
+﻿@using TicoPay.Web.Helpers
+
+@model TicoPay.Invoices.Dto.NoteDto
+@{
+    ViewBag.Title = "Nueva nota";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+}
+@*<script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>*@
+
+<script src="@Url.Content("~/Scripts/bootstrap3-typeahead.min.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.numeric.js")" type="text/javascript"></script>
+<style>
+    .form-popup {
+        display: none;
+    }
+</style>
+
+@Html.IncludeVersionedJs("/Scripts/Invoice/newinvoice.js")
+
+@Html.Raw(ViewBag.WCPScript);
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("textarea[maxlength]").keyup(function () {
+
+            var limit = $(this).attr("maxlength"); // Límite del textarea
+            var value = $(this).val();             // Valor actual del textarea
+            var current = value.length;              // Número de caracteres actual
+            if (limit < current) {                   // Más del límite de caracteres?
+                // Establece el valor del textarea al límite
+                $(this).val(value.substring(0, limit));
+            }
+        });
+
+        if ('@Model.DocumentRef.IsReverseTotal'=='True') {
+            $(".editables").attr('disabled', 'disabled');
+        } else {
+            $(".editables").removeAttr('disabled');
+        }
+
+         LoadLinea(@Html.Raw(Json.Encode(ViewBag.Line)),'@Model.DocumentRef.IsReverseTotal');
+
+        if ('@Model.TipoFirma' == '@TicoPay.MultiTenancy.Tenant.FirmType.Todos')
+            $("#FirmTypes_DD").removeAttr('disabled');
+
+
+        $("#NoteReasons_DD").on('change', function (e) {
+            debugger;
+            var NoteReasons = $('#NoteReasons_DD').val();
+            if (NoteReasons == "@TicoPay.Invoices.NoteReason.Otros") {
+                $("#NoteReasons_Others").removeAttr('disabled');
+
+            } else {
+                $("#NoteReasons_Others").attr('disabled', 'disabled');
+            }
+
+        });
+
+        $('#Check_contingencia').change(function () {
+
+            if ($(this).prop('checked')) {
+
+                $("#panelContigencia").removeClass("hidden");
+            }
+            else {
+                $("#panelContigencia").addClass("hidden");
+
+            }
+            //location.reload();
+
+        })
+
+    });
+
+</script>
+@if (!ViewBag.isOpenDrawer)
+{
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-4">
+            <h2>
+                Crear Nueva Nota
+            </h2>
+        </div>
+
+        @if (Model.Drawer != null)
+        {
+            <div class="col-lg-8 text-right">
+                <h2>Sucursal: @Model.Drawer.BranchOffice.Name - Caja: @Model.Drawer.Code</h2>
+            </div>
+
+        }
+
+        <div class="col-lg-2"> <h2></h2> </div>
+
+    </div>
+    <br />
+    <div class="row ">
+
+        <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>No se encuentra ninguna Caja abierta, debe aperturar una Caja para realizar comprobantes electrónicos</strong>
+        </div>
+
+    </div>
+    <br />
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content">
+                    <div class="col-lg-offset-5">
+                        <a class="btn btn-default" href="@Url.Action("Index", "Invoice")">Cerrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    using (Html.BeginForm("CreateList", "Invoice", FormMethod.Post, new { @class = "form-horizontal ", @id = "formInvoice" }))
+    {
+        @Html.ValidationSummary(true)
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-4">
+                <h2>Crear Nueva Nota</h2>
+            </div>
+            @if (Model.Drawer != null)
+            {
+                <div class="col-lg-8 text-right">
+                    <h2>Sucursal: @Model.Drawer.BranchOffice.Name - Caja: @Model.Drawer.Code</h2>
+                </div>
+
+            }
+        </div>
+
+        <br />
+        if (Model != null)
+        {
+
+            <fieldset style="position: relative;z-index: 100;">
+                <div class="animated fadeIn">
+                    @if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok)
+                    {
+
+                        <div class="row ">
+                            <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>@Model.ErrorDescription</strong>
+                            </div>
+                        </div>
+                    }
+                    else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error || Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.InvoicesMonthlyLimitReached)
+                    {
+                        <div class="row ">
+                            <div class="col-lg-12">
+                                <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong>@Model.ErrorDescription</strong>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <input type="hidden" id="ClientId_hidden" />
+                    <div id="IndexAlerts" style="text-align: center">
+                    </div>
+                    @if (Model.ErrorCode != TicoPay.Common.ErrorCodeHelper.InvoicesMonthlyLimitReached)
+                    {
+                        <div class="wrapper wrapper-content  fadeInRight white-bg" style="z-index:100">
+
+
+                            <div class="row">
+                                <div class=" col-md-8 col-lg-8">
+                                    <div class="row">
+                                        <div class="col-md-4 col-lg-2 col-xs-12" style="padding-top:7px">
+                                            <label>
+                                                Cliente:
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 col-lg-9 col-xs-12">
+                                            <input type="hidden" id="Client_hidden" value="@Model.ClientId" />
+                                            <input type="hidden" id="sid" name="sid" value="@HttpContext.Current.Session.SessionID" />
+                                            <input type="hidden" id="IsPos_HD" value="@Model.IsPos" />
+                                            <input type="hidden" id="MaxLines" name="MaxLines" value="@ViewBag.MaxLineDetails" />
+                                            @Html.TextBoxFor(s => s.ClientName, new { @class = "form-control", @disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-4 col-lg-2 col-xs-12" style="padding-top:7px">
+                                            <label>
+                                                Tipo Nota:
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 col-lg-3 col-xs-12">
+
+                                            @*<select id="TipoNota_dropdown" class="form-control">
+                                                    <option value="0">Débito</option>
+                                                    <option value="1">Crédito</option>
+                                                </select>*@
+                                            @Html.DropDownListFor(m => m.NoteType, TicoPay.Application.Helpers.EnumHelper.GetSelectList(typeof(TicoPay.Invoices.NoteType)), new { @id = "TipoNota_dropdown", @class = "form-control editables", @disabled = "disabled" })
+
+                                        </div>
+                                        <div class="col-md-4 col-lg-1 col-xs-12" style="padding-top:7px"><label>Motivo: </label></div>
+                                        <div class="col-md-8 col-lg-5 col-xs-12">
+                                            @Html.DropDownListFor(s => s.NoteReasons, Model.NoteReasonsList, new { @id = "NoteReasons_DD", @class = "form-control editables", @disabled = "disabled" })
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-4 col-lg-2 col-xs-12" style="padding-top:7px"><label>Otros Motivos: </label></div>
+                                        <div class="col-md-8 col-lg-9 col-xs-12">
+                                            @Html.TextAreaFor(s => s.NoteReasonsOthers, new { @id = "NoteReasons_Others", @class = "form-control", @disabled = "disabled", @maxlength = "160" })
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+
+                                        @if (Model.ValidateHacienda)
+                                        {
+                                            <div class="col-md-4 col-lg-2 col-xs-12" style="padding-top:7px"><label>Tipo de Firma: </label></div>
+                                            <div class="col-md-8 col-lg-9 col-xs-12">
+                                                @Html.DropDownListFor(s => s.TipoFirma, Model.FirmTypes, new { @id = "FirmTypes_DD", @class = "form-control" })
+                                            </div>
+
+                                        }
+                                    </div>
+
+
+                                </div>
+                                <div class=" col-md-4 col-lg-4">
+                                    <h4 style="color:forestgreen">Documento Referido</h4>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-4 col-xs-12" style="padding-top:7px"><label>Tipo: </label></div>
+                                        <div class="col-md-8 col-lg-8 col-xs-12">
+                                            @*<input type="text" id="typDoc_text" value="Factura" class="form-control" disabled="disabled" />*@
+                                            @Html.TextBoxFor(s => s.DocumentRef.TypeDocument, new { @class = "form-control", @disabled = "disabled", @id = "typDoc_text" })
+                                            @Html.HiddenFor(s => s.DocumentRef.TypeDocumentCodigo, new { @id = "TypeDocumentCodigo_hd" })
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <div class="row">
+
+                                        <div class="col-md-4 col-xs-12" style="padding-top:7px"><label>Nº Documento: </label></div>
+                                        <div class="col-md-8 col-lg-8 col-xs-12">
+                                            <input type="hidden" id="InvoiceId_hidden" value="@Model.InvoiceId" />
+                                            @Html.HiddenFor(s => s.DocumentRef.Id, new { @id = "IdDocument_hidden" })
+                                            @Html.HiddenFor(s => s.NumberInvoiceRef, new { @id = "NumberInvoiceRef_text" })
+                                            @Html.TextBoxFor(s => s.DocumentRef.ConsecutiveNumber, new { @class = "form-control", @disabled = "disabled", @id = "NumberDocRef_text" })
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-4  col-xs-12" style="padding-top:7px">
+                                            <label>
+                                                Moneda:
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 col-lg-8 col-xs-12">
+                                            @Html.DropDownListFor(m => m.CodigoMoneda, Model.CoinType, new { @id = "CoinTypes_DD", @class = "form-control", @disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+
+                                        <div class="col-md-4 col-xs-12" style="padding-top:7px">
+                                            <label>
+                                                Imprimir Comprobante:
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 col-lg-8 col-xs-12">
+                                            @Html.CheckBox("Check_Impimir", (ViewBag.PrintPos != null ? (bool)ViewBag.PrintPos : false), new
+            {
+                @id = "Check_Impimir",
+                @data_toggle = "toggle",
+                @type = "checkbox",
+                @data_on = "Si",
+                @data_off = "No"
+            })
+                                        </div>
+                                    </div>
+                                    @*@if (true)// (Model.ValidateHacienda)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-4"><label>Tipo de Firma: </label></div>
+                                                <div class="col-md-8 col-lg-8 col-xs-12">
+                                                    @Html.DropDownListFor(s => s.TipoFirma, Model.FirmTypes, new { @id = "FirmTypes_DD", @class = "form-control", @disabled = "disabled" })
+                                                </div>
+                                            </div>
+                                            <br />
+                                         }*@
+                                    @*<div class="row">
+                                            <div class="col-md-4" style="padding-top:7px">
+                                                <label>
+                                                    Moneda:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8 col-lg-8 col-xs-12">
+
+                                                @Html.DropDownListFor(m => m.CodigoMoneda, Model.CoinType, new { @id = "CoinTypes_DD", @class = "form-control" })
+
+                                            </div>
+
+                                        </div>*@
+
+                                </div>
+                            </div>
+
+                            <br />
+
+
+
+                        </div>
+                        <br />
+                        <div class="wrapper wrapper-content  fadeInRight white-bg" style="z-index:80">
+                            
+                            <div class="row">
+                                <div class="col-lg-12" id="descuentoNoteGeneral" style="margin-left:4px; margin-bottom:10px">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <strong>Descuento por pronto pago </strong>
+                                            <a class="btn" title="Descuento global pronto pago" onclick="openFormDesc()" style="padding: 0px 0px;">
+                                                <i class="fa fa-cogs"></i>
+                                            </a>
+                                            <a class="btn hidden reversarDesc" title="Reversar Descuento global pronto pago" onclick="reversarDisc()" style="padding: 0px 0px;">
+                                                <i class="fa fa-undo"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="form-popup" id="popupDesc">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-1" for="porcentaje"><strong>%</strong></label>
+                                                    <div class="col-sm-2">
+                                                        <input id="porcentajeGrl" type="text" class="text-right form-control numeric" value="0.00" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" />
+                                                       @* <input id="DescuentoGrl" type="text" class="text-right form-control numeric hidden" disabled="disabled" value="0.00" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15" />*@
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <a id="btnAplyDescProntoPago" class="btn btn-primary" onclick="closeFormDesc()">Aplicar</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="table-responsive">
+                                        <table id="gridService" class="table table-bordered gridService" style="padding: 0 !important">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:33%;vertical-align:middle;">Servicio</th>
+                                                    <th style="width:10%;vertical-align:middle;">Precio</th>
+                                                    <th style="width:5%;vertical-align:middle;">Cantidad</th>
+                                                    <th style="width:12%;">% Descuento <a id="btnlimpiarDes" class="btn" style="padding-left:0px !important;padding-right:0px !important" title="Limpia la columna descuento"><i class="fa fa-trash-o"></i></a></th>
+                                                    <th style="width:10%" class="hidden">Descuento</th>
+                                                    <th style="width:10%" class="hidden">Descuento Grl</th>
+                                                    <th style="width:10%" class="hidden">Total Descuento</th>
+                                                    <th style="width:10%;vertical-align:middle;">% Impuesto</th>
+                                                    <th style="width:10%" class="hidden">Impuesto</th>
+                                                    <th style="width:10%;vertical-align:middle;">Monto</th>
+                                                    <th style="width:10%;vertical-align:middle;" class="hidden">Total</th>
+                                                    <th style="width:2%;"> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                            <tfoot class="hidden">
+                                                <tr>
+                                                    <td colspan="5" class="text-right "><strong>Sub-total:</strong>&nbsp; </td>
+                                                    <td class="hidden">
+                                                        <input id="SumDescuentoLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" />
+                                                        <input type="hidden" id="SumSubtotalneto" />
+                                                        <input type="hidden" id="SumNeto" />
+                                                    </td>
+                                                    <td class="hidden"><input id="SumDescuentoGrlLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" /></td>
+                                                    <td class="hidden">
+                                                        <input id="SumImpuestoLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" />
+                                                        <input id="SumSubTotalDescuento" type="text" class="text-right form-control" disabled="disabled" value="0.00" />
+                                                    </td>
+
+                                                    <td><input id="SumSubTotalLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" /></td>
+                                                    <td class="hidden"><input id="SumTotalLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" /></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="invoice-total">
+
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-4 col-xs-12">
+                                                @*<a id="newLine" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Nueva Línea</a>*@
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-xs-12 text-right"><strong>SubTotal:</strong></div>
+                                            <div class="col-lg-2 col-md-4 col-xs-12 border-bottom" style="padding-bottom:5px; padding-top:5px!important"><input class="text-right form-control numeric" id="subtotalNeto_text" disabled="disabled" value="0.00" /></div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-10 col-md-8 col-xs-12 text-right"><strong>Total impuesto:</strong></div>
+                                            <div class="col-lg-2 col-md-4 col-xs-12 border-bottom" style="padding-bottom:10px; padding-top:5px!important">
+                                                <input id="TotalImpuesto" type="text" class="text-right form-control numeric" value="0.00" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-10 col-md-8 col-xs-12 text-right"><strong>Total Nota:</strong></div>
+                                            <div class="col-lg-2 col-md-4 col-xs-12 border-bottom" style="padding-bottom:10px; padding-top:5px!important">
+                                                <input class="text-right form-control numeric" id="selectTotalInvoice" disabled="disabled" value="0.00" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <br />
+                        <div class="wrapper wrapper-content  fadeInRight white-bg" style="z-index:80">
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <div class="row">
+                                        <div class="col-lg-4 "><label>Aplicar contingencia:</label> </div>
+                                        <div class="col-lg-5">
+                                            @Html.CheckBoxFor(model => model.IsContingency, new
+                                            {
+                                                @id = "Check_contingencia",
+                                                @data_toggle = "toggle",
+                                                @type = "checkbox",
+                                                @data_on = "Si",
+                                                @data_off = "No"
+                                            })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7  border-left">
+                                    <div id="panelContigencia" class="hidden">
+                                        <div class="row">
+                                            <div class="col-lg-12"><label>Datos de comprobante de contingencia</label></div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+
+                                            <div class="col-md-3 col-lg-3 col-xs-12">
+                                                <label>
+                                                    Fecha: <span class="text-danger">*</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4 col-lg-4 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon "><i class="fa fa-calendar"></i></span>
+                                                    @Html.TextBoxFor(s => s.DateContingency, new { @id = "text_DateContingency", @class = "form-control", @type = "date" })
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-3 col-lg-3 col-xs-12"><label>Número Consecutivo: <span class="text-danger">*</span></label></div>
+                                            <div class="col-md-9 col-lg-9 col-xs-12">
+
+                                                @Html.TextBoxFor(s => s.ConsecutiveNumberContingency, new { @id = "text_ConsecutiveNumberContingency", @class = "form-control", @maxlength = "50" })
+
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-3 col-lg-3 col-xs-12 " style="padding-top:7px">
+
+                                                <label>Motivo: <span class="text-danger">*</span> </label>
+
+                                            </div>
+                                            <div class="col-md-9 col-lg-9 col-xs-12">
+                                                @Html.TextAreaFor(s => s.ReasonContingency, new { @id = "text_ReasonContingency", @class = "form-control", @maxlength = "180" })
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        @*<div class="wrapper wrapper-content  fadeInRight white-bg" style="z-index:80">
+                                <div class="row">
+                                    <div class="col-lg-5">
+
+                                        <div class="col-md-4"><label>Motivo: </label></div>
+                                        <div class="col-md-8 col-lg-8 col-xs-12">
+                                            @Html.DropDownListFor(s => s.NoteReasons, Model.NoteReasonsList, new { @id = "NoteReasons_DD", @class = "form-control" })
+                                        </div>
+
+                                        <br />
+                                    </div>
+                                    <div class="col-lg-5">
+
+                                        <div class="col-md-4"><label>Otros: </label></div>
+                                        <div class="col-md-8 col-lg-8 col-xs-12">
+                                            @Html.TextAreaFor(s => s.NoteReasonsOthers, new { @id = "NoteReasons_Others", @class = "form-control", @disabled = "disabled" })
+                                        </div>
+
+                                        <br />
+                                    </div>
+                                </div>
+
+
+                            </div>*@
+                    }
+                </div>
+            </fieldset>
+            <br />
+            <div class="row ">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-content">
+                            <div class="col-lg-offset-5">
+                                <a class="btn btn-default" href="@Url.Action("SearchInvoices", "Invoice", new { clientId = Model.ClientId, invoiceId = (Guid)Model.InvoiceId, isComplete = true})">Cerrar</a>
+                                @if (Model.ErrorCode != TicoPay.Common.ErrorCodeHelper.InvoicesMonthlyLimitReached)
+                                {
+                                    <button type="button" class="btn btn-primary" id="GenerateNote_btn">Generar Nota</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+
+        }
+    }
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#porcentajeGrl').val("0.00");
+            isNoteCredito();
+        });
+        function isNoteCredito() {
+            var note = $("#TipoNota_dropdown").val();
+            if (note === "Credito") {
+                document.getElementById("descuentoNoteGeneral").style.display = "block"
+            } else {
+                document.getElementById("descuentoNoteGeneral").style.display = "none"
+            }
+        }
+
+        $("#TipoNota_dropdown").change(function () {
+            isNoteCredito();
+        })
+
+        function openFormDesc() {
+            var visible = $("#popupDesc").is(":visible");
+            $('#porcentajeGrl').val("0.00");
+            if(visible)
+                document.getElementById("popupDesc").style.display = "none";
+            else
+                document.getElementById("popupDesc").style.display = "block";
+        }
+
+        function closeFormDesc() {
+            document.getElementById("popupDesc").style.display = "none";
+        }
+
+        function reversarDisc() {
+            location.reload();
+        }
+    </script>
+}
+

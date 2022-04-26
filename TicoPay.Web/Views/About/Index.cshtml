@@ -1,0 +1,231 @@
+﻿@using Abp.Authorization.Users
+@model TicoPay.Users.Dto.UpdateProfileInput
+@{
+    ViewBag.ActiveMenu = "Perfil"; //The menu item will be active for this page.
+
+}
+@{
+    ViewBag.Title = "Perfil de Usuario";
+}
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#ConfirmedPassword").keyup(function (e) {
+                var pass = $("#Password").val();
+                var re_pass = $("#ConfirmedPassword").val();
+
+                if (pass != re_pass) {
+                    $("#ConfirmedPassword").css({ "background": "#EFA29F" }); //El input se pone rojo
+                }
+                else if (pass == re_pass) {
+                    $("#ConfirmedPassword").css({ "background": "#82CD96" }); //El input se ponen verde
+                }
+            });//fin keyup repass
+        });
+    </script>
+}
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@using (Html.BeginForm("Index", "About", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+{
+    @Html.AntiForgeryToken();
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Perfil de Usuario</h2>
+        </div>
+    </div>
+    <br />
+    if (Model != null)
+    {
+        <fieldset style="position: relative;z-index: 9999;">
+            @Html.HiddenFor(model => model.Id)
+            <div class="animated fadeIn">
+                @if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok)
+                {
+                <div class="row ">
+                    <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                </div>
+                }
+                else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error)
+                {
+                <div class="row ">
+                    <div class="col-lg-12">
+                        <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>@Model.ErrorDescription</strong>
+                        </div>
+                    </div>
+                </div>
+                }
+
+                <div class="row ">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25);">
+                                <h5>Usuario <small> Información Personal</small></h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-sm-6 b-r">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Nombre Completo:</label>
+                                                <div class="col-sm-7">@Model.FullName </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Usuario:</label>
+                                                <div class="col-sm-7">
+                                                    @Model.UserName
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Correo:</label>
+                                                <div class="col-sm-7">
+                                                    @Model.EmailAddress
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Compañía :</label>
+                                                <div class="col-sm-7">
+                                                    @Model.TenancyName
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Último Ingreso:</label>
+                                                <div class="col-sm-7">
+                                                    @Model.LastLogin
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25);">
+                                <h5>Plan <small> Información Plan Actual</small></h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-sm-6 b-r">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label">Nombre del Plan:</label>
+                                                <div class="col-sm-4">@Model.EditionName </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label">Límite de Usuarios:</label>
+                                                <div class="col-sm-4">
+                                                    @Model.EditionUsersLimit
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label">Límites de Facturas Mensuales:</label>
+                                                <div class="col-sm-4">
+                                                    @Model.EditionInvoicesMonthlyLimit
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label">Nro. Usuario Actuales :</label>
+                                                <div class="col-sm-4">
+                                                    @Model.UsersCount
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label">Cantidad de Facturas del Mes:</label>
+                                                <div class="col-sm-4">
+                                                    @Model.InvoicesInMonth
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <!--Faltan Translates-->
+                            <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25);">
+                                <h5>Seguridad <small>Actualización de contraseña</small></h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-sm-6 b-r">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Contraseña:</label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @id = "Password", @Type = "password", @required = "required", @minlength = "8", @maxlength = "16", @pattern = @"(?=^.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$", @title = "Debe ingresar al menos 8 caracteres, incluyendo número, letra mayúscula y letra minúscula" })
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Confirmar contraseña:</label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(model => model.ConfirmedPassword, new { @class = "form-control", @id = "ConfirmedPassword", @Type = "password", @required = "required", @minlength = "8", @maxlength = "16", @pattern = @"(?=^.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$", @title = "Debe ingresar al menos 8 caracteres, incluyendo número, letra mayúscula y letra minúscula" })
+                                                    @Html.ValidationMessageFor(model => model.ConfirmedPassword, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="col-lg-offset-5">
+                            <a class="btn btn-default" href="@Url.Action("Index", "Home")">Cerrar</a>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+    }
+}

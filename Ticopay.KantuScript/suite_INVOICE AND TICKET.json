@@ -1,0 +1,22 @@
+﻿{
+  "creationDate": "2018-06-25",
+  "name": "INVOICE AND TICKET",
+  "macros": [
+    {
+      "macro": "CREATE SERVICE",
+      "loops": 1
+    },
+    {
+      "macro": "CREATE NEW INVOICE",
+      "loops": 1
+    },
+    {
+      "macro": "SEARCH INVOICES",
+      "loops": 1
+    },
+    {
+      "macro": "DELETE SERVICE",
+      "loops": 1
+    }
+  ]
+}

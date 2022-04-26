@@ -1,0 +1,61 @@
+<div class="container">
+	<div class="omb_login">
+		<div class="row omb_row-sm-offset-3 omb_loginOr">
+			<div class="col-xs-12 col-sm-6">
+				<img id="profile-img" class="profile-img-card" src="../../../assets/images/Ticopay-verde-azul-vertical-PP-01.png" />
+			</div>
+		</div>
+		<h3 class="omb_authTitle">Inicia Sesión o
+			<a href="https://www.ticopays.com">Regístrate</a>
+		</h3>
+		<div class="row omb_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-6">
+				<form class="omb_loginForm" autocomplete="off" method="POST" novalidate #loginForm="ngForm" (submit)="submitLoginInformation(loginForm)">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-user"></i>
+						</span>
+						<input #userName="ngModel" type="text" class="form-control" required name="userName" placeholder="Nombre de usuario o Correo electrónico"
+						 [(ngModel)]="loginInformation.userName">
+					</div>
+					<span class="help-block">
+						<div class="alert alert-danger" *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+							Nombre de usuario requerido
+						</div>
+					</span>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-lock"></i>
+						</span>
+						<input #password="ngModel" type="password" class="form-control" required name="password" placeholder="Contraseña" [(ngModel)]="loginInformation.password">
+					</div>
+					<span class="help-block">
+						<div class="alert alert-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+							Contraseña requerida
+						</div>
+					</span>
+					<button class="btn btn-lg btn-primary btn-block" [disabled]="!loginForm.form.valid" type="submit">Iniciar Sesión</button>
+					<span class="help-block">
+						<div class="alert alert-danger" *ngIf="_error">
+							{{_errorMessage}}
+						</div>
+					</span>
+				</form>
+			</div>
+		</div>
+		<div class="row omb_row-sm-offset-3">
+			<!--
+			<div class="col-xs-12 col-sm-3">
+				<label class="checkbox">
+					<input type="checkbox" value="remember-me">Recuerdame
+				</label>
+			</div>
+		-->
+			<!--<div class="col-xs-12 col-sm-3">
+				<p class="omb_forgotPwd text-center">
+					<a href="">¿Olvido la contraseña?</a>
+				</p>
+			</div>-->
+		</div>	    	
+	</div>
+</div>

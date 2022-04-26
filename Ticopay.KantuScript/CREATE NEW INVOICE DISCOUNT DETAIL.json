@@ -1,0 +1,185 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"content\"]/div[1]/a",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#btnShowClientsList > span",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=div.btn.btn-default.btn-xs",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=newLine",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": "SERVICIO DE BASES DE DATOS"
+    },
+    {
+      "Command": "click",
+      "Target": "link=SERVICIO DE BASES DE DATOS",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "//*[@id=\"gridService\"]/tbody/tr/td[5]/input[1]",
+      "Value": "5"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "//*[@id=\"gridService\"]/tbody/tr/td[1]/textarea[2]",
+      "Value": "desc1"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Nueva Línea",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "//*[@id=\"gridService\"]/tbody/tr[2]/td[1]/input[1]",
+      "Value": "Servicio Facturación Electrónica en Línea (Plan Bussines Anual)"
+    },
+    {
+      "Command": "click",
+      "Target": "link=Servicio Facturación Electrónica en Línea (Plan Bussines Anual)",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=CashChk",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=GenerateInvoice_btn",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Cerrar",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "storeEval",
+      "Target": "var d= new Date(); var m=((d.getMonth()+1)<10)?'0'+(d.getMonth()+1):(d.getMonth()+1); var el=((d.getDate())<10)?'0'+(d.getDate()):(d.getDate()); d.getFullYear()+\"-\"+m+\"-\"+el;",
+      "Value": "eldia"
+    },
+    {
+      "Command": "click",
+      "Target": "id=StartDueDate",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=StartDueDate",
+      "Value": "${eldia}"
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=Status",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=Status",
+      "Value": "label=Pagada"
+    },
+    {
+      "Command": "click",
+      "Target": "id=Status",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"frmSearchInvoices\"]/div/div[5]/div[2]/div/div/button",
+      "Value": ""
+    }
+  ]
+}

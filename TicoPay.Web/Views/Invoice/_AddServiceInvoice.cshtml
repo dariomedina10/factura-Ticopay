@@ -1,0 +1,132 @@
+﻿@model TicoPay.Invoices.Dto.AddServiceInvoice
+@{
+    ViewBag.Title = "Agregar Servicio a Factura";
+}
+@{
+    string currencyFmt = "{0:##.00}"; //@System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+}
+
+<script src="@Url.Content("~/Scripts/util/formatter.js")" type="text/javascript"></script>
+@*<script src="@Url.Content("~/Scripts/plugins/chosen/chosen.jquery.minv1.5.1.js")" type="text/javascript"></script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#serviceDiv > .chosen-select').chosen({ max_selected_options: 1, no_results_text: "No se encuentra el servicio", allow_single_deselect: true, width: "100%" });
+
+        if ($("#Precio").val() != undefined) {
+            resultFormatNumber($("#Precio").val()).then((val) => { $("input[name='Price']").val(val) });
+        }
+        resultFormatNumber($("#Impuesto").val()).then((val) => { $("input[name='TaxAmount']").val(val) });
+        resultFormatNumber($("#Total").val()).then((val) => { $("input[name='Total']").val(val) });
+
+     });
+
+    function writeError(control, msg, type) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+            $("#" + control).html(alert);
+        } else { abp.notify.warn(msg, ""); }
+    }
+
+    $('.chosen-select').on('change', function (evt, params) {
+        $('.modal-body p.body :input[type="number"]').val(0);
+        var ServiceId = params.selected;
+        if (params.selected) {
+            abp.ui.setBusy();
+            $('.modal-body p.body :input[type="button"]').attr('disabled', true);
+            $.ajax({
+                url: '/Invoice/GetService',
+                data: { ServiceId: ServiceId },
+                success: function (data) {
+                    $('.modal-body p.body').html(data);
+                    abp.ui.clearBusy();
+                }, error: function (err) {
+                    writeError("msgErrorAnyModal", "¡Error al consultar los datos del Servicio!", "error");
+                    abp.ui.clearBusy();
+                }
+            });
+        }
+    });
+
+</script>
+@using (Html.BeginForm("CalculateTotals", "Invoice", FormMethod.Post, new { id = "addServicesForm" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Agregar Servicio</h4>
+    </div>
+    if (Model != null)
+    {
+        <div class="modal-body" id="AddServiceInvoice">
+            <fieldset>
+                <input type="hidden" id="ID">
+                <input type="hidden" id="IsEditing">
+                <div class="well col-lg-12 ">
+                    @Html.HiddenFor(model => model.Id, new { @id = "idService" })
+                    @Html.HiddenFor(model => model.GridId, new { @id = "GridId" })
+                    @Html.HiddenFor(model => model.Name, new { @id = "NameService" })
+                    @Html.HiddenFor(model => model.Rate, new { @id = "Rate" })
+                    @Html.HiddenFor(model => model.Price, new { @id = "PriceHidden" })
+                    <div id="serviceDiv" class="input-group col-lg-10">
+                        <label class="col-sm-3 control-label">Servicio:</label>
+                        @Html.ListBoxFor(m => m.ClientServiceList, Model.Services.Select(f => new SelectListItem { Text = f.Name, Value = f.Id.ToString() }), new { @id = "Services_DD", Multiple = "multiple", @class = "chosen-select ", @data_placeholder = "Seleccione uno o varios servicios...", @style = "width:307px" })
+                        @*@Html.DropDownListFor(s => s.ServiceId, Model.Services.Select(f => new SelectListItem { Text = f.Name, Value = f.Id.ToString() }), new { @class = "chosen-select", @id = "listServices", @data_placeholder = "Seleccione uno o varios servicios..." })*@
+                    </div>
+                    <div class="input-group col-lg-10">
+                        <label class="col-sm-3 control-label">Precio:</label>
+                        @*@Html.TextBoxFor(model => model.Price, new { @class = "form-control", @id = "Precio", @readonly = "readonly", type = "text", @min = "0", @max = "999999999", @required = "required", @maxlength = "19", @pattern = @"^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$", @title = "ej. 458.25" })*@
+                        @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @id = "Precio", type = "text", @min = "0", @max = "999999999", @required = "required", @maxlength = "19", @pattern = @"^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$", @title = "ej. 458.25", data_name = "Precio", onchange = "changePrice(this);", onblur= "deleteValidateButton();", onfocus = "validateButton();" })
+                    </div>
+                    <div class="input-group col-lg-10">
+                        <label class="col-sm-3 control-label">Cantidad:</label>
+                        @Html.TextBoxFor(model => model.Quanty, new { @class = "form-control", @id = "Cantidad", type = "text", @min = "0", @step = "1", @max = "999999999", @maxlength = "5", @pattern = @"^[+]?[0-9]{1,5}?$", data_name = "Cantidad", onchange = "getval(this);" })
+                    </div>
+                    <div class="input-group col-lg-10">
+                        <label class="col-sm-3 control-label">% Descuento:</label>
+                        <div>
+                            @Html.TextBoxFor(model => model.DiscountAmount, new { @class = "form-control", @id = "Descuento", type = "text", @min = "0", @step = "0.01", @max = "999999999", @maxlength = "5", @pattern = @"^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$", data_name = "Descuento" , onchange = "changeDesc(this);" })
+                        </div>
+                    </div>
+                    <div class="input-group col-lg-10">
+                        <label class="col-sm-3 control-label">Impuesto:</label>
+                        <div>
+                            @Html.TextBoxFor(model => model.TaxAmount, currencyFmt, new { @class = "form-control", @id = "Impuesto", type = "text", @readonly = "readonly", @min = "0", @step = "0.01", @max = "999999999", @maxlength = "19", @pattern = @"^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$" })
+                        </div>
+                    </div>
+                    <div class="input-group col-lg-10">
+                        <label class="col-sm-3 control-label">Total:</label>
+                        <div>
+                            @Html.TextBoxFor(model => model.Total, currencyFmt, new { @class = "form-control", @id = "Total", type = "text", @readonly = "readonly", @min = "0", @step = "0.01", @max = "999999999", @maxlength = "19", @pattern = @"^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$" })
+                        </div>
+                    </div>
+                    <br />
+                    @if (Model.ErrorCode == 1)
+                    {
+                        <hr />
+                        <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>@Model.ErrorDescription</strong>
+                        </div>
+                    }
+                    else if (Model.ErrorCode == -1)
+                    {
+                        <br />
+                        <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>@Model.ErrorDescription</strong>
+                        </div>
+                    }
+                </div>
+            </fieldset>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" id="btnSave" onclick="Save()" class="btn btn-primary">Guardar</button>
+        </div>
+
+    }
+}

@@ -1,0 +1,123 @@
+﻿@model TicoPay.ReportStatusInvoices.Dto.ReportStatusInvoicesInputDto<TicoPay.ReportStatusInvoices.Dto.ReportInvoicesNotes>
+@{
+    ViewBag.Title = "Reporte Facturas/Notas";
+}
+<script>
+    $(document).ready(function () {
+        var showClientsList = "/Invoice/ShowClientsList";
+
+        function wError(control, msg, type) {
+            if (type === "success") {
+                abp.notify.success(msg, "");
+            } else if (type === "error") {
+                abp.notify.error(msg, "");
+                var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+                $("#" + control).html(alert);
+            } else { abp.notify.warn(msg, ""); }
+        }
+
+        function clearErrors() {
+            $('#msgErrorAnyModal').html('');
+            $('#IndexAlerts').html('');
+
+        }
+        this.saveClientData = function (clientId, name, code) {
+            $('#ClientName_text').val(name);
+            $('#ClientId_hidden').val(clientId);
+
+            return false;
+        }
+        $('#btnClearClientsList').click(function (e) {
+            $('#ClientName_text').val('');
+            $('#ClientId_hidden').val('');
+
+            return false;
+        });
+        $('#btnShowClientsList').click(function (e) {
+            clearErrors();
+            abp.ui.setBusy();
+            $.ajax({
+                url: showClientsList,
+                type: "POST",
+                cache: false,
+                data: { page: null, q: $("#searchBoxArticulo").val() },
+                success: function (data) {
+                    $('#anyModalForm').html(data);
+                    $('#anyModalForm').modal('show');
+                    abp.ui.clearBusy();
+                }, error: function (err) {
+                    writeError('msgErrorAnyModal', err, 'error');
+                    abp.ui.clearBusy();
+                }
+            });
+        });
+
+
+
+        $('#btnSearch').on('click', function () {
+            debugger;
+            var minAmount = parseInt($("#MinimumAmount_text").val());
+            var maxAmount = parseInt($("#MaxAmount_text").val());
+            if (maxAmount < minAmount) {
+                event.preventDefault();
+                wError('msgErrorAnyModal', "El monto máximo no puede ser menor al monto minimo", 'error');
+                abp.ui.clearBusy();
+            }
+        });
+
+
+        $("#Branch_DD").on("change", function () {
+
+            var id = $(this).attr('data-cascade-combo');
+
+            var url = $(this).attr('data-cascade-combo-source');
+
+            var paramName = $(this).attr('data-cascade-combo-param-name');
+
+            var data = {};
+            data[paramName] = id;
+
+            $.ajax({
+                url: url,
+                data: {
+                    id: $(this).val()
+                },
+                success: function (data) {
+                    $(id).html('');
+                    $(id).append('<option value="">Todas</option>');
+                    $.each(data.result, function (index, type) {
+                        var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                        $(id).append(content);
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>@ViewBag.Title</h2>
+    </div>
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchPartial", Model);}
+<br />
+<div id="anyListEntity">
+    @{Html.RenderPartial("_listPartial", Model);}
+</div>
+<div id="anyModalForm" class="modal fade" style="background-color: white;width: 60%;margin-left: 22%;height: 92%;top: 4%; overflow-x: auto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

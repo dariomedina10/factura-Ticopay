@@ -1,0 +1,24 @@
+<table class="table">
+  <caption *ngIf="tableConfiguration.title">{{tableConfiguration.title}}</caption>
+  <thead>
+      <tr>
+          <th *ngFor="let column of tableConfiguration.columns">
+            {{ column.header }}
+          </th>
+      </tr>
+  </thead>
+  <tbody>
+    <div *ngFor="let record of _data">
+      <tr>
+        <td *ngFor="let column of tableConfiguration.columns">
+          {{ record[column] | formatCell : column.type}}
+        </td>
+      </tr>
+      <tr *ngIf="tableConfiguration.details">
+        <div *ngIf="tableConfiguration.details === 'InvoiceDetail'">
+          
+        </div>          
+      </tr>
+    </div>
+  </tbody>
+</table>

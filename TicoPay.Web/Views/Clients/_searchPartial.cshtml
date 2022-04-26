@@ -1,0 +1,57 @@
+﻿@using System.Web.Mvc.Html
+@model TicoPay.Clients.Dto.SearchClientsInput
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    @using (Html.BeginForm(Model.Action, Model.Control, FormMethod.Post, new { @id = "searchForm" }))
+    {
+        <div class="row">
+            <div class="col-lg-1" style="padding-top:7px">
+                <label>
+                    Código
+                </label>
+            </div>
+            <div class="col-lg-3">
+                    @Html.TextBoxFor(model => model.CodeFilter, new { @placeholder = "Introducir Código a Buscar...", @id="searchCode", @type = "number", @class = "form-control", maxlength = "10", size = "10" })
+            </div>
+            <div class="col-lg-1" style="padding-top:7px">
+                <label>
+                    Nombre
+                </label>
+            </div>
+            <div class="col-lg-3">
+                @Html.TextBoxFor(model => model.NameFilter, new { @placeholder = "Introducir Nombre a Buscar...", @id = "searchName", @type = "text", @class = "form-control", maxlength = "80", size = "80" })
+            </div>
+            <div class="col-lg-1" style="">
+                <label>
+                    Identificación / Pasaporte
+                </label>
+            </div>
+            <div class="col-lg-3">
+                @Html.TextBoxFor(model => model.IdentificationFilter, new { @placeholder = "Introducir Identificación...", @id = "searchIdentification", @type = "text", @class = "form-control", maxlength = "20", size = "20" })
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-1" style="padding-top:7px">
+                <label>
+                    Correo
+                </label>
+            </div>
+            <div class="col-lg-3">
+                @Html.TextBoxFor(model => model.EmailFilter, new { @placeholder = "Introducir Correo a Buscar...", @id = "searchEmail", @type = "text", @class = "form-control", maxlength = "50", size = "50" })
+            </div>
+            <div class="col-lg-1" style="padding-top:7px">
+                <label>
+                    Categoría
+                </label>
+            </div>
+            <div class="col-lg-3">
+                @Html.DropDownListFor(model => model.GroupId, Model.Groups, "Todas", new { @id = "group_DD", @class = "form-control"})
+            </div>
+            <div class="col-lg-2">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-success">Buscar</button>
+                </span>
+            </div>
+        </div>
+    }
+</div>

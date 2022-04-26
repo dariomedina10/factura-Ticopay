@@ -1,0 +1,342 @@
+﻿@using TicoPay.Invoices
+@model TicoPay.Invoices.Dto.InvoiceDto
+
+@{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+}
+<div class="row">
+    <div class="col-lg-10">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content" style="padding-bottom: 0px; padding-right: 0px; padding-left: 0px;">
+                <div class="table-responsive">
+                    <table class="table invoice-table">
+                        <thead>
+                            <tr>
+                                <th>Detalle de los productos o servicios</th>
+                                <th style="text-align: right">Cantidad</th>
+                                <th style="text-align: right;">Precio</th>
+
+                                @*<th style="text-align: right;">% Descuento</th>*@
+                                <th style="text-align: right;"> Descuento</th>
+                                <th style="text-align: right;">Impuesto</th>
+                                <th style="text-align: right;">Precio Total</th>
+                                <th width="62"></th>
+                            </tr>
+                        </thead>
+                        @{
+                            string codigomoneda = @Model.ListItems.FirstOrDefault().CodigoMoneda.ToString();
+                            decimal impuesto = @Model.ListItems.FirstOrDefault().InvoiceLines.First().TaxAmount;
+                            // decimal taxrate = @Model.FirstOrDefault().InvoiceLines.First().;
+
+                        }
+                        <tbody>
+                            <!--template bindings={}-->
+                            @foreach (var item in @Model.ListItems.FirstOrDefault().InvoiceLines)
+                            {
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <strong>@item.Title</strong>
+                                            <div style="max-width:300px; overflow-wrap:break-word"><small>@item.Note</small></div>
+                                        </div>
+                                        @*<small>@item.Service.Name</small>*@
+                                    </td>
+                                    <td>@Html.FormatValue(item.Quantity, currencyFmt)</td>
+
+                                    <td style="text-align: right;">@codigomoneda @Html.FormatValue(@item.PricePerUnit, currencyFmt)</td>
+
+                                    @*<td style="text-align: right;">@Html.FormatValue(@item.DiscountPercentage, currencyFmt) </td>*@
+                                    <td style="text-align: right;">@codigomoneda @Html.FormatValue(@item.DiscountPercentage / 100 * (item.Quantity * @item.PricePerUnit), currencyFmt) </td>
+
+                                    <td style="text-align: right;">@codigomoneda @Html.FormatValue(@item.TaxAmount, currencyFmt)</td>
+                                    <td style="text-align: right;">@codigomoneda @Html.FormatValue(@item.Total, currencyFmt)          </td>
+
+                                </tr>
+                            }
+                            <tr></tr>
+                        </tbody>
+                    </table>
+                    @if (Model.ListItems.FirstOrDefault().Notes.Count > 0)
+                    {
+                    <table class="table invoice-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Documentos de referencia:</th>
+                                <th style="text-align: right;">Precio</th>
+
+                                @*<th style="text-align: right;">% Descuento</th>*@
+                                <th style="text-align: right;"> Descuento</th>
+                                <th style="text-align: right;">Impuesto</th>
+                                <th style="text-align: right;">Precio Total</th>
+                                <th width="62"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in @Model.ListItems.FirstOrDefault().Notes.OrderBy(n => n.CreationTime))
+                            {
+                                <tr>
+                                    <td colspan="2">
+                                        <div>
+                                            <strong>@item.ConsecutiveNumber </strong>
+                                            @if (item.NoteType == NoteType.Credito)
+                                            {
+                                                <span class="small"> - Nota de Crédito</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="small"> - Nota de Débito</span>
+                                            }
+                                        </div>
+                                        @if (item.NoteReasons == NoteReason.Referencia_documento)
+                                        {
+                                            <small>Anular Documento @item.ConsecutiveNumberReference</small>
+                                        }
+                                        else if (item.NoteReasons == NoteReason.Reversa_documento)
+                                        {
+                                            <small>Reversar Documento</small>
+                                        }
+                                        else
+                                        {
+                                            <small>Corregir monto documento @item.ConsecutiveNumberReference</small>
+                                        }
+
+                                    </td>
+                                    <td style="text-align: right;">
+                                        @codigomoneda
+                                        @if ((item.SaleTotal > 0) && (item.NoteType == NoteType.Credito))
+                                        {
+                                            @Html.Raw("-")
+                                        }
+                                        @Html.FormatValue(@item.SaleTotal, currencyFmt)
+                                    </td>
+
+                                    @*<td></td>*@
+                                    <td>
+                                        @codigomoneda
+                                        @if ((item.DiscountAmount > 0) && (item.NoteType == NoteType.Credito))
+                                        {
+                                            @Html.Raw("-")
+                                        }
+                                        @Html.FormatValue(@item.DiscountAmount, currencyFmt)
+                                    </td>
+                                    <td style="text-align: right;">
+                                        @codigomoneda
+                                        @if ((item.TaxAmount > 0) && (item.NoteType == NoteType.Credito))
+                                        {
+                                            @Html.Raw("-")
+                                        }
+                                        @Html.FormatValue(@item.TaxAmount, currencyFmt)
+                                    </td>
+                                    <td style="text-align: right;">
+                                        @codigomoneda
+                                        @if ((item.SaleTotal > 0) && (item.NoteType == NoteType.Credito))
+                                        {
+                                            @Html.Raw("-")
+                                        }
+                                        @Html.FormatValue(@item.SaleTotal, currencyFmt)
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if ((Model.ListItems.FirstOrDefault().Status != Status.Completed) && (Model.ListItems.FirstOrDefault().Status != Status.Returned))
+                                        {
+                                            <a title="Reversar nota" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs" href="@Url.Action("ReverseNote","Invoice",new {invoiceId= item.InvoiceId, noteId=item.Id })"><i class="fa fa-undo"></i> </a>
+                                            @*<button title="Reversar nota" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs" data-target="" onclick="showReverseNote('@item.InvoiceId', '@item.Id')" data-toggle="modal"><i class="fa fa-undo"></i></button>*@
+
+                                        }
+                                        @if (!string.IsNullOrEmpty(Model.ClientEmail))
+                                        {
+                                            <a title="Reenvia la nota al correo del cliente en formato PDF" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs btnResendInvoice"
+                                               onclick="ResendNoteFunc('@item.Id', '@item.ConsecutiveNumber', '@item.Invoice.ClientEmail')"><i class="fa fa-send"></i>&nbsp;&nbsp; Reenviar</a>
+
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr></tr>
+                        </tbody>
+                    </table>
+                    }
+                </div>
+                <table class="table invoice-total" style="margin-right: 62px;">
+                    <tbody>
+                        @{
+                            decimal subtotal = @Model.ListItems.FirstOrDefault().InvoiceLines.Sum(a => a.Total) + @Model.ListItems.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.SaleTotal) - @Model.ListItems.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.SaleTotal);
+                            decimal impuestototal = @Model.TotalTax + @Model.ListItems.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.TaxAmount) - @Model.ListItems.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.TaxAmount);
+                            decimal descuento = @Model.DiscountAmount + @Model.ListItems.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.DiscountAmount) - @Model.ListItems.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.DiscountAmount);
+                            decimal total = subtotal + impuestototal - descuento;
+                        }
+                        <tr>
+                            <td><strong>Sub Total :</strong></td>
+                            <td>@codigomoneda @Html.FormatValue(@subtotal, currencyFmt)</td>
+                        </tr>
+                        @if (descuento > 0)
+                        {
+                            <tr>
+                                <td><strong>Descuento :</strong></td>
+                                <td>@codigomoneda @Html.FormatValue(@descuento, currencyFmt)</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td><strong>Impuesto :</strong></td>
+                            <td>
+                                @if (impuestototal > 0)
+                                {
+                                <p>@codigomoneda @Html.FormatValue(@impuestototal, currencyFmt) </p>  
+                                }
+                                else
+                                { <p> @codigomoneda 0.00</p> }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total :</strong></td>
+                            <td>
+                                @if (total > 0)
+                                {
+                                <p> @codigomoneda @Html.FormatValue(@total, currencyFmt)</p>
+                                }
+                                else
+                                {<p> @codigomoneda 0.00</p>}
+
+                                <input type="hidden" id="invoiceSaldoReverse" value="@Model.ListItems.FirstOrDefault().PaymentInvoicesReverse.Sum(a => a.Amount)" />
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+                @*@if ((Model.ListItems.FirstOrDefault().Status == Status.Parked) && (Model.ListItems.FirstOrDefault().Balance > 0))
+                    {
+                        <div class="text-right">
+                            <button class="btn btn-outline btn-primary" data-target="" onclick="showPaymentMethods('@Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId',@total, '@Model.ListItems.FirstOrDefault().ClientId', '@Model.ListItems.FirstOrDefault().PaymentInvoicesReverse.Sum(a => a.Amount)')" data-toggle="modal">Pagar Factura</button>
+                        </div>
+                    }*@
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content text-center ">
+
+
+                @if ((Model.ListItems.FirstOrDefault().Status == Status.Parked) && (Model.ListItems.FirstOrDefault().Balance > 0))
+                {
+                    <button class="btn btn-rounded btn-block btn-outline btn-xs btn-primary" data-target="" onclick="showPaymentMethods('@Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId',@total, '@Model.ListItems.FirstOrDefault().ClientId', '@Model.ListItems.FirstOrDefault().PaymentInvoicesReverse.Sum(a => a.Amount)')" data-toggle="modal"><i class="fa fa-credit-card-alt"></i>&nbsp;&nbsp;Pagar</button>
+                }
+                @if ((Model.StatusFirmaDigital == StatusFirmaDigital.Firmada) || (Model.TipoFirma != TicoPay.MultiTenancy.Tenant.FirmType.Firma))
+                {
+
+                    if ((ViewBag.isOpenDrawer) && (Model.ListItems.FirstOrDefault().Status == Status.Completed) && ((Model.SendInvoice == true) || (!Model.Tenant.ValidateHacienda)))
+                    {
+                        <a title="Reversar Facturas" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs" href='@Url.Action("newNote", "invoice", new { invoiceId = @Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId, isReverseTotal=true })'>
+                            <i class="fa fa-undo"></i>&nbsp;&nbsp;Reversar
+                        </a>
+                    }
+                    if ((ViewBag.isOpenDrawer) && (Model.ListItems.FirstOrDefault().Status == Status.Parked) && ((Model.SendInvoice == true) || (!Model.Tenant.ValidateHacienda)))
+                    {
+                        <a title="Agregar o Eliminar Notas de Débito y Crédito" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs" href='@Url.Action("newNote", "invoice", new { invoiceId = @Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId, isReverseTotal=false })'><i class="fa fa-plus"></i>&nbsp;&nbsp;Notas </a>
+
+                        @*<a title="Anular la Factura " class="btn btn-primary btn-rounded btn-block btn-outline btn-xs" onclick="cancelConfirmation_modal('@Model.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId')"><i class="fa fa-trash"></i> Anular </a>*@
+                    }
+
+                    <a title="Ver Notas de Débito y Crédito" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs" onclick="showNotes('@Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId', '@Model.ListItems.FirstOrDefault().Balance', '@Model.ListItems.FirstOrDefault().Rate', '@Model.ListItems.FirstOrDefault().ClientId', '@codigomoneda')"><i class="fa fa-search"></i>&nbsp;&nbsp;Ver Notas </a>
+                    if (Model.Tenant.IsPos)
+                    {
+                        <div class="dropdown">
+                            <button class="btn btn-primary btn-rounded btn-block btn-outline btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                                <i class="fa fa-print"></i>&nbsp;&nbsp;Imprimir
+                            </button>
+                            <ul class="dropdown-menu" style="margin-left: -170px;">
+                                <li>
+                                    <a title="Imprimir PDF" class="btn btn-primary btn-rounded btn-outline" onclick="printInvoice(this)" data-invoiceId="@Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId" data-sid="@Session.SessionID" data-pos="False" data-voucherkey="@Model.VoucherKey" data-pdfdownload="@Url.Action("InvoiceDetails", "PdfGenerator", new { id = @Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId, isPost= !@Model.Tenant.IsPos })"><i class="fa fa-print"></i>&nbsp;&nbsp;Formato PDF </a>
+                                </li>
+                                <li>
+                                    <a title="Imprimir POS" class="btn btn-primary btn-rounded btn-outline" onclick="printInvoice(this)" data-invoiceId="@Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId" data-sid="@Session.SessionID" data-pos="@Model.Tenant.IsPos" data-voucherkey="@Model.VoucherKey" data-pdfdownload="@Url.Action("InvoiceDetails", "PdfGenerator", new { id = @Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId, isPost= @Model.Tenant.IsPos })"><i class="fa fa-print"></i>&nbsp;&nbsp;Punto de Venta </a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <a title="Imprimir factura en formato PDF" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs" onclick="printInvoice(this)" data-invoiceId="@Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId" data-sid="@Session.SessionID" data-pos="@Model.Tenant.IsPos" data-voucherkey="@Model.VoucherKey" data-pdfdownload="@Url.Action("InvoiceDetails", "PdfGenerator", new { id = @Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId, isPost = @Model.Tenant.IsPos })"><i class="fa fa-print"></i>&nbsp;&nbsp;Imprimir </a>
+                    }
+
+
+
+                    var email = string.Empty;
+                    if (Model.Client != null)
+                    {
+                        email = Model.Client.Email;
+                    }
+
+                    <a title="Reenvia la factura al correo del cliente en formato PDF" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs btnResendInvoice"
+                       onclick="ResendFunc('@Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().InvoiceId', '@Model.ListItems.FirstOrDefault().InvoiceLines.FirstOrDefault().Invoice.Number', '@email')"><i class="fa fa-send"></i>&nbsp;&nbsp; Reenviar</a>
+
+                }
+                else
+                {
+                    <span class="label label-warning">Pendiente por firmar</span>
+
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function showReverseNote(invoiceId, noteId) {
+        abp.ui.setBusy();
+        $.ajax({
+            type: "GET",
+            url: "/Invoice/ReverseNote",
+            data: { invoiceId: invoiceId, noteId: noteId },
+            success: function (data) {
+                $('#modalNoteReverseBody').html(data);
+                $('#modalNoteReverse').modal('show');
+                abp.ui.clearBusy();
+            },
+            error: function () {
+                writeError('msgNotaErrorReverse', 'Error al aplicar nota.', 'error');
+                abp.ui.clearBusy();
+            }
+        });
+    }
+
+    function writeError(control, msg, type) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+            $("#" + control).html(alert);
+        } else { abp.notify.warn(msg, ""); }
+    }
+
+    function printInvoice(x) {
+        debugger;
+        var dobleClic = $(x).attr('disabled');
+        if (dobleClic == undefined) {
+            $(x).attr('disabled', 'disabled');
+            if ($(x).data("pos") == 'True') {
+                $.ajax({
+                    url: '/PdfGenerator/InvoiceDetails' + "?ControlCache=" + new Date().getTime(),
+                    type: 'POST',
+                    data: { id: $(x).data("invoiceid"), isPost: $(x).data("pos") },
+                    dataType: 'script',
+                    success: function (data) {
+                        $(x).removeAttr('disabled');
+                    }
+                });
+            } else {
+                var link = document.createElement("a");
+                
+                link.href = $(x).data("pdfdownload");
+                link.download = $(x).data("voucherkey") + ".pdf";
+                document.body.appendChild(link);
+                link.click();
+                console.log(link);
+                $(x).removeAttr('disabled');
+            }
+        }
+    }
+</script>

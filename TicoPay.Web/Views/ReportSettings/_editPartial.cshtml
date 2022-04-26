@@ -1,0 +1,828 @@
+﻿@using System.Web.Mvc;
+@model TicoPay.ReportsSettings.Dto.ReportSettingsDto
+@{
+    ViewBag.Title = "Editar Configuración de Reporte";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        configTitleFont();
+        configSubTitleFont();
+        configTableTitleFont();
+        configTableFont();
+        configBodyFont();
+        configInfoMessageFont();
+        loadWatermark();
+        loadPdfPreview();
+        $("#btnClearWatermarkFile").click(function (e) {
+            var input = $("#WatermarkFile");
+            input.replaceWith(input.val('').clone(true));
+            $('#imgPreview').attr('src', '');
+            $("#DeleteLogo").val(true);
+            loadPdfPreview();
+        });
+        $("[id*=TitleFontName],[id*=SubTitleFontName],[id*=TableTitleFontName],[id*=TableFontName],[id*=BodyFontName],[id*=InfoMessageFontName]").change(function () {
+            loadPdfPreview();
+        });
+        $("[id*=TitleFontSize],[id*=SubTitleFontSize],[id*=TableTitleFontSize],[id*=TableFontSize],[id*=BodyFontSize],[id*=InfoMessageFontSize]").change(function () {
+            loadPdfPreview();
+        });
+        $('input[type=file]').on('change', function (e) {
+            loadPdfPreview(e.target.files);
+        });
+    });
+
+    function writeError(control, msg, type) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+            $("#" + control).html(alert);
+        } else { abp.notify.warn(msg, ""); }
+    }
+
+    function configTitleFont() {
+        var color = getStrColor($("#TitleFontArgbColor").val());
+        $("#TitleFontArgbColorDiv span").css("background", color);
+        $('#TitleFontArgbColor').change(function () {
+            var color = getStrColor($("#TitleFontArgbColor").val());
+            $("#TitleFontArgbColorDiv span").css("background", color);
+            loadPdfPreview();
+        });
+
+        var isBoldTitleFont = $('#IsBoldTitleFont').prop('checked');
+        $("#lblIsBoldTitleFont").css("font-weight", isBoldTitleFont ? "bold" : "normal")
+        if (isBoldTitleFont) {
+            $("#lblIsBoldTitleFont").addClass("active");
+        } else {
+            $("#lblIsBoldTitleFont").removeClass("active");
+        }
+        var isItalicTitleFont = $('#IsItalicTitleFont').prop('checked');
+        $("#lblIsItalicTitleFont").css("font-weight", isItalicTitleFont ? "bold" : "normal")
+        if (isItalicTitleFont) {
+            $("#lblIsItalicTitleFont").addClass("active");
+        } else {
+            $("#lblIsItalicTitleFont").removeClass("active");
+        }
+
+        $('#IsBoldTitleFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+        $('#IsItalicTitleFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+    }
+
+    function configSubTitleFont() {
+        var color = getStrColor($("#SubTitleFontArgbColor").val());
+        $("#SubTitleFontArgbColorDiv span").css("background", color);
+        $('#SubTitleFontArgbColor').change(function () {
+            var color = getStrColor($("#SubTitleFontArgbColor").val());
+            $("#SubTitleFontArgbColorDiv span").css("background", color);
+            loadPdfPreview();
+        });
+
+        var isBoldSubTitleFont = $('#IsBoldSubTitleFont').prop('checked');
+        $("#lblIsBoldSubTitleFont").css("font-weight", isBoldSubTitleFont ? "bold" : "normal")
+        if (isBoldSubTitleFont) {
+            $("#lblIsBoldSubTitleFont").addClass("active");
+        } else {
+            $("#lblIsBoldSubTitleFont").removeClass("active");
+        }
+        var isItalicSubTitleFont = $('#IsItalicSubTitleFont').prop('checked');
+        $("#lblIsItalicSubTitleFont").css("font-weight", isItalicSubTitleFont ? "bold" : "normal")
+        if (isItalicSubTitleFont) {
+            $("#lblIsItalicSubTitleFont").addClass("active");
+        } else {
+            $("#lblIsItalicSubTitleFont").removeClass("active");
+        }
+
+        $('#IsBoldSubTitleFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+        $('#IsItalicSubTitleFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+    }
+
+    function configTableTitleFont() {
+        var color = getStrColor($("#TableTitleFontArgbColor").val());
+        $("#TableTitleFontArgbColorDiv span").css("background", color);
+        $('#TableTitleFontArgbColor').change(function () {
+            var color = getStrColor($("#TableTitleFontArgbColor").val());
+            $("#TableTitleFontArgbColorDiv span").css("background", color);
+            loadPdfPreview();
+        });
+
+        var isBoldTableTitleFont = $('#IsBoldTableTitleFont').prop('checked');
+        $("#lblIsBoldTableTitleFont").css("font-weight", isBoldTableTitleFont ? "bold" : "normal")
+        if (isBoldTableTitleFont) {
+            $("#lblIsBoldTableTitleFont").addClass("active");
+        } else {
+            $("#lblIsBoldTableTitleFont").removeClass("active");
+        }
+        var isItalicTableTitleFont = $('#IsItalicTableTitleFont').prop('checked');
+        $("#lblIsItalicTableTitleFont").css("font-weight", isItalicTableTitleFont ? "bold" : "normal")
+        if (isItalicTableTitleFont) {
+            $("#lblIsItalicTableTitleFont").addClass("active");
+        } else {
+            $("#lblIsItalicTableTitleFont").removeClass("active");
+        }
+
+        $('#IsBoldTableTitleFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+        $('#IsItalicTableTitleFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+    }
+
+    function configTableFont() {
+        var color = getStrColor($("#TableFontArgbColor").val());
+        $("#TableFontArgbColorDiv span").css("background", color);
+        $('#TableFontArgbColor').change(function () {
+            var color = getStrColor($("#TableFontArgbColor").val());
+            $("#TableFontArgbColorDiv span").css("background", color);
+            loadPdfPreview();
+        });
+
+        var isBoldTableFont = $('#IsBoldTableFont').prop('checked');
+        $("#lblIsBoldTableFont").css("font-weight", isBoldTableFont ? "bold" : "normal")
+        if (isBoldTableFont) {
+            $("#lblIsBoldTableFont").addClass("active");
+        } else {
+            $("#lblIsBoldTableFont").removeClass("active");
+        }
+        var isItalicTableFont = $('#IsItalicTableFont').prop('checked');
+        $("#lblIsItalicTableFont").css("font-weight", isItalicTableFont ? "bold" : "normal")
+        if (isItalicTableFont) {
+            $("#lblIsItalicTableFont").addClass("active");
+        } else {
+            $("#lblIsItalicTableFont").removeClass("active");
+        }
+
+        $('#IsBoldTableFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+        $('#IsItalicTableFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+    }
+
+    function configBodyFont() {
+        var color = getStrColor($("#BodyFontArgbColor").val());
+        $("#BodyFontArgbColorDiv span").css("background", color);
+        $('#BodyFontArgbColor').change(function () {
+            var color = getStrColor($("#BodyFontArgbColor").val());
+            $("#BodyFontArgbColorDiv span").css("background", color);
+            loadPdfPreview();
+        });
+
+        var isBoldBodyFont = $('#IsBoldBodyFont').prop('checked');
+        $("#lblIsBoldBodyFont").css("font-weight", isBoldBodyFont ? "bold" : "normal")
+        if (isBoldBodyFont) {
+            $("#lblIsBoldBodyFont").addClass("active");
+        } else {
+            $("#lblIsBoldBodyFont").removeClass("active");
+        }
+        var isItalicBodyFont = $('#IsItalicBodyFont').prop('checked');
+        $("#lblIsItalicBodyFont").css("font-weight", isItalicBodyFont ? "bold" : "normal")
+        if (isItalicBodyFont) {
+            $("#lblIsItalicBodyFont").addClass("active");
+        } else {
+            $("#lblIsItalicBodyFont").removeClass("active");
+        }
+
+        $('#IsBoldBodyFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+        $('#IsItalicBodyFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+    }
+
+    function configInfoMessageFont() {
+        var color = getStrColor($("#InfoMessageFontArgbColor").val());
+        $("#InfoMessageFontArgbColorDiv span").css("background", color);
+        $('#InfoMessageFontArgbColor').change(function () {
+            var color = getStrColor($("#InfoMessageFontArgbColor").val());
+            $("#InfoMessageFontArgbColorDiv span").css("background", color);
+            loadPdfPreview();
+        });
+
+        var isBoldInfoMessageFont = $('#IsBoldInfoMessageFont').prop('checked');
+        $("#lblIsBoldInfoMessageFont").css("font-weight", isBoldInfoMessageFont ? "bold" : "normal")
+        if (isBoldInfoMessageFont) {
+            $("#lblIsBoldInfoMessageFont").addClass("active");
+        } else {
+            $("#lblIsBoldInfoMessageFont").removeClass("active");
+        }
+        var isItalicInfoMessageFont = $('#IsItalicInfoMessageFont').prop('checked');
+        $("#lblIsItalicInfoMessageFont").css("font-weight", isItalicInfoMessageFont ? "bold" : "normal")
+        if (isItalicInfoMessageFont) {
+            $("#lblIsItalicInfoMessageFont").addClass("active");
+        } else {
+            $("#lblIsItalicInfoMessageFont").removeClass("active");
+        }
+
+        $('#IsBoldInfoMessageFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+        $('#IsItalicInfoMessageFont').change(function (e) {
+            var checked = $(this).prop('checked');
+            $(".ui-selected").each(function () {
+                $(this).css("font-weight", checked ? "bold" : "normal");
+            });
+            loadPdfPreview();
+        });
+    }
+
+    function ShowPreview(input) {
+        if (input.files && input.files[0]) {
+            var fileSize = input.files[0].size;
+            if (fileSize > (1024 * 1024)) {
+                writeError("msgErrorAnyModal", "¡La imagen de la marca de agua no puede ser más grande que 1MB!", "error");
+                $("#WatermarkFile").val("");
+                $('#imgPreview').attr('src', "");
+            } else {
+                var imageDir = new FileReader();
+                imageDir.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result);
+                }
+                imageDir.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+
+    function loadWatermark() {
+        var id = $("#Id").val();
+        $.ajax({
+            url: '/ReportSettings/GetWatermark/' + id,
+            success: function (data) {
+                $('#imgPreview').attr('src', data);
+            }
+        });
+    }
+
+    function getStrColor(colorId) {
+        if (colorId == 0) {
+            return '#000000';
+        } else if (colorId == 1) {
+            return '#0000FF';
+        } else if (colorId == 2) {
+            return '#00FFFF';
+        } else if (colorId == 3) {
+            return '#FF00FF';
+        } else if (colorId == 4) {
+            return '#00FF00';
+        } else if (colorId == 5) {
+            return '#FF7F50';
+        } else if (colorId == 6) {
+            return '#FFFF00';
+        } else if (colorId == 7) {
+            return '#FF0000';
+        } else if (colorId == 8) {
+            return '#FFFFFF';
+        } else if (colorId == 9) {
+            return '#A9A9A9';
+        } else if (colorId == 10) {
+            return '#808080';
+        } else if (colorId == 11) {
+            return '#D3D3D3';
+        } else if (colorId == 12) {
+            return '#FF69B4';
+        } else if (colorId == 13) {
+            return '#FF69B4';
+        }
+    }
+
+    function loadPdfPreview(files) {
+        var watermarkFile = undefined;
+        if (files && files[0]) {
+            watermarkFile = files[0];
+        }
+
+        var data = {
+            id: $("#Id").val(),
+            tenantId: $("#TenantId").val(),
+            reportName: $("#ReportName").val(),
+            reportTitle: $("#ReportTitle").val(),
+            showPrintDate: $("#ShowPrintDate").val(),
+            showPageNumber: $("#ShowPageNumber").val(),
+            useWatermark: $("#UseWatermark").val(),
+            isCustomSize: $("#IsCustomSize").val(),
+            lowerLeftX: $("#LowerLeftX").val(),
+            lowerLeftY: $("#LowerLeftY").val(),
+            upperRightX: $("#UpperRightX").val(),
+            upperRightY: $("#UpperRightY").val(),
+            marginLeft: $("#MarginLeft").val(),
+            marginRight: $("#MarginRight").val(),
+            marginTop: $("#MarginTop").val(),
+            marginBottom: $("#MarginBottom").val(),
+            titleFontName: $("#TitleFontName").val(),
+            subTitleFontName: $("#SubTitleFontName").val(),
+            tableTitleFontName: $("#TableTitleFontName").val(),
+            tableFontName: $("#TableFontName").val(),
+            bodyFontName: $("#BodyFontName").val(),
+            infoMessageFontName: $("#InfoMessageFontName").val(),
+            titleFontSize: $("#TitleFontSize").val(),
+            subTitleFontSize: $("#SubTitleFontSize").val(),
+            tableTitleFontSize: $("#TableTitleFontSize").val(),
+            tableFontSize: $("#TableFontSize").val(),
+            bodyFontSize: $("#BodyFontSize").val(),
+            infoMessageFontSize: $("#InfoMessageFontSize").val(),
+            titleFontArgbColor: $("#TitleFontArgbColor").val(),
+            subTitleFontArgbColor: $("#SubTitleFontArgbColor").val(),
+            tableTitleFontArgbColor: $("#TableTitleFontArgbColor").val(),
+            tableFontArgbColor: $("#TableFontArgbColor").val(),
+            bodyFontArgbColor: $("#BodyFontArgbColor").val(),
+            infoMessageFontArgbColor: $("#InfoMessageFontArgbColor").val(),
+            isBoldTitleFont: $("#IsBoldTitleFont").prop("checked"),
+            isBoldSubTitleFont: $("#IsBoldSubTitleFont").prop("checked"),
+            isBoldTableTitleFont: $("#IsBoldTableTitleFont").prop("checked"),
+            isBoldTableFont: $("#IsBoldTableFont").prop("checked"),
+            isBoldBodyFont: $("#IsBoldBodyFont").prop("checked"),
+            isBoldInfoMessageFont: $("#IsBoldInfoMessageFont").prop("checked"),
+            isItalicTitleFont: $("#IsItalicTitleFont").prop("checked"),
+            isItalicSubTitleFont: $("#IsItalicSubTitleFont").prop("checked"),
+            isItalicTableTitleFont: $("#IsItalicTableTitleFont").prop("checked"),
+            isItalicTableFont: $("#IsItalicTableFont").prop("checked"),
+            isItalicBodyFont: $("#IsItalicBodyFont").prop("checked"),
+            isItalicInfoMessageFont: $("#IsItalicInfoMessageFont").prop("checked")
+        };
+        var formData = new FormData();
+        Object.keys(data).forEach(key => formData.append(key, data[key]));
+        formData.append("WatermarkFile", watermarkFile);
+
+        abp.ui.setBusy($("#pdfPreview"));
+        $.ajax({
+            url: '/ReportSettings/GetPdfPreview',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                var pdfData = atob(data.result.pdfPreview);
+                var pdfjs = window['pdfjs-dist/build/pdf'];
+
+                pdfjs.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+                var loadingTask = pdfjs.getDocument({ data: pdfData });
+                loadingTask.promise.then(function (pdf) {
+                    var pageNumber = 1;
+                    pdf.getPage(pageNumber).then(function (page) {
+                        var scale = 0.95;
+                        var viewport = page.getViewport(scale);
+                        var canvas = document.getElementById('pdfPreviewCanvas');
+                        var context = canvas.getContext('2d');
+                        canvas.height = 580;
+                        canvas.width = viewport.width;
+                        var renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+                        var renderTask = page.render(renderContext);
+                        renderTask.then(function () {
+                        });
+                    });
+                }, function (reason) {
+                    console.error(reason);
+                });
+                abp.ui.clearBusy($("#pdfPreview"));
+            },
+            error: function () {
+                abp.ui.clearBusy($("#pdfPreview"));
+            }
+        });
+    }
+</script>
+
+@using (Ajax.BeginForm("Edit", "ReportSettings", new AjaxOptions { HttpMethod = "POST" }, new { @class = "form-horizontal ", @id = "form", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Editar Configuración de Reporte @Model.ReportTitle</h4>
+    </div>
+    if (Model != null)
+    {
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.TenantId)
+        @Html.HiddenFor(model => model.ReportName)
+        @Html.HiddenFor(model => model.ReportTitle)
+        @Html.HiddenFor(model => model.WatermarkImage)
+        @Html.HiddenFor(model => model.DeleteLogo)
+        <div class="well">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportName, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.ReportName, new { htmlAttributes = new { @id = "lblReportName", @class = "form-control", @disabled = "disabled" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReportTitle, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.ReportTitle, new { htmlAttributes = new { @id = "lblReportTitle", @class = "form-control", @disabled = "disabled" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" style="display:block;" href="#textSettings">Configuración de Texto</a>
+                    </h4>
+                </div>
+                <div id="textSettings" class="panel-collapse collapse">
+                    <div class="panel-group">
+                        <div class="panel panel-default" style="margin:7px">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" aria-expanded="true" href="#titleSetting"><span class="glyphicon glyphicon-chevron-down"></span> Título</a>
+                                </h4>
+                            </div>
+                            <div id="titleSetting" class="panel-collapse collapse">
+                                <div class="row" style="margin:7px">
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.TitleFontName, htmlAttributes: new { @class = "control-label" })
+                                        @Html.FontsDropDownListFor(model => model.TitleFontName, Model.Fonts, htmlAttributes: new { @class = "form-control", @id= "TitleFontName" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.LabelFor(model => model.TitleFontSize, htmlAttributes: new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.TitleFontSize, new SelectList(Model.FontSizes), new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.TitleFontArgbColor, htmlAttributes: new { @class = "control-label" })
+                                        <div id="TitleFontArgbColorDiv" class="input-group">
+                                            @Html.EnumDropDownListFor(model => model.TitleFontArgbColor, new { @class = "form-control" })
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="col-md-3">
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsBoldTitleFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsBoldTitleFont)
+                                                <span class="glyphicon glyphicon-bold"></span>
+                                            </label>
+                                        </div>
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsItalicTitleFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsItalicTitleFont)
+                                                <span class="glyphicon glyphicon-italic"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-group">
+                        <div class="panel panel-default" style="margin:7px">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" aria-expanded="true" href="#subtitleSetting"><span class="glyphicon glyphicon-chevron-down"></span> Subtítulo</a>
+                                </h4>
+                            </div>
+                            <div id="subtitleSetting" class="panel-collapse collapse">
+                                <div class="row" style="margin:7px">
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.SubTitleFontName, htmlAttributes: new { @class = "control-label" })
+                                        @Html.FontsDropDownListFor(model => model.SubTitleFontName, Model.Fonts, htmlAttributes: new { @class = "form-control", @id= "SubTitleFontName" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.LabelFor(model => model.SubTitleFontSize, htmlAttributes: new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.SubTitleFontSize, new SelectList(Model.FontSizes), new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.SubTitleFontArgbColor, htmlAttributes: new { @class = "control-label" })
+                                        <div id="SubTitleFontArgbColorDiv" class="input-group">
+                                            @Html.EnumDropDownListFor(model => model.SubTitleFontArgbColor, new { @class = "form-control" })
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="col-md-3">
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsBoldSubTitleFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsBoldSubTitleFont)
+                                                <span class="glyphicon glyphicon-bold"></span>
+                                            </label>
+                                        </div>
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsItalicSubTitleFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsItalicSubTitleFont)
+                                                <span class="glyphicon glyphicon-italic"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-group">
+                        <div class="panel panel-default" style="margin:7px">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" aria-expanded="true" href="#tabletitleSetting"><span class="glyphicon glyphicon-chevron-down"></span> Título de Tabla</a>
+                                </h4>
+                            </div>
+                            <div id="tabletitleSetting" class="panel-collapse collapse">
+                                <div class="row" style="margin:7px">
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.TableTitleFontName, htmlAttributes: new { @class = "control-label" })
+                                        @Html.FontsDropDownListFor(model => model.TableTitleFontName, Model.Fonts, htmlAttributes: new { @class = "form-control", @id= "TableTitleFontName" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.LabelFor(model => model.TableTitleFontSize, htmlAttributes: new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.TableTitleFontSize, new SelectList(Model.FontSizes), new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.TableTitleFontArgbColor, htmlAttributes: new { @class = "control-label" })
+                                        <div id="TableTitleFontArgbColorDiv" class="input-group">
+                                            @Html.EnumDropDownListFor(model => model.TableTitleFontArgbColor, new { @class = "form-control" })
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="col-md-3">
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsBoldTableTitleFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsBoldTableTitleFont)
+                                                <span class="glyphicon glyphicon-bold"></span>
+                                            </label>
+                                        </div>
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsItalicTableTitleFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsItalicTableTitleFont)
+                                                <span class="glyphicon glyphicon-italic"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-group">
+                        <div class="panel panel-default" style="margin:7px">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" aria-expanded="true" href="#tableSetting"><span class="glyphicon glyphicon-chevron-down"></span> Cuerpo de Tabla</a>
+                                </h4>
+                            </div>
+                            <div id="tableSetting" class="panel-collapse collapse">
+                                <div class="row" style="margin:7px">
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.TableFontName, htmlAttributes: new { @class = "control-label" })
+                                        @Html.FontsDropDownListFor(model => model.TableFontName, Model.Fonts, htmlAttributes: new { @class = "form-control", @id= "TableFontName" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.LabelFor(model => model.TableFontSize, htmlAttributes: new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.TableFontSize, new SelectList(Model.FontSizes), new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.TableFontArgbColor, htmlAttributes: new { @class = "control-label" })
+                                        <div id="TableFontArgbColorDiv" class="input-group">
+                                            @Html.EnumDropDownListFor(model => model.TableFontArgbColor, new { @class = "form-control" })
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="col-md-3">
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsBoldTableFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsBoldTableFont)
+                                                <span class="glyphicon glyphicon-bold"></span>
+                                            </label>
+                                        </div>
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsItalicTableFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsItalicTableFont)
+                                                <span class="glyphicon glyphicon-italic"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-group">
+                        <div class="panel panel-default" style="margin:7px">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" aria-expanded="true" href="#bodySetting"><span class="glyphicon glyphicon-chevron-down"></span> Cuerpo de Reporte</a>
+                                </h4>
+                            </div>
+                            <div id="bodySetting" class="panel-collapse collapse">
+                                <div class="row" style="margin:7px">
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.BodyFontName, htmlAttributes: new { @class = "control-label" })
+                                        @Html.FontsDropDownListFor(model => model.BodyFontName, Model.Fonts, htmlAttributes: new { @class = "form-control", @id= "BodyFontName" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.LabelFor(model => model.BodyFontSize, htmlAttributes: new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.BodyFontSize, new SelectList(Model.FontSizes), new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.BodyFontArgbColor, htmlAttributes: new { @class = "control-label" })
+                                        <div id="BodyFontArgbColorDiv" class="input-group">
+                                            @Html.EnumDropDownListFor(model => model.BodyFontArgbColor, new { @class = "form-control" })
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="col-md-3">
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsBoldBodyFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsBoldBodyFont)
+                                                <span class="glyphicon glyphicon-bold"></span>
+                                            </label>
+                                        </div>
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsItalicBodyFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsItalicBodyFont)
+                                                <span class="glyphicon glyphicon-italic"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-group">
+                        <div class="panel panel-default" style="margin:7px">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" aria-expanded="true" href="#infoSetting"><span class="glyphicon glyphicon-chevron-down"></span> Información</a>
+                                </h4>
+                            </div>
+                            <div id="infoSetting" class="panel-collapse collapse">
+                                <div class="row" style="margin:7px">
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.InfoMessageFontName, htmlAttributes: new { @class = "control-label" })
+                                        @Html.FontsDropDownListFor(model => model.InfoMessageFontName, Model.Fonts, htmlAttributes: new { @class = "form-control", @id= "InfoMessageFontName" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.LabelFor(model => model.InfoMessageFontSize, htmlAttributes: new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.InfoMessageFontSize, new SelectList(Model.FontSizes), new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.InfoMessageFontArgbColor, htmlAttributes: new { @class = "control-label" })
+                                        <div id="InfoMessageFontArgbColorDiv" class="input-group">
+                                            @Html.EnumDropDownListFor(model => model.InfoMessageFontArgbColor, new { @class = "form-control" })
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="col-md-3">
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsBoldInfoMessageFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsBoldInfoMessageFont)
+                                                <span class="glyphicon glyphicon-bold"></span>
+                                            </label>
+                                        </div>
+                                        <div class="btn-group" data-toggle="buttons" style="margin-top:7px;">
+                                            <label id="lblIsItalicInfoMessageFont" class="btn btn-default">
+                                                @Html.CheckBoxFor(model => model.IsItalicInfoMessageFont)
+                                                <span class="glyphicon glyphicon-italic"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" style="display:block;" href="#watermark">Imagen de fondo</a>
+                    </h4>
+                </div>
+                <div id="watermark" class="panel-collapse collapse">
+                    <div class="form-group">
+                        <div class="col-sm-11" style="margin:7px;">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <img id="imgPreview" alt="Watermark" src="@Model.WatermarkBase64String" style="height:auto;width:100%;" />
+                                </div>
+                                <div class="panel-footer">
+                                    <span>
+                                        <label>Imagen de fondo (Tamaño Máximo 1MB)</label>
+                                    </span>
+                                    @Html.FileFor(model => model.WatermarkFile, new { style = "visibility:hidden;height:1px;", @class = "form-control input-sm", @name = "WatermarkFile", @onchange = "ShowPreview(this)", @accept = "image/jpeg,image/png,image/pjpeg,image/x-png" })
+                                    <span>
+                                        <label for="WatermarkFile" class="btn btn-sm btn-default"><i class="fa fa-upload"></i></label>
+                                        <i id="btnClearWatermarkFile" class="btn btn-sm btn-default"><i class="fa fa-trash"></i></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-group" id="pdfPreview">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" style="display:block;" href="#textSettings">Vista Previa</a>
+                    </h4>
+                </div>
+                <div style="margin:7px;">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div style="width:600px; height:600px; overflow-y: scroll;">
+                                <canvas id="pdfPreviewCanvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        if (Model.ErrorCode == 1)
+        {
+            <hr />
+            <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@Model.ErrorDescription</strong>
+            </div>
+        }
+        else if (Model.ErrorCode == -1)
+        {
+            <hr />
+            <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@Model.ErrorDescription</strong>
+            </div>
+        }
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    }
+}

@@ -1,0 +1,36 @@
+﻿@using System.Web.Mvc.Html
+@model TicoPay.BranchOffices.Dto.SearchBranchOfficesInput
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    @using (Html.BeginForm(Model.Action, Model.Control, FormMethod.Post, new { @id = "searchForm" }))
+    {
+    <div class="row">
+        <div class="col-lg-1" style="padding-top:7px">
+            <label>
+                Código
+            </label>
+        </div>
+        <div class="col-lg-3">
+            @{
+                @Html.TextBoxFor(model => model.CodeFilter, new { @placeholder = "Introducir Código...", @id = "searchCode", @type = "text", @class = "form-control", maxlength = "3" })
+            }
+        </div>
+        <div class="col-lg-1" style="padding-top:7px">
+            <label>
+                Nombre
+            </label>
+        </div>
+        <div class="col-lg-3">
+            @Html.TextBoxFor(model => model.NameFilter, new { @placeholder = "Introducir Nombre...", @id = "searchName", @type = "text", @class = "form-control", maxlength = "50" })
+        </div>
+
+        <div class="col-lg-4">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-success">Buscar</button>
+            </span>
+        </div>
+    </div>
+        
+      
+
+    }
+</div>

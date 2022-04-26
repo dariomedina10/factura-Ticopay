@@ -1,0 +1,208 @@
+﻿@model TicoPay.Vouchers.Dto.VoucherDto
+
+@{
+    ViewBag.Title = "Confirmar XML - Cargar XML";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="@Url.Content("~/Content/jasny-bootstrap.min.css")" rel="stylesheet" />
+
+<script>
+    $(document).ready(function () {
+        function writeError(control, msg, type) {
+            if (type === "success") {
+                abp.notify.success(msg, "");
+            } else if (type === "error") {
+                abp.notify.error(msg, "");
+                var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+                $("#" + control).html(alert);
+            } else { abp.notify.warn(msg, ""); }
+        }
+
+        $('#btnload').on('click', function () {
+            var filename = $('#span-fileName').text();
+            var statusDiv = $("#divInputFile").hasClass('fileinput-exists');
+                     
+            if (filename != "" && statusDiv == false) {
+                event.preventDefault();
+                writeError("indexalerts", "ya existe un archivo seleccionado!", "error");
+            }
+        });
+
+        $('#toggle-two').change(function () {
+
+            if ($(this).prop('checked')) {
+                $("#hd_TypeVoucher").val("Purchases"); 
+            }
+            else {
+                $("#hd_TypeVoucher").val("Expenses");
+            }
+        })
+        
+        var pixel_ratio = window.devicePixelRatio;
+        var screenWidth = 0;
+        var screenHeight = 0;
+        $(window).resize(function () {
+            if (pixel_ratio != window.devicePixelRatio) {
+                pixel_ratio = window.devicePixelRatio
+                screenWidth = windowSize()[0];
+                //screenHeight = windowSize()[1];
+                console.log(screenWidth + ' el otro tamaño es: ' + screenHeight);//cambiar lor alert, lo dejo porque es mas facil para testear
+                console.log(screenWidth);
+                if (screenWidth >= 0 && screenWidth <= 204) {
+                    $(".cortar").width(50);
+                }
+                if (screenWidth >= 205 && screenWidth <= 254) {
+                    $(".cortar").width(50);
+                }
+                if (screenWidth >= 256 && screenWidth <= 270) {
+                    $(".cortar").width(100);
+                }
+                if (screenWidth >= 272 && screenWidth <= 341) {
+                    $(".cortar").width(150);
+                }
+                if (screenWidth >= 342 && screenWidth <= 911) {
+                    $(".cortar").width(180);
+                }
+                if (screenWidth >= 912 && screenWidth <= 930) {
+                    $(".cortar").width(500);
+                }
+                if (screenWidth >= 931 && screenWidth <= 1821) {
+                    $(".cortar").width(400);
+                }
+                if (screenWidth >= 1822 && screenWidth <= 1093) {
+                    $(".cortar").width(300);
+                }
+                if (screenWidth >= 1094 && screenWidth <= 5464) {
+                    $(".cortar").width(250);
+                }
+                console.log("tamaño actual es: " + $(".cortar").width());
+
+            }
+        });
+
+
+        //.cortar {
+        //    width: 270px;
+        //}
+        function windowSize() {
+            var size = [0, 0];
+            if (typeof window.innerWidth != 'undefined') {
+                size = [window.innerWidth, window.innerHeight];
+            }
+            else if (typeof document.documentElement != 'undefined'
+                && typeof document.documentElement.clientWidth !=
+                'undefined' && document.documentElement.clientWidth != 0) {
+                size = [
+                    document.documentElement.clientWidth,
+                    document.documentElement.clientHeight
+                ];
+            }
+            else {
+                size = [
+                    document.getElementsByTagName('body')[0].clientWidth,
+                    document.getElementsByTagName('body')[0].clientHeight
+                ];
+            }
+            return size;
+        }
+    });
+</script>
+
+@if (!ViewBag.isOpenDrawer)
+{
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-4">
+        <h2>Confirmar XML</h2>
+    </div>
+   
+   
+
+</div>
+    <br />
+    <div class="row ">
+
+        <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>No se encuentra ninguna Caja abierta, debe aperturar una Caja para realizar comprobantes electrónicos</strong>
+        </div>
+
+    </div>
+    <br />
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content">
+                    <div class="col-lg-offset-5">
+                        <a class="btn btn-default" href="@Url.Action("Index", "Voucher")">Cerrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-4">
+            <h2>Confirmar XML</h2>
+        </div>
+        @if (Model.Drawer != null)
+        {
+            <div class="col-lg-8 text-right">
+                <h2>Sucursal: @Model.Drawer.BranchOffice.Name - Caja: @Model.Drawer.Code</h2>
+            </div>
+
+        }
+    </div>
+    if (Model.ListType != null)
+    {
+        <br />
+        <div class="wrapper   fadeIn white-bg" style="padding-top:10px">
+            @using (Html.BeginForm("Subir", "voucher", FormMethod.Post, new { id = "frm", enctype = "multipart/form-data" }))
+            {
+            <div class="form-horizontal">
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">Seleccionar XML</label>
+                        <div class="col-lg-6">
+                            <div class="fileinput fileinput-new input-group" id="divInputFile" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput">
+                                    <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                    <span class="fileinput-filename cortar" id="span-fileName">@{ if (Model.File != null)
+                                        { @Model.File.FileName;
+                                    } }</span>
+                                </div>
+                                <span class="input-group-addon btn btn-default btn-file">
+                                    <span class="fileinput-new filehidden">...</span>
+                                    <span class="fileinput-exists filehidden">Cambiar</span>
+                                    @Html.TextBoxFor(model => model.File, new { type = "file", id = "file", required = "required" })
+                                </span>
+                                <a href="#" class="input-group-addon btn btn-default fileinput-exists filehidden" data-dismiss="fileinput">Remover</a>
+
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-4">
+                            <button type="submit" class="btn btn-primary" id="btnload">Cargar</button>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            }
+        </div>
+    }
+    <br />
+
+    <div id="anyForm">
+        @{Html.RenderPartial("_formPartial", Model);}
+    </div>
+}
+
+
+
+<script src="@Url.Content("~/Scripts/jasny-bootstrap.min.js")" type="text/javascript"></script>

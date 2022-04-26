@@ -1,0 +1,142 @@
+﻿@using TicoPay.Invoices
+@model IEnumerable<TicoPay.ReportStatusInvoices.Dto.ReportStatusNoteDto>
+
+@if (Model != null && Model.Any())
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+    <table class="table table-responsive  dt-responsive" style="font-size: small">
+        <thead>
+            <tr>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.NoteType)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.ConsecutiveNumber)
+                </th>
+                <th style="text-align: center">
+                    Fecha
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.TaxAmount)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.StatusTribunet)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.SendInvoice)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.IsNoteReceptionConfirmed)
+                </th>
+                <th title="Descargas XML"><i id="download-control" class="glyphicon glyphicon-download-alt" style="font-size:16px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @TicoPay.Application.Helpers.EnumHelper.GetDescription(item.NoteType)
+                    @*@Html.DisplayFor(modelItem => item.NoteType)*@
+                </td>
+                <td>
+                    @item.ConsecutiveNumber
+
+                </td>
+                <td>
+                    @item.CreationTime.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+
+                    @item.CodigoMoneda @Html.FormatValue(@item.Amount, currencyFmt)
+                </td>
+                <td>
+                    @item.CodigoMoneda @Html.FormatValue(@item.TaxAmount, currencyFmt)
+
+                </td>
+                <td>
+                    @item.CodigoMoneda  @Html.FormatValue(@item.Total, currencyFmt)
+                </td>
+                <td style="text-align: center">
+                    @if (item.StatusTribunet == StatusTaxAdministration.Recibido)
+                    {<span class="label label-success">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+                    @if (item.StatusTribunet == StatusTaxAdministration.Procesando)
+                    {<span class="label label-info">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+                    @if (item.StatusTribunet == StatusTaxAdministration.Aceptado)
+                    {
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <span class="label label-primary">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>
+                            </div>
+                        </div>
+                    }
+                    @if (item.StatusTribunet == StatusTaxAdministration.Rechazado)
+                    {
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <span class="label label-warning">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>
+                            </div>
+                        </div>
+                    }
+                    @if (item.StatusTribunet == StatusTaxAdministration.Error)
+                    {<span class="label label-danger">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+                    @if (item.StatusTribunet == StatusTaxAdministration.NoEnviada)
+                    {<span class="label">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+
+
+                </td>
+                <td>
+                    @if (item.SendInvoice)
+                    {
+                        <span class="label label-primary">Enviada</span>
+                    }
+                    else
+                    {
+                        <span class="label">NoEnviada</span>
+                    }
+
+                </td>
+                <td style="text-align: center">
+                    @if (item.IsNoteReceptionConfirmed)
+                    {
+                        <span class="label label-primary">@StatusReception.Confirmada.ToString()</span>
+                    }
+                    else
+                    {
+                        <span class="label label-success">@StatusReception.Pendiente.ToString()</span>
+                    }
+
+                </td>
+                <td>
+                    <div class="dropdown">
+                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                         ...
+                     </button>
+                        <ul class="dropdown-menu" style="margin-left: -140px;">
+                            @if (item.HasMessageTaxAdministration)
+                            {
+                                <li><a href="@Url.Action("DescargarRespuestaXmlNote", "ReportStatusInvoices", new { id = @item.ConsecutiveNumber })" title="Descargar"><i id="download-control" class="glyphicon glyphicon-download-alt" style="font-size:16px;"></i>&nbsp;Respuesta XML</a></li>
+                            }
+                            <li><a href="@Url.Action("DownloadNote", "ReportStatusInvoices", new { id = @item.ConsecutiveNumber })" title="Descargar"><i id="download-control" class="glyphicon glyphicon-download-alt" style="font-size:16px;"></i>&nbsp;Nota @TicoPay.Application.Helpers.EnumHelper.GetDescription(item.NoteType) Electrónica</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning alert-dismissible" role="alert" style="text-align: center;">
+
+        <strong>¡No posee notas de crédito o débito asociadas!</strong>
+    </div>
+}

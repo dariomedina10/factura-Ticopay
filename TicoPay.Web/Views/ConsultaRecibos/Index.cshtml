@@ -1,0 +1,60 @@
+﻿@using Abp.Web.Mvc.Extensions
+@model TicoPay.ConsultaRecibos.Dto.SearchConsultaRecibosInput
+@{
+    ViewBag.Title = "Consulta de Recibos";
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Scripts/consultaRecibos.js")
+}
+<br/>
+<br/>
+<br />
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-4">
+        
+    </div>
+    <div class="col-lg-4">
+        <h2 style="text-align: center">Consulta de Recibos Pendientes</h2>
+    </div>
+    <div class="col-lg-4">
+        
+    </div>
+</div>
+<br />
+<input type="hidden" id="clientIdHidden" />
+<div id="IndexAlerts" style="text-align: center">
+</div >
+@{Html.RenderPartial("_searchPartial", Model);}
+<br />
+<div id="anyListEntity">
+    @*@{Html.RenderPartial("_listPartial");}*@
+</div>
+<script>
+    $(document).ready(function () {
+        var searchUrl = "/ConsultaRecibos/Search";
+        $("#btnSubmit").click(function () {
+            //clearErrors();
+            abp.ui.setBusy();
+            $('#anyListEntity').html('');
+            var identification = $("#identificationText").val();
+            var tenantId = $("#Tenants_DD").val();
+            //var action = $("#searchForm").attr("action");
+            $.ajax({
+                url: searchUrl,
+                type: "POST",
+                cache: false,
+                data: { identification: identification, tenantId: tenantId },
+                success: function (data) {
+                    $('#anyListEntity').html(data);
+                    abp.ui.clearBusy();
+                }, error: function (err) {
+                    //writeError('msgErrorAnyModal', err, 'error');
+                    abp.ui.clearBusy();
+                    alert("Error");
+                }
+            });
+
+        });
+    });
+</script>

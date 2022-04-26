@@ -1,0 +1,91 @@
+﻿@using System.Globalization
+@using TicoPay.Invoices
+@model TicoPay.ReportTaxAdministration.Dto.ReportTaxAdministrationSearchInvoicesInput
+@{
+    ViewBag.Title = "Reporte de Facturas";
+}
+<style>
+    .form-control {
+        margin-bottom: 15px;
+    }
+</style>
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    @using (Ajax.BeginForm("Search", "ReportTaxAdministration", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "anyListEntity" }, new { @id = "searchForm" }))
+    {
+        @Html.Hidden("TenantId_hidden")
+
+        <div class="row">
+            <div class="col-md-4">
+                @Html.HiddenFor(model => model.EmisorId, new { @id = "EmisorId_hidden" })
+                @Html.LabelFor(model => model.NombreEmisor, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    @Html.TextBoxFor(model => model.NombreEmisor, new { @class = "form-control", @readonly = "readonly", @id = "EmisorName_text", @placeholder = "Seleccione..." })
+                    <a href="javascript:void(0);" id="btnShowEmisorList" class="input-group-addon btn" title="Escoger">...</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                @Html.HiddenFor(model => model.ReceptorId, new { @id = "ReceptorId_hidden" })
+                @Html.LabelFor(model => model.NombreReceptor, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    @Html.TextBoxFor(model => model.NombreReceptor, new { @class = "form-control", @readonly = "readonly", @id = "ReceptorName_text", @placeholder = "Seleccione..." })
+                    <a href="javascript:void(0);" id="btnShowReceptorList" class="input-group-addon btn" title="Escoger">...</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.NumeroFactura, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.NumeroFactura, new { htmlAttributes = new { @class = "form-control", @placeholder = "Número de Factura" } })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.RecepcionConfirmada, htmlAttributes: new { @class = "control-label" })
+                <select class="form-control list-box tri-state" id="RecepcionConfirmada" name="RecepcionConfirmada">
+                    <option selected="selected" value="">Seleccione...</option>
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.FechaEmisionDesde, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.FechaEmisionDesde, new { htmlAttributes = new { @type = "date", @class = "form-control", @placeholder = "Désde" } })
+            </div>
+
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.FechaEmisionHasta, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.FechaEmisionHasta, new { htmlAttributes = new { @type = "date", @class = "form-control", @placeholder = "Hásta" } })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.MontoDesde, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.MontoDesde, new { @class = "form-control", type = "number", @min = "0", @step = "0.01", @max = "999999999", @maxlength = "19", @pattern = @"\d+(,\d{1,2})?" })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.MontoHasta, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.MontoHasta, new { @class = "form-control", type = "number", @min = "0", @step = "0.01", @max = "999999999", @maxlength = "19", @pattern = @"\d+(,\d{1,2})?" })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.TotalImpuestosDesde, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.TotalImpuestosDesde, new { @class = "form-control", type = "number", @min = "0", @step = "0.01", @max = "999999999", @maxlength = "19", @pattern = @"\d+(,\d{1,2})?" })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.TotalImpuestosHasta, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.TotalImpuestosHasta, new { @class = "form-control", type = "number", @min = "0", @step = "0.01", @max = "999999999", @maxlength = "19", @pattern = @"\d+(,\d{1,2})?" })
+            </div>
+
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(s => s.Status, Model.StatusesInvoice, "Todos", new { @class = "form-control" })
+            </div>            
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.StatusTribunet, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(s => s.StatusTribunet, Model.StatusesTribunet, "Todos", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="col-lg-1 pull-right">
+            <a href="@Url.Action("Index", "ReportTaxAdministration")" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;Limpiar</a>
+        </div>
+        <div class="col-lg-1 pull-right">
+            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;Buscar</button>
+        </div>
+    }
+</div>

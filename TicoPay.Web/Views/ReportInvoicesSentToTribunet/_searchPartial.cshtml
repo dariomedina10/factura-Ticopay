@@ -1,0 +1,47 @@
+﻿@using System.Globalization
+@using TicoPay.Invoices
+@model TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput
+@{
+    ViewBag.Title = "Reporte de Facturas";
+}
+<style>
+    .form-control {
+        margin-bottom: 15px;
+    }
+</style>
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    @using (Ajax.BeginForm("Search", "ReportInvoicesSentToTribunet", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "anyListEntity" }, new { @id = "searchForm" }))
+    {
+        @Html.Hidden("TenantId_hidden")
+
+        <div class="row">
+            <div class="col-md-4">
+                @Html.HiddenFor(model => model.ClienteId, new { @id = "ClienteId_hidden" })
+                @Html.LabelFor(model => model.NombreCliente, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    @Html.TextBoxFor(model => model.NombreCliente, new { @class = "form-control", @readonly = "readonly", @id = "ClienteName_text", @placeholder = "Seleccione..." })
+                    <a href="javascript:void(0);" id="btnShowClienteList" class="input-group-addon btn" title="Escoger">...</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.FechaEmisionDesde, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.FechaEmisionDesde, new { htmlAttributes = new { @type = "date", @class = "form-control", @placeholder = "Désde" } })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.FechaEmisionHasta, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.FechaEmisionHasta, new { htmlAttributes = new { @type = "date", @class = "form-control", @placeholder = "Hásta" } })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.StatusTribunet, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(s => s.StatusTribunet, Model.StatusesTribunet, "Todos", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="col-lg-1 pull-right">
+            <a href="@Url.Action("Index", "ReportInvoicesSentToTribunet")" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;Limpiar</a>
+        </div>
+        <div class="col-lg-1 pull-right">
+            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;Buscar</button>
+        </div>
+    }
+</div>

@@ -1,0 +1,120 @@
+﻿@model TicoPay.GroupConcept.Dto.GroupConceptsDetailOutput
+@{
+    ViewBag.Title = "Detalle Grupo de Servicios";
+}
+<div class="">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3>Detalle de @Html.DisplayFor(model => model.Name)</h3>
+    </div>
+    @Html.HiddenFor(model => model.CronExpression, new { @id = "CronExprHidden" })
+    <div class="well">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "NameText", @Type = "text", @disabled = "disabled" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "DescriptionText", @Type = "text", @disabled = "disabled" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Services, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.ListBoxFor(m => m.ServiceIds, Model.Services.Select(f => new SelectListItem { Text = f.Name, Value = f.Id.ToString() }), new { Multiple = "multiple", @class = "chosen-select ", @readonly = "readonly", @data_placeholder = "Seleccione uno o varios grupos...", @style = "width:307px" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CronExpression, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div>
+                        <div id='cronSelector'></div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        </div>
+        <fieldset style="font-size: smaller;">
+            <div class="row">
+                <p class="col-md-3">
+                    <strong>Fecha Creación:</strong>
+                </p>
+                <p class="col-md-3">@Html.DisplayFor(model => model.CreationTime)</p>
+                <p class="col-md-3">
+                    <strong>Creado Por: </strong>
+                </p>
+                <p class="col-md-3">@Model.CreatorUserUserName</p>
+            </div>
+            @if (Model.LastModifierUserId > 0)
+            {
+                <div class="row">
+                    <p class="col-md-3">
+                        <strong>Fecha Modificación:</strong>
+                    </p>
+                    <p class="col-md-3">@Html.DisplayFor(model => model.LastModificationTime)</p>
+                    <p class="col-md-3">
+                        <strong>Modificado Por: </strong>
+                    </p>
+                    <p class="col-md-3">@Model.CreatorUserUserName</p>
+                </div>
+            }
+        </fieldset>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var initalValue = $('#CronExprHidden').val();
+        if (initalValue === "") {
+            initalValue = undefined;
+        }
+        $('#cronSelector').cron({
+            initial: initalValue,
+            customValues: {
+                "quincena": "0 0 1 1/15 * ? *",
+                "trimestre": "0 0 1 1 1/3 ? *",
+                "semestre": "0 0 1 1 1/6 ? *"
+            },
+            onChange: function () {
+                $('#CronExprHidden').val($(this).cron("value"));
+            }
+        });
+        $("#cronSelector *").prop('disabled', true);
+        var config = {
+            '.chosen-select': { width: '408px', disabled:'disabled' },
+            '.chosen-select-deselect': { allow_single_deselect: true },
+            '.chosen-select-width': { width: "95%" }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $('.search-choice-close').hide();
+    });
+
+    $(document).on('change', '[data-cascade-combo]', function (event) {
+        var id = $(this).attr('data-cascade-combo');
+        var url = $(this).attr('data-cascade-combo-source');
+        var paramName = $(this).attr('data-cascade-combo-param-name');
+        var data = {};
+        data[paramName] = id;
+        $.ajax({
+            url: url,
+            data: {
+                id: $(this).val()
+            },
+            success: function (data) {
+                $(id).html('');
+                $.each(data.result, function (index, type) {
+                    var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                    $(id).append(content);
+                });
+            }
+        });
+    });
+</script>

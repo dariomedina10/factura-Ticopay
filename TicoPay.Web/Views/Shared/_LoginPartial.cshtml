@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+    
+    <div class="navbar-buttons navbar-header pull-right" role="navigation">
+        <ul class="nav ace-nav">
+            <!-- #section:basics/navbar.user_menu -->
+            <li class="light-blue">
+                <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                    @*<img class="nav-user-photo" src="Images/avatar2.png" alt="Avatar Photo" />*@
+                        <span class="user-info">
+                            <small>Bienvenido,</small>
+                            @User.Identity.GetUserName()
+                        </span>
+                    <i class="ace-icon fa fa-caret-down"></i>
+                </a>
+
+                <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                    <li>
+                        <a href="@Url.Action("Index", "About", new {id =  @User.Identity.GetUserId()})">
+                            <i class="ace-icon fa fa-user"></i>
+                            Ver Perfil
+                        </a>
+                    </li>
+                    <li>
+                        <a id="linkAbout">
+                            <i class="ace-icon fa fa-question-circle-o"></i>
+                            Acerca de
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            <i class="ace-icon fa fa-power-off"></i>
+                            Cerrar Sesión
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- /section:basics/navbar.user_menu -->
+        </ul>
+    </div>
+
+    }
+}
+else
+{
+    <ul class="nav navbar-top-links navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

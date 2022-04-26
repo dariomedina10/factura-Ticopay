@@ -1,0 +1,764 @@
+﻿@model TicoPay.Invoices.Dto.CreateInvoiceInput
+@using TicoPay.Web.Helpers
+@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = "Crear Nueva Factura";
+}
+@{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+}
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/util/formatter.js")" type="text/javascript"></script>
+@Html.IncludeVersionedJs("/Scripts/Invoice/invoice.js")
+
+@*<script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>*@
+@*<script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>*@
+<script src="@Url.Content("~/Scripts/bootstrap3-typeahead.min.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/jquery.numeric.js")" type="text/javascript"></script>
+
+
+@Html.IncludeVersionedJs("/Scripts/Invoice/newinvoice.js")
+
+<script src="@Url.Content("~/Scripts/tutorial/turorial.js")" type="text/javascript"></script>
+
+
+
+@*<link href="@Url.Content("~/Content/bootstrap-toggle.min.css")" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/bootstrap-toggle.min.js")"></script>*@
+
+
+@Html.Raw(ViewBag.WCPScript);
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        if ('@Model.TipoFirma' == '@TicoPay.MultiTenancy.Tenant.FirmType.Todos')
+            $("#FirmTypes_DD").removeAttr('disabled');
+
+
+        $("#FormaPago_dropdown").bind("change", function () {
+            var selectedVal = $(this).val();
+            //console.log(selectedVal);
+            if (selectedVal != "0") {
+                $('#nrotransaction').show();
+            } else {
+                $('#nrotransaction').hide();
+            }
+        });
+          //var termTemplate = "<span class='ui-state-hover'>%s</span>";
+
+
+
+
+    });
+
+
+</script>
+
+@*<script>
+        $(function () {
+            $('#toggle-two').bootstrapToggle({
+                on: 'Factura',
+                off: 'Tiquete'
+            });
+        });
+    </script>*@
+
+@if (!ViewBag.isOpenDrawer)
+{
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-8">
+            <h2>
+                Nuevo Comprobante Electrónico
+            </h2>
+        </div>
+        <div class="col-lg-2"> <h2></h2> </div>
+
+    </div>
+    <br />
+    <div class="row ">
+
+        <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>No se encuentra ninguna Caja abierta, debe aperturar una Caja para realizar comprobantes electrónicos</strong>
+        </div>
+
+    </div>
+    <br />
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content">
+                    <div class="col-lg-offset-5">
+                        <a class="btn btn-default" href="@Url.Action("Index", "Invoice")">Cerrar##</a>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    using (Html.BeginForm("CreateList", "Invoice", FormMethod.Post, new { @class = "form-horizontal ", @id = "formInvoice" }))
+    {
+    @Html.ValidationSummary(true)
+
+        @*<div class="row" style="padding-left:15px">
+        <div class="col-lg-6">
+            <div class="form-horizontal">
+                   
+                </div>
+            </div>
+        </div>*@
+    <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-6">
+            <h2>
+                Nuevo Comprobante Electrónico:
+                @*<input type="checkbox" data-toggle="toggle" data-width="200" data-on="Factura Electrónica" data-off="Tiquete Electrónico">*@ @*@data_toggle = "toggle",*@
+                @Html.CheckBoxFor(m => m.IsInvoice, new
+                {
+                    @id = "toggle-two",
+                    @data_toggle = "toggle",
+                    @type = "checkbox",
+                    @data_width = "200",
+                    @data_on = "Factura Electrónica",
+                    @data_off = "Tiquete Electrónico"
+                })
+            </h2>
+        </div>
+            @if (Model.Drawer != null)
+    {
+        <div class="col-lg-6 text-right">
+            <h2>Sucursal: @Model.Drawer.BranchOffice.Name - Caja: @Model.Drawer.Code</h2>
+        </div>
+       
+}
+
+          
+        @*<div class="row" style="padding-left:15px">
+                <div class="col-lg-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.Label("Moneda:", new { @class = "control-label col-lg-2" })
+                            <div class="col-md-8">
+                                @Html.CheckBoxFor(m => m.IsUSDOfCRC, new { @id = "toggle-two", @type = "checkbox" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+
+    <br />
+    if (Model != null)
+    {
+
+        <fieldset style="position: relative;z-index: 100;">
+            <div class="animated fadeIn">
+                @if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok)
+    {
+            <div class="row ">
+                <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@Model.ErrorDescription</strong>
+                </div>
+            </div>
+                    }
+                    else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error || Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.InvoicesMonthlyLimitReached)
+                    {
+            <div class="row ">
+                <div class="col-lg-12">
+                    <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                </div>
+            </div>
+                    }
+                <input type="hidden" id="ClientId_hidden" />
+                <div id="IndexAlerts" style="text-align: center">
+                </div>
+                @if (Model.ErrorCode != TicoPay.Common.ErrorCodeHelper.InvoicesMonthlyLimitReached)
+    {
+            <input type="hidden" id="sid" name="sid" value="@HttpContext.Current.Session.SessionID" />
+             <input type="hidden" id="MaxLines" name="MaxLines" value="@ViewBag.MaxLineDetails" />
+            <input type="hidden" id="IsPos_HD"  value="@Model.IsPos" />
+            <input type="hidden" id="TypePrinter_HD" name="TypePrinter_HD" value="@Model.PrinterType" />
+
+Html.RenderPartial("_searchClientPartial", Model);
+            <br />
+            <div class="wrapper wrapper-content  fadeInRight white-bg" style="z-index:80">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6 col-xs-12 text-right"><strong>Aplicar descuento masivo:</strong></div>
+                            <div class="col-lg-3 col-md-5 col-xs-12">
+                                <div class="col-lg-6 col-md-6 col-xs-6" style="padding-right:0px!important; padding-left:0px!important">
+                                    <select id="Chkgeneral" class="form-control">
+                                        <option value="true" selected>%</option>
+                                        <option value="false">Monto</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-xs-6" style="padding-right:0px!important; padding-left:0px!important">
+                                            <input id="porcentajeGrl" type="text" class="text-right form-control numeric" value="0.00" oninput = "if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "5" />
+                                            <input id="DescuentoGrl" type="text" class="text-right form-control numeric hidden" disabled="disabled" value="0.00" oninput = "if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "15" />
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-1 col-xs-12"><a id="btnAplyDesc" class="btn btn-primary">Aplicar</a></div>
+                            @*<div class="col-lg-4 col-xs-12 " style="padding-bottom:5px; padding-top:5px!important">
+
+                    </div>*@
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 text-center"><label id="lbPrc" class="hidden"><small>% descuento aplicar: <span id="Prc">0.00</span></small> </label></div>
+
+                        <br /><br />
+                        <div class="table-responsive">
+                            <table id="gridService" class="table table-bordered gridService" style="padding: 0 !important">
+                                <thead>
+                                    <tr>
+                                        <th style="width:33%;vertical-align:middle;">Producto / Servicio</th>
+                                        <th style="width:10%;vertical-align:middle;">Precio</th>
+                                        <th style="width:5%;vertical-align:middle;">Cantidad</th>
+                                        <th style="width:7%;vertical-align:middle;">Unidad Medida</th>
+                                        <th style="width:12%;">% Descuento <a id="btnlimpiarDes" class="btn" style="padding-left:0px !important;padding-right:0px !important" title="Limpia la columna descuento"><i class="fa fa-trash-o"></i></a></th>
+                                        <th style="width:8%" class="hidden">Descuento</th>
+                                        <th style="width:10%" class="hidden">Descuento Grl</th>
+                                        <th style="width:10%" class="hidden">Total Descuento</th>
+                                        <th style="width:5%;vertical-align:middle;">% Impuesto</th>
+                                        <th style="width:10%" class="hidden">Impuesto</th>
+                                        <th style="width:10%" class="hidden">Tipo</th>
+                                        <th style="width:10%;vertical-align:middle;">Monto</th>
+                                        <th style="width:10%;vertical-align:middle;" class="hidden">Total</th>
+                                        <th style="width:2%;"> </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot class="hidden">
+                                    <tr>
+                                        <td colspan="5" class="text-right "><strong>Sub-total:</strong>&nbsp; </td>
+                                        <td class="hidden">
+                                            <input id="SumDescuentoLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" />
+                                            <input type="hidden" id="SumSubtotalneto" />
+                                            <input type="hidden" id="SumNeto" />
+                                        </td>
+                                        <td class="hidden"><input id="SumDescuentoGrlLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" /></td>
+                                        <td class="hidden">
+                                            <input id="SumImpuestoLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" />
+                                            <input id="SumSubTotalDescuento" type="text" class="text-right form-control" disabled="disabled" value="0.00" />
+                                        </td>
+
+                                        @*<td>
+
+                                </td>*@
+                                        <td><input id="SumSubTotalLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" /></td>
+                                        <td class="hidden"><input id="SumTotalLinea" type="text" class="text-right form-control" disabled="disabled" value="0.00" /></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+
+                        <div class="invoice-total">
+
+                            @*<div class="row">
+                        <div class="col-lg-10 col-xs-12 text-right"><input type="checkbox" id="Chkgeneral"> <strong>Descuento general por %</strong></div>
+                        <div class="col-lg-2 col-xs-12 " style="padding-bottom:5px; padding-top:5px!important"><input id="porcentajeGrl" type="text" class="text-right form-control numeric" disabled="disabled" value="0.00" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10 col-xs-12 text-right"><strong>Descuento general:</strong></div>
+                        <div class="col-lg-2 col-xs-12" style="padding-bottom:10px; padding-top:5px!important">
+                            <input id="DescuentoGrl" type="text" class="text-right form-control numeric" value="0.00" />
+                        </div>
+                    </div>
+                         <br /><br />
+                            *@
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-4 col-xs-12">
+                                    <a id="newLine" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Nueva Línea</a>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-xs-12 text-right"><strong>SubTotal:</strong></div>
+                                <div class="col-lg-3 col-md-4 col-xs-12 border-bottom" style="padding-bottom:5px; padding-top:5px!important"><input class="text-right form-control numeric" id="subtotalNeto_text" disabled="disabled" value="0.00" /></div>
+                            </div>
+                            @*<div class="row">
+                        <div class="col-lg-10 col-xs-12 text-right"><strong>Total descuento:</strong></div>
+                        <div class="col-lg-2 col-xs-12 border-bottom" style="padding-bottom:10px; padding-top:5px!important">
+                            <input id="DescuentoTotal" type="text" class="text-right form-control numeric" value="0.00" />
+                        </div>
+                    </div>*@
+                            <div class="row">
+                                <div class="col-lg-9 col-md-8 col-xs-12 text-right"><strong>Total impuesto:</strong></div>
+                                <div class="col-lg-3 col-md-4 col-xs-12 border-bottom" style="padding-bottom:10px; padding-top:5px!important">
+                                    <input id="TotalImpuesto" type="text" class="text-right form-control numeric" value="0.00" disabled="disabled" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-9 col-md-8 col-xs-12 text-right"><strong>Total Factura:</strong></div>
+                                <div class="col-lg-3 col-md-4 col-xs-12 border-bottom" style="padding-bottom:10px; padding-top:5px!important">
+                                    <input class="text-right form-control numeric" id="selectTotalInvoice" disabled="disabled" value="0.00" />
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <div class="wrapper wrapper-content  fadeInRight white-bg" style="z-index:80">
+                <div class="row" style="z-index:50">
+                            <div class="col-lg-4">
+
+                        <div class="row">
+
+                            <div class="col-lg-4 "><label>Condición de venta:</label> </div>
+                            <div class="col-lg-5">
+                                @Html.DropDownListFor(m => m.ConditionSaleType, Model.ConditionSaleTypes, new { @id = "ConditionSaleTypes_DD", @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                            <div class="col-lg-8  border-left">
+                        @*class="ibox float-e-margins"*@
+                        <div>
+                            <input type="hidden" id="selectPaymentMethodCash" />
+                            <input type="hidden" id="selectPaymentMethodCreditCard" />
+                            <input type="hidden" id="selectPaymentMethodDeposit" />
+                            <input type="hidden" id="selectPaymentMethodCheck" />
+                            <input type="hidden" id="selectTotalInvoice" />
+                            <input type="hidden" id="selectPositiveBalance" />
+                            <input type="hidden" id="positiveBalanceHidden" />
+                            <input type="hidden" id="balanceDiscountHidden" />
+                            <input type="hidden" id="percentageDiscount" />
+                            <input type="hidden" id="totalMountDiscount" />
+                            <input type="hidden" id="selectDiscountCheckHidden" />
+                            <div>
+                                @*class="ibox-content"*@
+                                @*<div class="row">
+                            <div class="col-lg-12">
+
+                                <div class="col-lg-2"><h4>Condición de venta</h4> </div>
+                                <div class="col-lg-1">
+                                    @Html.DropDownListFor(m => m.ConditionSaleType, Model.ConditionSaleTypes, new { @id = "ConditionSaleTypes_DD" })
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                        <br />*@
+                                <div class="row" id="panelCredito" hidden="hidden">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <label>Días de Crédito:</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input style="text-align: right" type="text" min="0" step="0" max="100" maxlength="3" title="ej. 4" class="form-control" id="DayCredit" placeholder="Días Crédito" data-name="Días Crédito" data-regular-expression="^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row" id="panelContado">
+                                    <div class="col-lg-12" id="positiveBalance" hidden="hidden">
+                                        @**@
+                                        <label>Utilizar saldo a favor</label>
+                                        <br />
+                                        <input type="checkbox" id="PositiveBalanceChk"> Utilizar saldo a favor (<span id="positiveBalanceLabel"></span>)
+                                        <br /><br />
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-12"><label>Seleccione los métodos de pago:</label></div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-2 col-lg-2"><input type="checkbox" id="CashChk"> Efectivo</div>
+                                            <div class="col-xs-12 col-md-10 col-lg-10">
+                                                <div class="row" style="display:none" id="cash">
+                                                    @*<h4>Pago en Efectivo</h4>*@
+
+                                                    <div class="col-md-2 col-lg-2"><label>Monto</label></div>
+                                                    <div style="padding-bottom:5px; " class="col-md-4 col-lg-4 col-xs-12">
+                                                        <input style="padding-bottom:10px; text-align: right" type="text" min="0" step="0.01" maxlength="20" max="100" class="form-control numeric" title="ej. 458,25" id="cashText" aria-label="" data-name="Monto en efectivo" data-regular-expression="^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-2 col-lg-2"><input type="checkbox" id="CreditCardChk"> Tarjeta</div>
+                                            <div class="col-xs-12 col-md-10 col-lg-10">
+                                                <div class="row" style=" display:none" id="creditCard">
+                                                    @*<h4>Pago en Tarjeta</h4>*@
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-lg-2"><label>Monto</label></div>
+                                                        <div class="col-md-4 col-lg-4">
+                                                            <input style="text-align: right" type="text" min="0" step="0.01" max="100" maxlength="12" title="ej. 458.25" class="form-control numeric" id="creditCardText" aria-label="" data-name="Monto en tarjeta" data-regular-expression="^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$">
+                                                        </div>
+                                                        <div class="col-md-2 col-lg-2"><label>Nro. de Transacción</label></div>
+                                                        <div class="col-md-4 col-lg-4">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">#</span>
+                                                                <input type="text" class="form-control" id="nroCreditCardText" aria-label="" maxlength="12">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-lg-2"><label>Emisor</label></div>
+                                                        <div class="col-md-4 col-lg-4">
+                                                            <input type="text" class="form-control" id="UserCreditCardText" aria-label="" maxlength="50">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-2 col-lg-2"><input type="checkbox" id="CheckChk"> Cheque</div>
+                                            <div class="col-xs-12 col-md-10 col-lg-10">
+                                                <div class="row" style="display:none" id="check">
+                                                    @*<h4>Pago en Cheque</h4>*@
+
+                                                            <div class="col-md-2 col-lg-2"><label>Monto</label></div>
+                                                            <div class="col-md-4 col-lg-4">
+                                                                <input style="text-align: right" type="text" min="0" step="0.01" max="100" title="ej. 458.25" class="form-control numeric" id="checkText" aria-label="" data-name="Monto en cheque" data-regular-expression="^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$">
+                                                            </div>
+                                                            <div class="col-md-2 col-lg-2"><label>Nro. de Cheque</label></div>
+                                                            <div class="col-md-4 col-lg-4">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">#</span>
+                                                                    <input type="text" class="form-control" id="nroCheckText" aria-label="" maxlength="30">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-2 col-lg-2"><input type="checkbox" id="DepositChk"> Depósito</div>
+                                                    <div class="col-xs-12 col-md-10 col-lg-10">
+                                                        <div class="row" style="display:none" id="deposit">
+                                                            @*<h4>Pago en Deposito</h4>*@
+                                                            <div class="row">
+                                                            <div class="col-md-2 col-lg-2"><label>Monto</label></div>
+                                                            <div class="col-md-4 col-lg-4">
+                                                                <input style="text-align: right" type="text" min="0" step="0.01" max="100" maxlength="12" title="ej. 458.25" class="form-control numeric" id="depositText" aria-label="" data-name="Monto en depósito" data-regular-expression="^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$">
+                                                            </div>
+                                                            <div class="col-md-2 col-lg-2"><label>Nro. de Deposito</label></div>
+                                                            <div class="col-md-4 col-lg-4">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">#</span>
+                                                                    <input type="text" class="form-control" id="nroDepositText" aria-label="" maxlength="12">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                            <div class="row">
+                                                                <div class="col-md-2 col-lg-2"><label>Banco</label></div>
+                                                                <div class="col-md-4 col-lg-4">
+                                                                    <style>
+                                                                        #listBank{
+
+                                                                            font-size:12px;
+                                                                            width:300px;
+                                                                        }
+                                                                    </style>
+                                                                    @Html.DropDownList("listBank", (IList<SelectListItem>)ViewBag.PaymentInvoiceBanks, "Seleccione un Banco", new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                                        </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    @*<div class="tab-content">
+
+
+
+
+                            </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="wrapper wrapper-content  fadeInRight white-bg" style="z-index:80">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="row">
+                            <div class="col-lg-4 "><label>Aplicar contingencia:</label> </div>
+                            <div class="col-lg-5">
+                                @Html.CheckBoxFor(model => model.IsContingency, new
+                {
+                    @id = "Check_contingencia",
+                    @data_toggle = "toggle",
+                    @type = "checkbox",
+                    @data_on = "Si",
+                    @data_off = "No"
+                })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7  border-left">
+                        <div id="panelContigencia" class="hidden">
+                            <div class="row">
+                                <div class="col-lg-12"><label>Datos de comprobante de contingencia</label></div>
+                            </div>
+                            <br />
+                            <div class="row">
+
+                                <div class="col-md-3 col-lg-3 col-xs-12">
+                                    <label>
+                                        Fecha: <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-4 col-lg-4 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="fa fa-calendar"></i></span>
+                                        @Html.TextBoxFor(s => s.DateContingency, new { @id = "text_DateContingency", @class = "form-control",  @type = "date" })
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-xs-12"><label>Número Consecutivo: <span class="text-danger">*</span></label></div>
+                                <div class="col-md-9 col-lg-9 col-xs-12">
+
+                                    @Html.TextBoxFor(s => s.ConsecutiveNumberContingency, new { @id = "text_ConsecutiveNumberContingency", @class = "form-control",  @maxlength = "50" })
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-xs-12 " style="padding-top:7px">
+
+                                        <label>Motivo: <span class="text-danger">*</span> </label>
+
+                                </div>
+                                <div class="col-md-9 col-lg-9 col-xs-12">
+                                    @Html.TextAreaFor(s => s.ReasonContingency, new { @id = "text_ReasonContingency", @class = "form-control", @maxlength = "180" })
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+                    <br />
+                    <div id="observacionGeneral" class="wrapper wrapper-content fadeInRight white-bg" style="z-index:80">
+                        <div class="row">
+                            <div class="col-lg-2 text-right"><label>Observaciones Generales:</label> </div>
+                            <div class="col-lg-10">
+                                <textarea class="form-control generalObservation" placeholder="ej. Números de Cuentas Bancarias ..." rows="5" maxlength="400" style="min-width:150px ; border-color:#F5F5F6; background-color:#F5F5F6; resize: none !important; "></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    }
+            </div>
+        </fieldset>
+        <br />
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-content">
+                        <div class="col-lg-offset-5">
+                            <a class="btn btn-default" href="@Url.Action("Index", "Invoice")">Cerrar</a>
+                            @if (Model.ErrorCode != TicoPay.Common.ErrorCodeHelper.InvoicesMonthlyLimitReached)
+                            {
+                                @*<button type="button" onclick="InvoiceGenerate()" class="btn btn-primary" id="GenerateInvoice_btn">Generar Factura</button>*@
+                                <button type="button" class="btn btn-primary" id="GenerateInvoice_btn">Generar</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+
+    }
+    }
+}
+
+@*"*@
+<div id="anyModalForm" class="modal fade" style="background-color: white;width: 60%;margin-left: 22%;height: 92%;top: 4%; overflow-x: auto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="anyModalFormServiceProduct" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="body" id="anyModalBodyService">
+                </p>
+            </div>
+            <div class="msgErrorAnyModalService">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div id="anyModalFormService" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="body" id="anyModalBodyService">
+                </p>
+            </div>
+            <div class="msgErrorAnyModalService">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div id="dialog" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DeleteConfirmation_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="ItemToDelete_hidden" />
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmación de borrado del Servicio.</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea borrar el Servicio?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning" id="btnModalOkDeleteOnDemand">Continuar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="addNewClient">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="ContentModalClient"></div>
+            @*<div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Agregar cliente.</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group required">
+                        <div class="input-group col-lg-10">
+                            <a><span id="popOver_Name"></span></a>
+                            <label class="control-label">Nombre:</label>
+                            <input type="text" name="NameClient" id="NameClient" value="" class="form-control input-sm" placeholder="ej. Pedro" required="required" maxlength="80" />
+                        </div>
+                        <div class="input-group col-lg-10">
+                            <a><span id="popOver_Name"></span></a>
+                            <label id="LastNameLabel" class="control-label">Apellido:</label>
+                            <input type="text" name="LastNameClient" id="LastNameClient" value="" class="form-control input-sm" placeholder="ej. Pedro" required="required" maxlength="80" />
+                        </div>
+                        <div class="input-group col-lg-10">
+                            <label class="control-label">Tipo Identificación:</label>
+                            <select id="IdentificationTypeClient" class="form-control" required="required">
+                                <option value="0">Cédula Física</option>
+                                <option value="1">Cédula Jurídica</option>
+                                <option value="2">DIMEX</option>
+                                <option value="3">NITE</option>
+                            </select>
+                        </div>
+                        <div class="input-group col-lg-10">
+                            <label class="control-label">Número Identificación:</label>
+                            <input type="number" name="IdentificationClient" id="IdentificationClient" value="" class="form-control input-sm" placeholder="Número de Identificación" required="required" maxlength="12" pattern="[0-9]{9,12}" title="Debe ingresar solo números " />
+                        </div>
+                        <div class="input-group col-lg-10">
+                            <label class="control-label">Correo Electrónico:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon "><i class="fa fa-envelope"></i></span>
+                                <input type="email" name="EmailClient" id="EmailClient" value="" class="form-control input-sm" placeholder="ej. alguien@ejemplo.com" required="required" maxlength="60" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning" id="btnModalOkAddNewClient">Continuar</button>
+                </div>*@
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="DiscountMethods" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Agregar/Eliminar Descuento</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning" id="alertDescuento">
+                    <strong>Advertencia!</strong> La factura posee un descuento si requieres eliminarlo presiona el botón rojo con el nombre "- Descuento", de lo contrario puedes actualizar el monto ó % de descuento!!!.
+                </div>
+                <div class="form-group required">
+                    <div class="input-group col-lg-10">
+                        <input type="checkbox" id="PercentajeChk"> Aplicar Descuento por %
+                    </div>
+                    <div class="input-group col-lg-10" style="padding-top:10px;">
+                        <div class="col-lg-5"><label class="control-label" id="Discount_text">Monto de Descuento</label></div>
+                        <div class="col-lg-5">
+                            <input style="text-align: right" type="text" min="0" step="0.01" max="100" maxlength="12" title="ej. 458.25" class="form-control" id="discountAmount" aria-label="" data-name="Descuento" data-regular-expression="^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnDiscount">Aceptar</button>
+                    <a class="btn btn-danger btnDeleteDiscountForm" id="DeleteDiscountForm"><span class="glyphicon glyphicon-minus " aria-hidden="true"></span>&nbsp;Descuento</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    @*<script>
+            $(function () {
+
+            })
+        </script>*@

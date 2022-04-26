@@ -1,0 +1,150 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "store",
+      "Target": "1",
+      "Value": "loopcounter"
+    },
+    {
+      "Command": "while",
+      "Target": "(${loopcounter} <= 20)",
+      "Value": ""
+    },
+    {
+      "Command": "echo",
+      "Target": "Loop=${loopcounter}",
+      "Value": "blue"
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"content\"]/div[1]/a",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#btnShowClientsList > span",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=div.btn.btn-default.btn-xs",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=newLine",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": "SERVICIO 1"
+    },
+    {
+      "Command": "click",
+      "Target": "link=SERVICIO 1",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "store",
+      "Target": "${loopcounter}*204",
+      "Value": "elmonto"
+    },
+    {
+      "Command": "type",
+      "Target": "//*[@id=\"gridService\"]/tbody/tr/td[2]/input",
+      "Value": "${elmonto}"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=ConditionSaleTypes_DD",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=ConditionSaleTypes_DD",
+      "Value": "label=Crédito"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=DayCredit",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=DayCredit",
+      "Value": "30"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=GenerateInvoice_btn",
+      "Value": ""
+    },
+    {
+      "Command": "storeEval",
+      "Target": "${loopcounter}+1",
+      "Value": "loopcounter"
+    },
+    {
+      "Command": "endWhile",
+      "Target": "",
+      "Value": ""
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "http://ticopay.myticopays.com:${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "http://ticopay.myticopays.com:${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Clientes",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=searchCode",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=searchIdentification",
+      "Value": "333333366"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-success",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "css=span.glyphicon.glyphicon-edit",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=linkLocal",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=Provincia_DD",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=Provincia_DD",
+      "Value": "label=San José"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=canton_DD",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=canton_DD",
+      "Value": "label=San José"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=distrito_DD",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=distrito_DD",
+      "Value": "label=CARMEN"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=barrio_DD",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=barrio_DD",
+      "Value": "label=Aranjuez"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=PostalCode",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=PostalCode",
+      "Value": "20001"
+    },
+    {
+      "Command": "type",
+      "Target": "id=TxtAddress",
+      "Value": "CERCA DE LOS TERMALES DEL BOSQUE"
+    },
+    {
+      "Command": "click",
+      "Target": "id=linkInfo",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=PhoneNumber",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=PhoneNumber",
+      "Value": "123-45678900"
+    },
+    {
+      "Command": "click",
+      "Target": "css=ul.chosen-choices",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "css=input.default",
+      "Value": "PYME"
+    },
+    {
+      "Command": "click",
+      "Target": "id=Fax",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=Fax",
+      "Value": "123-45648900"
+    },
+    {
+      "Command": "click",
+      "Target": "id=Birthday",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=Birthday",
+      "Value": "1986-01-22"
+    },
+    {
+      "Command": "type",
+      "Target": "id=Gender",
+      "Value": "Male"
+    },
+    {
+      "Command": "click",
+      "Target": "id=Gender",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=WebSite",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=WebSite",
+      "Value": "http://www.mypage.com"
+    },
+    {
+      "Command": "click",
+      "Target": "id=linkContc",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=ContactPhoneNumber",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=ContactPhoneNumber",
+      "Value": "123-45678977"
+    },
+    {
+      "Command": "type",
+      "Target": "id=ContactMobilNumber",
+      "Value": "123-45645645"
+    },
+    {
+      "Command": "click",
+      "Target": "id=ContactName",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=ContactName",
+      "Value": "PEDRO MARCANO"
+    },
+    {
+      "Command": "type",
+      "Target": "id=Note",
+      "Value": "CLIENTE PYME"
+    },
+    {
+      "Command": "click",
+      "Target": "id=ContactEmail",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=ContactEmail",
+      "Value": "LCHACON222@GMAIL.COM"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-primary",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Cerrar",
+      "Value": ""
+    }
+  ]
+}

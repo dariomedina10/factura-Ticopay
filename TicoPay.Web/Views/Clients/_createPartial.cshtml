@@ -1,0 +1,790 @@
+﻿@model TicoPay.Clients.Dto.CreateClientInput
+@{
+    /**/
+
+    ViewBag.Title = "Crear Cliente";
+
+    var cantons = ViewBag.CantonList as List<SelectListItem>;
+}
+<link href="@Url.Content("~/Content/plugins/tagsInput/bootstrap-tagsinput-typeahead.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/plugins/tagsInput/bootstrap-tagsinput.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/plugins/tagsInput/bootstrap-multiEmail.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/tutorial/turorial.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/clients/addServicesClients.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.numeric.js")"></script>
+@*<script src="@Url.Content("~/Scripts/plugins/bootstrapTagsInput/bootstrap-tagsinput-angular.js")" type="text/javascript"></script>*@
+<script src="@Url.Content("~/Scripts/plugins/tagsInput/bootstrap-tagsinput.js")" type="text/javascript" crossorigin="anonymous"></script>
+<script src="@Url.Content("~/Scripts/plugins/tagsInput/bootstrap-multiEmail.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        function writeError(control, msg, type) {
+            if (type === "success") {
+                abp.notify.success(msg, "");
+            } else if (type === "error") {
+                abp.notify.error(msg, "");
+                var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+                $("#" + control).html(alert);
+            } else { abp.notify.warn(msg, ""); }
+        }
+
+        $('#idTagsinput').multiEmail()
+
+
+
+        $(".numeric").numeric();
+
+        var operacion ='@Model.ErrorCode';
+        if (operacion == '@TicoPay.Common.ErrorCodeHelper.Ok') {
+            popOverGuardarCli();
+        }
+        popOverSave(TutorialCli, '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Cliente<span id="nav_New"></span>','right', false);
+
+        var config = {
+            '.chosen-select': {},
+            '.chosen-select-deselect': { allow_single_deselect: true },
+            '.chosen-select-no-single': { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+            '.chosen-select-width': { width: "95%" }
+        }
+
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        $(window).scroll(function () {
+            popOverSave(TutorialCli, '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Cliente<span id="nav_New"></span>', 'right', false);
+        });
+
+        //$('#divInfocliente').fadeOut();
+
+        //$('#divInfoAdicionalCliente').fadeOut();
+        //$('#divContactoInfoCliente').fadeOut();
+
+
+        function validarTab(tab) {
+            var isValid = true;
+
+            $(tab).find("input, select,textarea").each(function () {
+                if (isValid) {
+                    isValid = $(this).valid();
+
+                } else {
+                    $(this).valid();
+                }
+            });
+        }
+
+
+        $('#typeidentificacion_DD').on('change', function (e) {
+            checkValidationIdentificacion();
+           // validarTab("#tab-1");
+        });
+
+        $('#Provincia_DD').on('change', function (e) {
+            var identificacion = $('#Provincia_DD').val();
+            if (identificacion == '0') {
+
+                $('#labelcanton_DD').removeClass('control-label');
+                $('#canton_DD').attr('required', false);
+                $('#labeldistrito_DD').removeClass('control-label');
+                $('#distrito_DD').attr('required', false);
+                $('#labelbarrio_DD').removeClass('control-label');
+                $('#barrio_DD').attr('required', false);
+                $('#labelAddress').removeClass('control-label');
+                $('#TxtAddress').attr('required', false);
+
+                $('#canton_DD').children().remove();
+                $('#distrito_DD').children().remove();
+                $('#barrio_DD').children().remove();
+
+                validarTab("#tab-2");
+
+            } else {
+                $('#labelcanton_DD').addClass('control-label');
+                $('#canton_DD').attr('required', true);
+                $('#labeldistrito_DD').addClass('control-label');
+                $('#distrito_DD').attr('required', true);
+                $('#labelbarrio_DD').addClass('control-label');
+                $('#barrio_DD').attr('required', true);
+                $('#labelAddress').addClass('control-label');
+                $('#TxtAddress').attr('required', true);
+            }
+
+
+
+        });
+
+        function checkValidationIdentificacion() {
+            var identificacion = $('#typeidentificacion_DD').val();
+            if (identificacion == '@TicoPay.Invoices.XSD.IdentificacionTypeTipo.Cedula_Juridica') {
+                $('#labelLastName').removeClass('control-label');
+                $('#clientLastName').attr('required', false);
+            } else {
+                $('#labelLastName').addClass('control-label');
+                $('#clientLastName').attr('required', true);
+            }
+
+            if (identificacion == '@TicoPay.Invoices.XSD.IdentificacionTypeTipo.Cedula_Fisica') {
+                $('#IdIdentificacion').attr('maxlength', '9');
+            } else {
+                $('#IdIdentificacion').attr('maxlength', '12');
+            }
+
+            if (identificacion == '@TicoPay.Invoices.XSD.IdentificacionTypeTipo.NoAsiganda') {
+                $('#labelIdentificacion').removeClass('control-label');
+                $('#IdIdentificacion').attr('required', false);
+                $('#IdIdentificacion').attr('Disabled', true);
+                $('#IdExtranjero').removeAttr('Disabled');
+                $('#IdIdentificacion').val('');
+                $('#labelExtranjero').addClass('control-label');
+                $('#IdExtranjero').attr('required', true);
+                $('#IdIdentificacion-error').remove();
+                $('#IdExtranjero').focus();
+
+            } else {
+                $('#labelIdentificacion').addClass('control-label');
+                $('#IdIdentificacion').attr('required', true);
+                $('#labelExtranjero').removeClass('control-label');
+                $('#IdExtranjero').attr('required', false);
+                $('#IdExtranjero').attr('Disabled', true);
+                $('#IdIdentificacion').removeAttr('Disabled');
+                $('#IdExtranjero').val('');
+                $('#IdExtranjero-error').remove();
+                $('#IdIdentificacion').focus();
+
+            }
+
+
+            $('#btnSave').on('click', function () {
+                var elementos = $('#formNewClients').find(':invalid').first().focus().prevObject;
+                if (elementos.length > 0) {
+                    var id = elementos[1].id;
+                    var tab = $('#' + id).parents('.tab-pane');
+                    $('a[href$=' + tab[0].id + ']').click();
+                }
+
+
+                var emailInvalid = document.getElementsByClassName("tag invalid").length;
+                var emailValid = document.getElementsByClassName("tag valid").length;
+                if (emailInvalid > 0) {
+                    $('a[href$=tab-5').click();
+                    event.preventDefault();
+                    writeError("IndexAlerts", "Existe algun correo de contacto no válido!", "error");
+                }
+                if (emailValid > 3) {
+                    event.preventDefault();
+                    writeError("IndexAlerts", "No puede agregar mas de 3 correos!", "error");
+                    $('a[href$=tab-5').click();
+                }
+            });
+
+
+            $(document).ready(function () {
+
+                if (@Model.ErrorDescription.Length <= 60) {
+                     $('a[href$=tab-1').click();
+                     $("#Email").focus();
+                }
+                else
+                {
+                     $('a[href$=tab-5').click();
+                     $("#ContactEmail").focus();
+                }
+            });
+
+
+
+
+            if (identificacion == 'Cedula_Fisica') { document.getElementById("IdIdentificacion").title = "El formato es de 9 digitos. ej. 123456789"; }
+            if (identificacion == 'Cedula_Juridica') { document.getElementById("IdIdentificacion").title = "El formato es de 10 digitos. ej. 1234567890"; }
+            if (identificacion == 'DIMEX') { document.getElementById("IdIdentificacion").title = "El formato es de 11 o 12 digitos. ej. 123456789000"; }
+            if (identificacion == 'NITE') { document.getElementById("IdIdentificacion").title = "El formato es de 10 digitos. ej. 1234567890"; }
+
+        }
+
+        checkValidationIdentificacion();
+
+
+    });
+
+
+
+
+
+    $(document).on('change', '[data-cascade-combo]', function (event) {
+
+        var id = $(this).attr('data-cascade-combo');
+
+        var url = $(this).attr('data-cascade-combo-source');
+
+        var paramName = $(this).attr('data-cascade-combo-param-name');
+
+        var data = {};
+        data[paramName] = id;
+
+
+        $.ajax({
+            url: url,
+            data: {
+                id: $(this).val()
+            },
+            success: function (data) {
+                $(id).html('');
+                $.each(data.result, function (index, type) {
+                    var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                    $(id).append(content);
+                });
+            }
+        });
+    });
+</script>
+<style>
+    .bootstrap-multiemail .tag {
+        margin: 3px 5px 3px 5px;
+        padding: 3px 5px 3px 5px;
+        border: 1px #BBD8FB solid;
+        border-radius: 3px;
+        background: #F3F7FD;
+    }
+</style>
+@using (Html.BeginForm("Create", "Clients", FormMethod.Post, new { @class = "form-horizontal ", @id = "formNewClients" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Crear cliente</h2>
+        </div>
+    </div>
+    <br />
+    if (Model != null)
+    {
+        //position: relative;
+        <fieldset>
+
+
+
+            <div class="animated fadeIn">
+
+
+                @if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok)
+                {
+                    <div class="row ">
+                        <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>@Model.ErrorDescription</strong>
+                        </div>
+                    </div>
+
+
+
+
+
+                }
+                else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error)
+                {
+
+                    <div class="row ">
+                        <div class="col-lg-12">
+                            <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong id="error"> @Model.ErrorDescription</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+                <div class="col-lg-12   ">
+                    <div class="tabs-container form-group  required">
+                        <ul id="listTab" class="nav nav-tabs">
+                            <li class=" active"><a class="headertab" data-toggle="tab" href="#tab-1"><label style=" padding-top:7px; margin-bottom:0px !important" id="linkDatos">Datos Fiscales</label></a></li>
+                            <li class=""><a class="headertab" data-toggle="tab" href="#tab-2"><label style=" padding-top:7px;margin-bottom:0px !important" id="linkLocal">Localidad</label> </a></li>
+                            <li class=""><a class="headertab" data-toggle="tab" href="#tab-3"><label style=" padding-top:7px;margin-bottom:0px !important" id="linkFact">Facturación</label></a></li>
+                            <li class=""><a class="headertab" data-toggle="tab" href="#tab-4"><label style=" padding-top:7px;margin-bottom:0px !important" id="linkInfo">Información Adicional</label></a></li>
+                            <li class=""><a class="headertab" data-toggle="tab" href="#tab-5"><label style=" padding-top:7px;margin-bottom:0px !important" id="linkContc">Contacto</label></a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <div class="col-sm-12">
+                                        <div class="form-group required">
+                                            <div class="col-sm-4">
+                                                <label>Tipo Identificación:</label>
+                                                @Html.DropDownListFor(model => model.IdentificationType, Model.IdentificationTypes, new { @id = "typeidentificacion_DD", @class = "form-control", @value = "" })
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label id="labelIdentificacion" class="control-label">Número Identificación:</label>
+                                                @Html.TextBoxFor(model => model.Identification, new { @id = "IdIdentificacion", @class = "form-control input-sm numeric", @placeholder = "Número de Identificación", @type = "text", @required = "required", @maxlength = "12", @pattern = @"[0-9]{9,12}", @title = "Número de Identificación requerido." })
+                                                @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger" })
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <label id="labelExtranjero">Número de Extranjero:</label>
+                                                @Html.TextBoxFor(model => model.IdentificacionExtranjero, new { @id = "IdExtranjero", @class = "form-control input-sm", @placeholder = "Identificación Extranjero", @type = "text", @maxlength = "20", @title = "La identificación extranjera es requerida." })
+
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group required">
+                                            <div class="col-sm-4">
+                                                <a><span id="popOver_Name"></span></a>
+                                                <label class="control-label">Nombre:</label>
+                                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm", @placeholder = "ej. Pedro", @type = "text", @required = "required", @maxlength = "80", @Id = "Name", @title = "El Nombre es requerido." })
+
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <a><span id="popOver_Name"></span></a>
+                                                <label id="labelLastName" class="control-label">Apellido:</label>
+                                                @Html.TextBoxFor(model => model.LastName, new { @id = "clientLastName", @class = "form-control input-sm", @placeholder = "ej. Perez", @type = "text", @required = "required", @maxlength = "80", @title = "El Apellido es requerido." })
+
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Nombre Comercial:</label>
+                                                @Html.TextBoxFor(model => model.NameComercial, new { @class = "form-control input-sm", @placeholder = "ej. TicoPay", @type = "text", @maxlength = "200" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group">
+                                            <div class="col-sm-4">
+                                                <label>Correo Electrónico:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon "><i class="fa fa-envelope"></i></span>
+                                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm", @placeholder = "ej. alguien@ejemplo.com", @type = "email", @maxlength = "60", @title = "El correo es requerido." })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <label>Número Celular:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon "><i class="fa fa-phone"></i></span>@Html.TextBoxFor(model => model.MobilNumber, new { @class = "form-control input-sm", @placeholder = "ej. 506-88736221", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 506-88736221" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <div class="col-sm-12 ">
+                                        <div class="form-group required">
+                                            <div class=" col-sm-4">
+                                                <label>Provincia:</label>
+
+                                                @Html.DropDownListFor(x => x.ProvinciaID, new SelectList(Model.Province, "Id", "NombreProvincia"), new
+                                           {
+                                               @class = "form-control",
+                                               data_cascade_combo = "#canton_DD",
+                                               data_cascade_combo_source = Url.Action("GetCanton", "Clients"),
+                                               data_cascade_combo_param_name = "id",
+                                               @id = "Provincia_DD"
+                                           })
+                                                @Html.ValidationMessageFor(model => model.ProvinciaID, "", new { @class = "text-danger" })
+
+
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label id="labelcanton_DD">Canton:</label>
+                                                @Html.DropDownListFor(m => m.CantonID, new SelectList(Model.Cantons, "Id", "NombreCanton"), new
+                                           {
+                                               @id = "canton_DD",
+                                               @class = "form-control",
+                                               data_cascade_combo = "#distrito_DD",
+                                               data_cascade_combo_source = Url.Action("GetDistritos", "Clients"),
+                                               data_cascade_combo_param_name = "id",
+                                               @title = "El Canton es requerido."
+                                           })
+                                                @Html.ValidationMessageFor(model => model.CantonID, "", new { @class = "text-danger" })
+
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label id="labeldistrito_DD">Distrito:</label>
+
+                                                @Html.DropDownListFor(m => m.DistritoID, new SelectList(Model.Distritos, "Id", "NombreDistrito"), new
+                                           {
+                                               @id = "distrito_DD",
+                                               @class = "form-control",
+                                               data_cascade_combo = "#barrio_DD",
+                                               data_cascade_combo_source = Url.Action("GetBarrios", "Clients"),
+                                               data_cascade_combo_param_name = "id",
+                                               @title = "El Distrito es requerido."
+                                           })
+                                                @Html.ValidationMessageFor(model => model.DistritoID, "", new { @class = "text-danger" })
+
+                                            </div>
+                                        </div>
+
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group required">
+                                            <div class=" col-sm-4">
+                                                <label id="labelbarrio_DD">Barrio:</label>
+                                                @Html.DropDownListFor(m => m.BarrioId, new SelectList(Model.BarriosList, "Id", "NombreBarrio"), new
+                                           {
+                                               @id = "barrio_DD",
+                                               @class = "form-control",
+                                               @title = "El Barrio es requerido."
+                                           })
+                                                @Html.ValidationMessageFor(model => model.BarrioId, "", new { @class = "text-danger" })
+
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Código Postal:</label>
+                                                @Html.TextBoxFor(model => model.PostalCode, new { @class = "form-control input-sm", @placeholder = "ej. 20001", @type = "text", @maxlength = "5", @pattern = @"\d{5}", title = "ej. 20001" })
+
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label id="labelAddress">Otras señas:</label>
+                                                @Html.TextAreaFor(model => model.Address, new { @id = "TxtAddress", @class = "form-control input-sm", @placeholder = "ej. 500 m oeste termales del bosque", @type = "text", @maxlength = "160", @title = "Otras Señas es requerido." })
+                                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group required">
+                                                <div class=" col-sm-4">
+                                                    <label id="labelpais_DD" class="">País:</label>
+                                                    @Html.DropDownListFor(m => m.CountryID, new SelectList(Model.Paises, "Id", "CountryName"), new
+                                               {
+                                                   @id = "pais_DD",
+                                                   @class = "form-control",
+                                                   @required = "required",
+                                                   @title = "El Pais es requerido."
+
+                                               })
+                                                    @Html.ValidationMessageFor(model => model.CountryID, "", new { @class = "text-danger" })
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-3" class="tab-pane">
+                                <div class="panel-body">
+
+                                    <input type="hidden" class="form-control" id="type">
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2">Servicios a Facturar:</label>
+                                                    <div class="col-sm-2 ">
+                                                        <button type="button" class="btn btn-default btnAddService"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Agregar Servicio</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div id="newService" class=" col-sm-12 row show-grid" hidden="hidden">
+                                            <div class="col-sm-5">
+                                                @Html.DropDownList("ddServices", Model.Services.Select(f => new SelectListItem { Text = f.Name + " Precio " + f.Price, Value = f.Id.ToString() + "_" + f.Quantity.ToString() + "_" + f.DiscountPercentage.ToString() }), "Seleccione un servicio...", new { @class = "form-control", @data_placeholder = "Seleccione un servicio...", @style = "width:100%" })
+                                            </div>
+                                            @*new SelectList(Model.ServicesSelect, "Id", "Name")*@
+
+                                            <div class="col-sm-2"><input style="text-align: right" type="text" formnovalidate maxlength="4" title="ej. 4" class="form-control numeric" id="CantService" placeholder="Cantidad"></div>
+                                            <div class="col-sm-2"><input style="text-align: right" type="text" formnovalidate maxlength="4" title="ej. 10" class="form-control numeric" id="discountPercentageService" placeholder="% descuento"></div>
+                                            <div class="col-sm-3" style="padding:10px">
+                                                <input type="hidden" class="form-control" id="IDService">
+                                                <button type="button" class="btn btn-warning" id="btnOkAddNewService">Guardar</button>
+                                                <button type="button" class="btn btn-default " id="btnCancelAddNewService">Cancelar</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class=" col-sm-12 table-responsive">
+                                                @*<table id="gridService" style="width:95%; padding-left:5%"></table>*@
+                                                <table id="gridService" style="width:95%; padding-left:5%">
+                                                    @if (Model.ClientServiceList != null && Model.ClientServiceList.Count() > 0)
+                                                    {
+                                                        <tbody>
+                                                            @foreach (var item in Model.ClientServiceList)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.Tipo</td>
+                                                                    <td>@item.Id</td>
+                                                                    <td>@item.Name</td>
+                                                                    <td>@item.Quantity</td>
+                                                                    <td>@item.DiscountPercentage</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    }
+
+                                                </table>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2">Grupo Servicio:</label>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn btn-default btnAddGroup"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Agregar Grupo</button>
+                                                        @*@Html.ListBoxFor(m => m.GroupsConceptsSelected, Model.GroupsConceptsSelect.Select(f => new SelectListItem { Text = f.Name, Value = f.Id.ToString() }), new { Multiple = "multiple", @class = "chosen-select ", @data_placeholder = "Seleccione uno o varios grupos...", @style = "width:307px" })*@
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="newGroup" class=" col-sm-12 row show-grid" hidden="hidden">
+                                            <div class="col-sm-5">
+                                                @Html.DropDownList("ddGroups", Model.GroupsConcepts.Select(f => new SelectListItem { Text = f.Name, Value = f.Id.ToString() }), "Seleccione un grupo de servicio...", new { @class = "form-control", @data_placeholder = "Seleccione un grupo de servicio...", @style = "width:100%" })
+                                            </div>
+                                            @*new SelectList(Model.ServicesSelect, "Id", "Name")*@
+
+                                            <div class="col-sm-2"><input style="text-align: right" type="text" formnovalidate maxlength="4" title="ej. 4" class="form-control numeric" id="CantGroup" placeholder="Cantidad"></div>
+                                            <div class="col-sm-2"><input style="text-align: right" type="text" formnovalidate maxlength="4" title="ej. 10" class="form-control numeric" id="discountPercentageGroup" placeholder="% descuento"></div>
+                                            <div class="col-sm-3" style="padding:10px">
+                                                <input type="hidden" class="form-control" id="IDGroup">
+                                                <button type="button" class="btn btn-warning" id="btnOkAddNewGroup">Guardar</button>
+                                                <button type="button" class="btn btn-default " id="btnCancelAddNewGroup">Cancelar</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table id="gridGroup" style="width:95%; padding-left:5%">
+                                                    @if (Model.GroupsConceptsList != null && Model.GroupsConceptsList.Count() > 0)
+                                                    {
+                                                        <tbody>
+                                                            @foreach (var item in Model.GroupsConceptsList)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.Type</td>
+                                                                    <td>@item.Id</td>
+                                                                    <td>@item.Name</td>
+                                                                    <td>@item.Quantity</td>
+                                                                    <td>@item.DiscountPercentage</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    }
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2">Días de Crédito:</label>
+                                                <div class="col-sm-2">
+                                                    <div class="input-group">
+                                                        @Html.TextBoxFor(model => model.CreditDays, new { @class = "form-control input-sm", @placeholder = "ej. 15", @type = "text", @maxlength = "2", @pattern = @"[0-9]{1,9}(\.[0-9]{0,2})?$", title = "ej. 15" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="tab-4" class="tab-pane">
+                                <div class="panel-body">
+                                    <div class="col-sm-6 b-r">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Teléfono Habitación:</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon "><i class="fa fa-phone"></i></span>@Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control input-sm", @placeholder = "ej. 123-45678909", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 123-45678909" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Número de Fax:</label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(model => model.Fax, new { @class = "form-control input-sm", @placeholder = "ej. 123-45678909", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 123-45678909" })
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Fecha de Nacimiento:</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        @Html.EditorFor(model => model.Birthday, new { @type = "date", @class = "form-control input-sm" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Género:</label>
+
+                                                <div class="col-sm-8">
+                                                    <div class="col-md-4" style="min-width:120px">
+                                                        @Html.RadioButtonFor(m => m.Gender, "Male") <span>Masculino</span>
+                                                    </div>
+                                                    <div class="col-md-4" style="min-width:120px">
+                                                        @Html.RadioButtonFor(m => m.Gender, "Female") <span>Femenino</span>
+                                                    </div>
+                                                    <div class="col-md-4" style="min-width:120px">
+                                                        @Html.RadioButtonFor(m => m.Gender, "Other") Otros
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+
+                                                <label class="col-sm-4">Categoría Cliente:</label>
+                                                <div class="col-sm-8">
+                                                    @{
+                                                        SelectList groups = new SelectList(Model.Groups.ToArray(), "Id", "Name");
+                                                        @Html.DropDownListFor(m => m.Test, groups, new { @id = "Groups_DD", @class = "chosen-select", multiple = "multiple", @data_placeholder = "Seleccione uno o varios grupos...", @style = "width:307px " })
+
+                                                    }
+                                                </div>
+                                            </div>
+
+
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 ">Sitio Web:</label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(model => model.WebSite, new { @class = "form-control input-sm", @placeholder = "ej. http://www.myPage.com", @pattern = "^(http:)+/+/([w]{3})+.([A-Za-z0-9._%+-]{1,})+.([A-Za-z0-9]{2,})$", @maxlength = "1000", @title = "ej. http://www.myPage.com" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="tab-5" class="tab-pane">
+                                <div class="panel-body">
+                                    <div class="col-sm-6 b-r">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Teléfono del contacto:</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon ">
+                                                            <i class="fa fa-phone"></i>
+                                                        </span>
+                                                        @Html.TextBoxFor(model => model.ContactPhoneNumber, new { @class = "form-control input-sm", @placeholder = "ej. 123-4567890", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 123-4567890" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Celular del contacto:</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon ">
+                                                            <i class="fa fa-phone"></i>
+                                                        </span>
+                                                        @Html.TextBoxFor(model => model.ContactMobilNumber, new { @class = "form-control input-sm", @placeholder = "ej. 123-4567890", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 123-4567890" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Correo del contacto:</label>
+
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon ">
+                                                            <i class="fa fa-envelope"></i>
+                                                        </span>
+                                                        @Html.TextBoxFor(model => model.ContactEmail, new { @class = "form-control input-sm", @id = "idTagsinput", data_role = "multiEmail", @placeholder = "ej. alguien@ejemplo.com", @type = "text", @maxlength = "60" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Nombre del contacto:</label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(model => model.ContactName, new { @class = "form-control input-sm", @placeholder = "ej. Pedro Marcano", @type = "text", @maxlength = "80" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4">Notas del contacto:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextAreaFor(model => model.Note, new { @class = "form-control input-sm", @placeholder = "Notas", @type = "text", @maxlength = "2048" })
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <br />
+
+        <div class="row ">
+            <div class="col-lg-offset-7"><a><span id="popOver_Save"></span></a></div>
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-content">
+                        <div class="col-lg-offset-5">
+                            <a class="btn btn-default" href="@Url.Action("Index", "Clients")">Cerrar</a>
+                            <button id="btnSave" type="submit" class="btn btn-primary">Guardar</button>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="modal fade" id="Confirmation" style="z-index: 9999;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <input type="hidden" id="ItemToDelete_hidden" />
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Confirmación de borrado del Servicio.</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="msgConfirmation">¿Está seguro que desea borrar el Servicio?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-warning" id="btnModalOkDeleteOnDemand">Continuar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+
+
+    }
+}

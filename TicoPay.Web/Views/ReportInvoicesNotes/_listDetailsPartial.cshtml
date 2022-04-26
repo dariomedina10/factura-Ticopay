@@ -1,0 +1,90 @@
+﻿@model IEnumerable<TicoPay.ReportStatusInvoices.Dto.ReportPaymentInvoice>
+
+@if (Model != null && Model.Any())
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+    <table class="table table-responsive  dt-responsive" style="font-size: small">
+        <thead>
+            <tr>
+                <th style="text-align: center">
+                  @Html.DisplayNameFor(model => model.PaymentDate)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.PaymentInvoiceType)
+                </th>
+                <th style="text-align: center">
+                    @if (Model.FirstOrDefault().PaymentInvoiceType.Equals(TicoPay.Invoices.PaymentType.Refund))
+                    {
+                        @Html.DisplayNameFor(model => model.LastModificationTime)
+                    }
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.PaymetnMethodType)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.Transaction)
+                </th>
+                <th style="text-align: center">
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                string fecha = "";
+                bool viewFecha = false;
+                if (item.LastModificationTime != null)
+                {
+
+                    DateTime dateTime = item.LastModificationTime.Value;
+                    dateTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 00, 00, 00);
+                    fecha = dateTime.ToString("dd/MM/yyyy");
+                    if (item.PaymentInvoiceType.Equals(TicoPay.Invoices.PaymentType.Refund))
+                    {
+                        viewFecha = true;
+                    }
+
+                }
+
+                <tr>
+                    <td>
+                        @item.PaymentDate.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @TicoPay.Application.Helpers.EnumHelper.GetDescription(item.PaymentInvoiceType)
+                    </td>
+                    @if (viewFecha)
+                    {
+                        <td class="dateRefund">
+                            @fecha
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>
+                        @TicoPay.Application.Helpers.EnumHelper.GetDescription(item.PaymetnMethodType)
+                    </td>
+                    <td>
+                        @item.Transaction
+                    </td>
+                    <td>
+                        @Html.FormatValue(@item.Amount, currencyFmt)
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning alert-dismissible" role="alert" style="text-align: center;">
+
+        <strong>¡No posee notas de crédito o débito asociadas!</strong>
+    </div>
+}

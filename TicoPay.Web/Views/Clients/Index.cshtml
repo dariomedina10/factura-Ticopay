@@ -1,0 +1,180 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using Mvc.CascadeDropDown
+@model TicoPay.Clients.Dto.SearchClientsInput
+@{
+    ViewBag.Title = "Mantenimiento de Clientes";
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Scripts/clients/clients.js")
+}
+<script src="@Url.Content("~/Scripts/tutorial/turorial.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/ListPager.js")" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        popOverCreate(TutorialCli, '#nav_New', 'Haga clic en la opción de Crear Cliente');
+        //$('#searchCode').keyup($.debounce(10, searchDebounce));
+        //$('#searchName').keyup($.debounce(200, searchDebounce));
+        //$('#searchIdentification').keyup($.debounce(50, searchDebounce));
+        //$('#searchEmail').keyup($.debounce(100, searchDebounce));
+        //$('select#group_DD').change($.debounce(100, searchDebounce));
+
+        $('#importFile').change(function () {
+            var data = new FormData();
+            data.append("upload", this.files[0])
+
+            $("#btnImport").prop("disabled", true);
+
+            abp.ui.setBusy();
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/imports/importClients",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    debugger;
+                    if (data.Success == false) {
+
+                        writeErrorButton("IndexAlerts", "!Error al importar Clientes!" , "error", data.Error);
+
+                    } else {
+                        writeErrorSS("IndexAlerts", "!Clientes importados con éxito!", "success");
+                    }
+                    $("#btnImport").prop("disabled", false);
+                    abp.ui.clearBusy();
+                },
+                error: function (e) {
+                    $("#btnImport").prop("disabled", false);
+                    abp.ui.clearBusy();
+                }
+            });
+        });
+    });
+    var searchDebounceUrl = "/Clients/SearchDebounce";
+    this.searchDebounce = function () {
+        $("#IndexAlerts").html("");
+        $.ajax({
+            url: searchDebounceUrl,
+            type: "POST",
+            cache: false,
+            data: { code: $("#searchCode").val(), name: $("#searchName").val(), identification: $("#searchIdentification").val(), email: $("#searchEmail").val(), groupId: $("#group_DD").val() },
+            success: function (data) {
+                $("#anyListEntity").html(data);
+            }, error: function (err) { writeError("IndexAlerts", "¡Error al consultar los Clientes!", "error"); }
+        });
+        return false;
+    };
+    function writeErrorSS(control, msg, type) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            msg = "Error al importar clientes."
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+            $("#" + control).html(alert);
+        } else { abp.notify.warn(msg, "aqui"); }
+    }
+
+    function writeErrorButton(control, msg, type, data) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><strong>Error al importar Clientes.     </strong><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Ver Detalles</button ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+            var mensaje = '<div><strong>' + data + '</strong></div>'
+            $("#" + control).html(alert);
+            $("#modal-body").html(mensaje);
+        } else { abp.notify.warn(msg, "aqui"); }
+    }
+   
+</script>
+<style>
+    input[type="file"] {
+        display: none;
+    }
+
+    .modal-dialog,
+    .modal-content {
+        /* 80% of window height */
+        max-height: 80%;
+    }
+
+    .modal-body {
+        /* 100% = dialog height, 120px = header + footer */
+        max-height: calc(100% - 120px);
+        overflow-y: scroll;
+    }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Mantenimiento de Clientes</h2>
+    </div>
+    <br />
+    <div class="col-lg-4">
+        <a id="contentCreateNew" class="btn btn-default" href="@Url.Action("Create", "Clients")"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Cliente<span id="nav_New"></span></a>
+        <label for="importFile" class="btn btn-default">
+            <i class="fa fa-file" aria-hidden="true"></i>&nbsp;Importar Clientes
+        </label>
+        <input id="importFile" type="file" />
+    </div>
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchPartial", Model);}
+<br />
+<div id="anyListEntity">
+    @{Html.RenderPartial("_listPartial", Model);}
+</div>
+<div id="anyModalForm" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="DeleteConfirmation_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="ItemToDelete_hidden" />
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmación de borrado del Cliente.</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea borrar el Cliente?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning" id="btnModalOkDeleteConfirmation">Continuar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title" id="myModalLabel">Detalle Error - Importación de Clientes</h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>

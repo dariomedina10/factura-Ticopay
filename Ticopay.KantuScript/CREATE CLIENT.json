@@ -1,0 +1,85 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Clientes",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=contentCreateNew",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=IdIdentificacion",
+      "Value": "333333370"
+    },
+    {
+      "Command": "type",
+      "Target": "id=Name",
+      "Value": "JOSE2"
+    },
+    {
+      "Command": "type",
+      "Target": "id=clientLastName",
+      "Value": "PEREZ2"
+    },
+    {
+      "Command": "type",
+      "Target": "id=NameComercial",
+      "Value": "J2OSETICOPAY"
+    },
+    {
+      "Command": "type",
+      "Target": "id=Email",
+      "Value": "cr.operators@ividmc.travel"
+    },
+    {
+      "Command": "click",
+      "Target": "id=MobilNumber",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=MobilNumber",
+      "Value": "123-12345678"
+    },
+    {
+      "Command": "click",
+      "Target": "id=MobilNumber",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=btnSave",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Cerrar",
+      "Value": ""
+    }
+  ]
+}

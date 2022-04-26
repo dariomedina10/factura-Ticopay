@@ -1,0 +1,30 @@
+﻿{
+  "creationDate": "2018-07-24",
+  "name": "INVOICES",
+  "macros": [
+    {
+      "macro": "CREATE SERVICE",
+      "loops": 1
+    },
+    {
+      "macro": "CREATE NEW INVOICE",
+      "loops": 1
+    },
+    {
+      "macro": "SEARCH INVOICES",
+      "loops": 1
+    },
+    {
+      "macro": "DELETE SERVICE",
+      "loops": 1
+    },
+    {
+      "macro": "RUN RECURRING JOB",
+      "loops": 1
+    },
+    {
+      "macro": "SEARCH HACIENDA REPORT",
+      "loops": 1
+    }
+  ]
+}

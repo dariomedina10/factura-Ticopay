@@ -1,0 +1,120 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#side-menu > li:nth-child(4) > a > span",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Productos",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=contentCreateNew",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=nameText",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=nameText",
+      "Value": "AProducto0"
+    },
+    {
+      "Command": "type",
+      "Target": "id=retailpriceText",
+      "Value": "1700"
+    },
+    {
+      "Command": "click",
+      "Target": "id=Taxes_DD",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=Taxes_DD",
+      "Value": "label=exento"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=UnitMeasurement",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=UnitMeasurement",
+      "Value": "label=Servicios Profesionales"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-primary",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#form > div.modal-footer > button.btn.btn-default",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Productos",
+      "Value": ""
+    }
+  ]
+}

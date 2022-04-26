@@ -1,0 +1,160 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "store",
+      "Target": "1",
+      "Value": "loopcounter"
+    },
+    {
+      "Command": "store",
+      "Target": "140000161",
+      "Value": "labase"
+    },
+    {
+      "Command": "while",
+      "Target": "(${loopcounter} <= 20)",
+      "Value": ""
+    },
+    {
+      "Command": "echo",
+      "Target": "Loop=${loopcounter}",
+      "Value": "blue"
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Nuevo Documento",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=btnShowClientsList",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "//*[@id=\"searchBoxClient\"]",
+      "Value": "${labase}"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"anyModalForm\"]/div[3]/table/tbody/tr/td[6]/div",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=newLine",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": "SERVICIO 1"
+    },
+    {
+      "Command": "click",
+      "Target": "link=SERVICIO 1",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "store",
+      "Target": "${loopcounter}*578",
+      "Value": "elmonto"
+    },
+    {
+      "Command": "type",
+      "Target": "//*[@id=\"gridService\"]/tbody/tr/td[2]/input",
+      "Value": "${elmonto}"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=CreditCardChk",
+      "Value": "on"
+    },
+    {
+      "Command": "click",
+      "Target": "id=CreditCardChk",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=nroCreditCardText",
+      "Value": "121213"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=GenerateInvoice_btn",
+      "Value": ""
+    },
+    {
+      "Command": "storeEval",
+      "Target": "${loopcounter}+1",
+      "Value": "loopcounter"
+    },
+    {
+      "Command": "storeEval",
+      "Target": "${labase}+1",
+      "Value": "labase"
+    },
+    {
+      "Command": "endWhile",
+      "Target": "",
+      "Value": ""
+    }
+  ]
+}

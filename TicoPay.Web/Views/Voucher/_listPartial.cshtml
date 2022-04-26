@@ -1,0 +1,266 @@
+﻿@using PagedList.Mvc;
+@using TicoPay.Invoices;
+@using TicoPay.Vouchers
+@model TicoPay.Vouchers.Dto.SearchVoucher
+
+<script>
+    $(document).ready(function () {
+        var table = $('#TableListEntity').DataTable({
+            columnDefs: [
+                { orderable: false, targets: 5 },
+                { orderable: false, targets: 6 },
+                { orderable: false, targets: 7 },
+                { orderable: false, targets: 8 },
+                { orderable: false, targets: 10 },
+                { orderable: false, targets: 11 }
+            ],
+            paging: false,
+            dom: 't<"margin-dataTable-bottom"<"pull-left margin-dataTable-pagination">>',
+            dom: 'Bfrtip',
+            "bAutoWidth": true,
+            paging: true,
+            buttons: [{
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                },
+                pageSize: 'A4',
+                customize: function (doc) {
+                    doc.pageMargins = [20, 10, 5, 10];
+                    doc.styles.tableHeader.fontSize = 7;
+                    doc.defaultStyle.fontSize = 7;
+                    var rowCount = doc.content[1].table.body.length;
+                    for (i = 1; i < rowCount; i++) {
+                        var name = doc.content[1].table.body[i][4].text;
+                        var delimiter = name.split(" ");
+                        var namef = '';
+                        $.each(delimiter, function (index, value) {
+                            if (value.length > 8) {
+                                text = value.substring(0, 8) + '...';
+                            }
+                            else {
+                                text = value;
+                            }
+                            namef += text + ' ';
+                        });
+                        doc.content[1].table.body[i][4].text = namef;
+                    };
+                }
+
+            },
+            {
+                extend: 'excelHtml5',
+                footer: true,
+                exportOptions: {
+                    columns: [0, 2, 3, 4, 5, 6, 7, 8, 9]
+                },
+            },
+
+            {
+                extend: 'copy',
+                text: 'Copiar al portapapeles',
+                footer: true
+            }, 'csv', 'print'],
+            language: {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                buttons: {
+                    copyTitle: 'Copiar al portapapeles',
+                    copySuccess: {
+                        _: 'Copiado %d filas al portapapeles',
+                        1: 'Copiado una fila al portapapeles'
+                    }
+                }
+            }
+        });
+    });
+</script>
+<style>
+    .ClientName {
+        white-space: nowrap;
+        min-width: 100px;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .btn-primary {
+        padding: 4px;
+    }
+</style>
+
+@if (Model != null && Model.Entities != null && Model.Entities.Any())
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+
+    <div class="wrapper wrapper-content animated fadeInRight white-bg">
+        @if (Model.ErrorCode == -1)
+        {
+            <div class="alert alert-danger" style="text-align: center">@Model.ErrorDescription</div>
+        }
+        else
+        {
+            <div class="wrapper wrapper-content white-bg text-center">
+                    <table id="TableListEntity" class="table table-responsive table-striped table-hover" style="font-size: small">
+                        <thead class="text-center">
+                            <tr>
+                                <th style="text-align: center">Nº Caja</th>
+                                <th style="text-align: center">
+                                    Nº Comprobante
+                                </th>
+                                <th style="text-align: center">
+                                    Fecha
+                                </th>
+                                <th style="text-align: center">
+                                    Nº Documento
+                                </th>
+                                <th class="ClientName" style="text-align: center">
+                                    Proveedor
+                                </th>
+                                <th style="text-align: center">
+                                    Estado recepción
+                                </th>
+                                <th style="text-align: center">
+                                    Estatus Envío
+                                </th>
+                                <th style="text-align: center">
+                                    Estado Hacienda
+                                </th>
+                                <th style="text-align: center">
+                                    Tipo de Documento
+                                </th>
+                                <th style="text-align: center">
+                                    Monto
+                                </th>
+                                <th style="text-align: center">
+                                    Respuesta Documento XML
+                                </th>
+                                <th title="Descargas XML"><i id="download-control" class="glyphicon glyphicon-download-alt" style="font-size:16px;"></th>
+                                @*<th style="text-align: center">
+                        </th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Entities)
+                            {
+                                <tr>
+                                    <td style="text-align: center">
+                                        @item.ConsecutiveNumber.Substring(3, 5)
+                                    </td>
+                                    <td style="text-align: center">
+                                        @Int64.Parse(item.ConsecutiveNumber.Substring(10))
+                                    </td>
+                                    <td style="text-align: center">
+                                        @item.CreationTime.ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td>
+                                        @item.ConsecutiveNumberInvoice
+                                    </td>
+                                    <td class="ClientName" style="text-align: center">
+                                        @item.NameSender
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if (item.Message == TicoPay.Vouchers.MessageVoucher.Aceptado)
+                                        {<span class="label label-primary">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.Message)</span>}
+                                        @if (item.Message == TicoPay.Vouchers.MessageVoucher.AceptadoParcial)
+                                        {<span class="label label-warning">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.Message)</span>}
+                                        @if (item.Message == TicoPay.Vouchers.MessageVoucher.Rechazado)
+                                        {<span class="label label-danger">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.Message)</span>}
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if (item.SendVoucher)
+                                        {
+                                            <span class="label label-primary">Enviada</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label">No Enviada</span>
+                                        }
+
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if (item.StatusTribunet == StatusTaxAdministration.Recibido)
+                                        {<span class="label label-success">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+                                        @if (item.StatusTribunet == StatusTaxAdministration.Procesando)
+                                        {<span class="label label-info">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+                                        @if (item.StatusTribunet == StatusTaxAdministration.Aceptado)
+                                        {<span class="label label-primary">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+                                        @if (item.StatusTribunet == StatusTaxAdministration.Rechazado)
+                                        {<span class="label label-warning">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+                                        @if (item.StatusTribunet == StatusTaxAdministration.Error)
+                                        {<span class="label label-danger">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+                                        @if (item.StatusTribunet == StatusTaxAdministration.NoEnviada)
+                                        {<span class="label">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.StatusTribunet)</span>}
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if (item.TypeVoucher == TypeVoucher.Purchases)
+                                        {<span class="label label-success">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.TypeVoucher)</span>}
+                                        @if (item.TypeVoucher == TypeVoucher.Expenses)
+                                        {<span class="label label-danger">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.TypeVoucher)</span>}
+                                    </td>
+                                    <td style="text-align: center">
+                                        @Html.FormatValue(@item.Totalinvoice, currencyFmt)
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if (item.MessageSupplier == MessageSupplier.Aceptado)
+                                        {<span class="label label-primary">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.MessageSupplier)</span>}
+                                        @if (item.MessageSupplier == MessageSupplier.Rechazado)
+                                        {<span class="label label-danger">@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.MessageSupplier)</span>}
+                                    </td>
+                                    <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                                                    ...
+                                                </button>
+                                                <ul class="dropdown-menu" style="margin-left: -140px;">
+                                                    <li><a href="@Url.Action("DownloadVoucher", "Voucher", new { id = @item.Id })" title="Descargar"><i id="download-control" class="glyphicon glyphicon-download-alt" style="font-size:16px;"></i>&nbsp;Descargar XML Confirmación</a></li>
+                                                    @if (item.StatusTribunet == StatusTaxAdministration.Aceptado || item.StatusTribunet == StatusTaxAdministration.Rechazado)
+                                                    {
+                                                        <li><a href="@Url.Action("DescargarRespuestaXml", "Voucher", new { id = @item.Id })" title="Descargar"><i id="view-control" class="glyphicon glyphicon-download-alt" style="font-size:16px;"></i>&nbsp;Respuesta XML Confirmación</a></li>
+                                                    }
+                                                    @if (item.MessageSupplier == MessageSupplier.Aceptado || item.MessageSupplier == MessageSupplier.Rechazado)
+                                                    {
+                                                        <li><a href="@Url.Action("DescargarRespuestaDocumentoXml", "Voucher", new { id = @item.Id })" title="Descargar Respuesta de documento del provedor"><i id="view-control" class="glyphicon glyphicon-download-alt" style="font-size:16px;"></i>&nbsp;Respuesta Documento XML</a></li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info alert-dismissible" role="alert" style="text-align: center;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>¡No se han encontrado ningún XML registrado!</strong>
+    </div>
+
+}

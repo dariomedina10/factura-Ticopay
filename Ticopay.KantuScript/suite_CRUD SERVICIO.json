@@ -1,0 +1,18 @@
+﻿{
+  "creationDate": "2018-06-25",
+  "name": "CRUD SERVICIO",
+  "macros": [
+    {
+      "macro": "CREATE SERVICE",
+      "loops": 1
+    },
+    {
+      "macro": "EDIT SERVICE",
+      "loops": 1
+    },
+    {
+      "macro": "DELETE SERVICE",
+      "loops": 1
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Reportes",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Reporte de Clientes",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=Query",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=Query",
+      "Value": "ISAB"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "//*[@id=\"searchForm\"]/div/div[2]/div/span/button",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"TableListEntity_wrapper\"]/div[1]/button[4]/span",
+      "Value": ""
+    }
+  ]
+}

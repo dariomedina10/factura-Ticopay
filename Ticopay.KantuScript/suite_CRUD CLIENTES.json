@@ -1,0 +1,30 @@
+﻿{
+  "creationDate": "2018-06-25",
+  "name": "CRUD CLIENTES",
+  "macros": [
+    {
+      "macro": "CREATE CLIENT",
+      "loops": 1
+    },
+    {
+      "macro": "EDIT CLIENT",
+      "loops": 1
+    },
+    {
+      "macro": "CREATE SERVICE",
+      "loops": 1
+    },
+    {
+      "macro": "EDIT CLIENT 3",
+      "loops": 1
+    },
+    {
+      "macro": "DELETE SERVICE",
+      "loops": 1
+    },
+    {
+      "macro": "DELETE CLIENT",
+      "loops": 1
+    }
+  ]
+}

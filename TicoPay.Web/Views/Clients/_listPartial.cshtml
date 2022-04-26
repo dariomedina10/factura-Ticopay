@@ -1,0 +1,125 @@
+﻿@using PagedList.Mvc;
+@model TicoPay.Clients.Dto.SearchClientsInput
+
+@Html.HiddenFor(model => model.Query, new { @id = "SrchQuery_hidden" })
+@Html.HiddenFor(model => model.Page, new { @id = "SrchPage_hidden" })
+
+
+<style>
+    .ClientName {
+        white-space: nowrap;
+        min-width: 200px;
+        max-width: 350px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+</style>
+@if (Model != null && Model.Entities != null && Model.Entities.Any())
+{
+    <div class="wrapper wrapper-content animated fadeInRight white-bg">
+        @if (Model.ErrorCode == -1)
+        {
+            <div class="alert alert-danger" style="text-align: center">@Model.ErrorDescription</div>
+        }
+        else
+        {
+            <div class="wrapper-conten">
+                <div>
+                    <div class="alert alert-info col-md-12 alert-dismissible" role="alert" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>¡Importante!</strong> ¡Para Eliminar un Cliente debe Anular o Pagar las Facturas Pendientes!
+                    </div>
+                    <div style="text-align: right">                       
+                        Página @(Model.Entities.PageCount < Model.Entities.PageNumber ? 0 : Model.Entities.PageNumber) de @Model.Entities.PageCount
+
+                        @Html.PagedListPager(Model.Entities, page => Url.Action("AjaxPage", new { page, code = Model.CodeFilter, name = Model.NameFilter,
+                       identification = Model.IdentificationFilter, email = Model.EmailFilter, groupId= Model.GroupId }),
+                       PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "anyListEntity", OnBegin = "onBegin(this)", OnComplete = "onComplete(this)" }))
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="TableListEntity" class="table " style="font-size: small">
+                        <thead class="text-center">
+                            <tr>
+                                <th style="text-align: center">
+                                    Código
+                                </th>
+                                <th style="text-align: center">
+                                    Nombre
+                                </th>
+                                <th style="text-align: center">
+                                    Apellido
+                                </th>
+                                <th style="text-align: center">
+                                    Identificación/Pasaporte
+                                </th>
+                                <th style="text-align: center">
+                                    Correo
+                                </th>
+                                <th style="text-align: center">
+                                    Teléfono
+                                </th>
+
+                                <th style="text-align: center">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Entities.OrderBy(a => a.Code))
+                            {
+                                <tr>
+                                    <td style="text-align: center">
+                                        @item.Code
+                                    </td>
+                                    <td style="text-align: center;" title="@item.Name">
+                                        <div class="ClientName">@item.Name</div>
+                                    </td>
+                                    <td style="text-align: center">
+                                        @item.LastName
+                                    </td>
+                                    <td style="text-align: center">
+                                     @if (item.IdentificationType != TicoPay.Invoices.XSD.IdentificacionTypeTipo.NoAsiganda)
+                                     {
+                                        @item.Identification;
+                                     }
+                                     else
+                                     {
+                                        @item.IdentificacionExtranjero;
+                                     }                                         
+                                    </td>
+                                    <td style="text-align: center">
+                                        @item.Email
+                                    </td>
+                                    <td style="text-align: center">
+                                        @item.MobilNumber
+                                    </td>
+
+                                    <td style="text-align: left">
+                                        <a class="btn btn-xs btn-default" href='@Url.Action("Edit", "Clients", new {id = item.Id})' title="Editar el Cliente"><span class="glyphicon glyphicon-edit"></span></a>
+                                        <a class="btn btn-xs btn-info" onclick="detailFunc($(this))" data-identity='@item.Id' title="Detalle del Cliente"><span class="glyphicon glyphicon-list"></span></a>
+                                        @if (@item.CanBeDelete)
+                                        {
+                                            <a class="btn btn-xs btn-danger" onclick="deleteFunc($(this))" data-identity='@item.Id' title="Borrar el Cliente"><span class="glyphicon glyphicon-remove"></span></a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+
+}
+else
+{
+    <div class="alert alert-info alert-dismissible" role="alert" style="text-align: center;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>¡No se han encontrado ningún cliente registrado!</strong>
+    </div>
+
+}

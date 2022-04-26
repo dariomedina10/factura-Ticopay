@@ -1,0 +1,74 @@
+﻿@using Abp.Authorization.Users
+@using Abp.Web.Mvc.Extensions
+@using PagedList.Mvc;
+@using TicoPay.Authorization.Roles
+@model TicoPay.Users.Dto.SearchUsersInput
+@{
+    ViewBag.Title = "Mantenimiento de Usuarios";
+}
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    <div class="wrapper-conten">
+        <div>
+            <div class="alert alert-info col-md-12 alert-dismissible" role="alert" style="text-align: center">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>¡Importante!</strong> ¡Si el usuario no esta activo no podrá ingresar al sistema!
+            </div>
+            <div style="text-align: right">
+
+                Página @(Model.Entities.PageCount < Model.Entities.PageNumber ? 0 : Model.Entities.PageNumber) de @Model.Entities.PageCount
+
+                @Html.PagedListPager(Model.Entities, page => Url.Action("AjaxPage", new
+                {
+                    page,
+                    name = Model.NameFilter,
+                    surName = Model.SurnameFilter,
+                    emailAddress = Model.EmailAddressFilter,
+                    rolId = Model.IdRolFilter
+                }),
+                      PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "anyListEntity", OnBegin = "onBegin(this)", OnComplete = "onComplete(this)" }))
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align: center">Usuario</th>
+                        <th style="text-align: center">Nombre</th>
+                        <th style="text-align: center">Correo Electronico</th>
+                        <th style="text-align: center">Estado</th>
+                        <th style="text-align: center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Entities)
+                    {
+                        //if (!user.UserName.Equals("admin"))
+                        //{
+                        <tr>
+                            <td style="text-align: center">@user.UserName</td>
+                            <td style="text-align: center">@user.FullName</td>
+                            <td style="text-align: center">@user.EmailAddress</td>
+                            <td style="text-align: center">
+                                @if (user.IsActive)
+                                {<span class="label label-primary">Activo</span>}
+                                else
+                                {<span class="label label-danger">Inactivo</span>}
+                            </td>
+                            <td style="text-align: center">
+                                <a class="btn btn-xs btn-default" onclick="editFunc($(this))" data-identity='@user.Id' title="Editar el Usuario"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-xs btn-info" onclick="changeFunc($(this))" data-identity='@user.Id' title="Cambiar de Estado el Usuario"><span class="glyphicon glyphicon-repeat"></span></a>
+                                <a class="btn btn-xs btn-warning" onclick="drawersFunc($(this))" data-identity='@user.Id' title="Configuración de Cajas del Usuario"><span class="fa fa-gear"></span></a>
+                                @if (!user.IsEmailConfirmed)
+    {
+                            <a class="btn btn-xs btn-info" onclick="resendConfirmation($(this))" data-identity='@user.Id' title="Re enviar confirmación correo"><span class="glyphicon glyphicon-send"></span></a>
+}
+                            </td>
+                        </tr>
+                        //}
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

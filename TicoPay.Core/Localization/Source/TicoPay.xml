@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="en">
+  <texts>
+    <text name="HomePage" value="Página de inicio" />
+    <text name="About" value="Acerca de" />
+    <text name="WellcomeMessage" value="Bienvenido a WMS!" />
+
+    <text name="FormIsNotValidMessage" value="Formulario no es válido. Por favor, compruebe y corrija los errores." />
+    <text name="TenantNameCanNotBeEmpty" value="Nombre de la empresa no puede estar vacío" />
+
+    <text name="InvalidUserNameOrPassword" value="Usuario o contraseña invalido" />
+    <text name="ThereIsNoTenantDefinedWithName{0}" value="No hay empresa definida con el nombre {0}" />
+    <text name="TenantIsNotActive" value="La empresa {0} no está activa." />
+    <text name="UserIsNotActiveAndCanNotLogin" value="El usuario {0} no está activo y no puede conectarse." />
+    <text name="PleaseEnterLoginInformation" value="Por favor, introduzca la información de inicio de sesión" />
+    <text name="TenancyName" value="Nombre de la empresa" />
+    <text name="UserNameOrEmail" value="Nombre de usuario o correo electrónico" />
+    <text name="Password" value="Contraseña" />
+    <text name="RememberMe" value="Recuérdame" />
+    <text name="LogIn" value="Iniciar sesión" />
+
+    <text name="LoginFailed" value="¡Error de inicio de sesion!" />
+
+    <text name="NameSurname" value="Nombre Apellido" />
+    <text name="UserName" value="Nombre de usuario" />
+    <text name="Name" value="Nombre" />
+    <text name="Surname" value="Apellido" />
+    <text name="EmailAddress" value="Correo" />
+
+    <text name="Tenants" value="Empresas" />
+    <text name="SavedSuccessfully" value="Guardado correctamente" />
+    <text name="CreateNewTenant" value="Crear nueva empresa" />
+    <text name="AdminEmailAddress" value="Dirección de correo electrónico del administrador" />
+    <text name="Save" value="Guardar" />
+    <text name="Cancel" value="Cancelar" />
+    <text name="TenantName_Regex_Description" value="El nombre de la empresa debe ser de al menos 2 caracteres, empieza con una letra y continua con una letra, número, guión o un guión bajo." />
+    <text name="DefaultPasswordIs" value="La contraseña por defecto es {0}" />
+    <text name="CanBeEmptyToLoginAsHost" value="Puede estar vacía para iniciar la sesión como anfitrión." />
+    <text name="Register" value="Crea tu cuenta!" />
+    <text name="OrLoginWith" value="o iniciar sesión con" />
+    <text name="WaitingForActivationMessage" value="Su cuenta está en espera de ser activada por el administrador del sistema." />
+    <text name="TenantSelection" value="Selección de Empresa" />
+    <text name="TenantSelection_Detail" value="Por favor seleccione una de las siguientes empresas." />
+    <text name="Logout" value="Cerrar sesión" />
+
+    <text name="RegisterFormUserNameInvalidMessage">Por favor no agregue un email como nombre de usuario.</text>
+
+    <text name="DatabaseConnectionString" value="Cadena de conexion a la base de datos" />
+    <text name="Users" value="Usuarios" />
+    <text name="IsActive" value="Activo" />
+    <text name="FullName" value="Nombre" />
+    <text name="CreateNewUser" value="Crear nuevo usuario" />
+    <text name="Yes" value="Si" />
+    <text name="No" value="No" />
+    <text name="Optional" value="Opcional" />
+
+    <text name="Back" value="Regresar" />
+    <text name="Plan" value="Plan" />
+
+    <text name="UserEmailIsNotConfirmed" value="Aún no ha activado su cuenta, por favor siga las instrucciones que enviamos a su correo." />
+    <text name="InvoicesMonthlyLimitMessage" value="Has alcanzado el limite mensual de facturas. Puedes obtener un plan con mayor número de facturas o esperar hasta el próximo mes." />
+    <text name="NearInvoicesMonthlyLimitMessage" value="Falta poco para alcanzar el limite mensual de facturas. Puedes obtener un plan con mayor número de facturas." />
+
+    <text name="Configuration" value="Configuración" />
+    <text name="Tax" value="Impuestos" />
+    <text name="GroupClients" value="Grupo de Clientes" />
+    <text name="Roles" value="Roles" />
+    <text name="GroupConcepts" value="Grupo de Servicios" />
+    <text name="Maintenance" value="Mantenimiento" />
+    <text name="Clients" value="Clientes" />
+    <text name="Services" value="Servicios" />
+    <text name="Billing" value="Facturación" />
+    <text name="Reports" value="Reportes" />
+    <text name="ReportClients" value="Reportes de Clientes" />
+    <text name="ReportClosing" value="Reportes de Cierre" />
+    <text name="AccountsReceivable" value="Reporte de Cuentas por Cobrar" />
+    <text name="ViewInvoices" value="Consultar Facturas " />
+    <text name="TaxAdministration" value="ministerio de Hacienda" />
+
+    <text name="SignUpMessageTitle" value="Registrese con su dirección de correo electrónico" />
+    <text name="SignUpMessageTitleSecondStep" value="Registrese sus datos" />
+    <text name="SignUpMessageOther" value="Finalice de configurar su cuenta Ticopay" />
+    <!--PaymetnMethodType-->
+    <text name="EnumCash" value="Cash" />
+    <text name="EnumCreditCard" value="Credit Card" />
+    <text name="EnumCheck" value="Check" />
+    <text name="EnumDeposit" value="Deposit" />  </texts>
+</localizationDictionary>

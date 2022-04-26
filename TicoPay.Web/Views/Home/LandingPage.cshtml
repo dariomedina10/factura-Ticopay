@@ -1,0 +1,654 @@
+﻿@using TicoPay.Editions
+@model TicoPay.Home.ContactDTO
+@{
+    Layout = "~/Views/Shared/_LandingPageLayout.cshtml";
+}
+
+<script>
+    $(document).ready(
+        function () {
+               @if (ViewBag.isContactFormRequest != null && ViewBag.isContactFormRequest) {
+                @Html.Raw("location.href = '#contact';")
+               }
+
+            $('#monthly_billing').fadeIn("slow");
+            $('#annual_billing').fadeOut("slow");
+
+});
+</script>
+
+<div>
+    <section class="grey" id="overview">
+        <div class="container">
+            <!-- Feature 1 -->
+            <div class="features-box smooth">
+                <!-- Icon -->
+                <span class="icon"><i class="material-icons blue-text">description</i></span> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                <!-- Heading -->
+                <h4>Facturación Electrónica</h4>
+                <!-- Paragraph -->
+                <p>Puedes programar la creación de facturas electrónicas automáticas o realizarlas de forma ocasional de manera sencilla y rápida. </p> <!-- Replace with a short description of your feature -->
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="features-box smooth">
+                <!-- Icon -->
+                <span class="icon"><i class="material-icons blue-text">local_atm</i></span> <!-- To change the icon, open the "readme.pdf" file and see section ABGC -->
+                <!-- Heading -->
+                <h4>BN Conectividad</h4> <!-- Replace with thye title of your feature -->
+                <!-- Paragraph -->
+                <p>Activa el servicio de BN Conectividad para que sus clientes puedan cancelar sus facturas.</p> <!-- Replace with a short description of your feature -->
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="features-box smooth">
+                <!-- Icon -->
+                <span class="icon"><i class="material-icons blue-text">cloud</i></span> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                <!-- Heading -->
+                <h4>Respaldo en la Nube</h4> <!-- Replace with thye title of your feature -->
+                <!-- Paragraph -->
+                <p>Mantén tus facturas electrónicas seguras en la nube por 5 años y accede a ella desde cualquier lugar del mundo.</p> <!-- Replace with a short description of your feature -->
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="features-box smooth" id="res-features-box">
+                <!-- Icon -->
+                <span class="icon"><i class="material-icons blue-text">phonelink</i></span> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                <!-- Heading -->
+                <h4>Multiplataformas</h4> <!-- Replace with thye title of your feature -->
+                <!-- Paragraph -->
+                <p>¿No estas en el lugar de trabajo? no hay problemas, con ticopay puedes trabajar desde tu smartphone o tablet y generar tus facturas electrónicas.</p> <!-- Replace with a short description of your feature -->
+            </div>
+        </div>
+    </section>
+
+    <section class="white" id="features">
+        <div class="container">
+            <!-- Heading -->
+            <h2 class="limited-h txt-centre"><strong>ticopay</strong> está diseñado con todas las características que  necesitas para realizar la facturación electrónica y cumplir con Hacienda en Costa Rica.</h2> <!-- Replace with the name of your app -->
+            <div class="inline-container">
+                <!-- Features left side (features mock up) -->
+                <div id="features-left">
+                    <!-- Mockup Image -->
+                    <img src="~/images/ticopay-facturacion-electronica-factura-principal-captura.png" title="Ticopay logo" alt="Ticopay, software de facturación para Costa Rica"> <!-- Replace the 'SRC' URL to direct to your mockup image -->
+                </div>
+
+                <!-- Features right side (features list) -->
+                <div id="features-right">
+                    <!-- Feature 1 -->
+                    <div class="feature">
+                        <!-- Icon -->
+                        <span class="icon blue"><i class="material-icons white-text">phonelink</i></span> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                        <!-- Heading -->
+                        <h5>Adaptable</h5> <!-- Replace with the title of your feature -->
+                        <p>Puedes usarlo en el escritorio o en tus dispositivos móviles con la misma facilidad y confianza.</p>
+                        <span class="clearfix"></span><!--This allows the floating items to have whitespace-->
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="feature">
+                        <!-- Icon -->
+                        <span class="icon blue"><i class="material-icons white-text">build</i></span> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                        <!-- Heading -->
+                        <h5>Configurable</h5> <!-- Replace with the title of your feature -->
+                        <p>Tienes el control de tus datos, y ticopay te facilita la administracón de la factura electrónica.</p>
+                        <span class="clearfix"></span><!--This allows the floating items to have whitespace-->
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="feature">
+                        <!-- Icon -->
+                        <span class="icon blue"><i class="material-icons white-text">create</i></span> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                        <!-- Heading -->
+                        <h5>Planes a la Medida</h5> <!-- Replace with the title of your feature -->
+                        <p>ticopay crece con tu empresa, ofreciéndote planes que se adaptan a tus necesidades.</p>
+                        <span class="clearfix"></span><!--This allows the floating items to have whitespace-->
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="feature">
+                        <!-- Icon -->
+                        <span class="icon blue"><i class="material-icons white-text">headset_mic</i></span> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                        <!-- Heading -->
+                        <h5>Soporte</h5> <!-- Replace with the title of your feature -->
+                        <p>Contamos con personal capacitado para ayudarte en tus necesidades por nuestros diferentes medios de contacto.</p>
+                        <span class="clearfix"></span><!--This allows the floating items to have whitespace-->
+                    </div>
+
+                    <!-- Feature 5 -->
+                    <div class="feature">
+                        <!-- Icon -->
+                        <span class="icon blue"><i class="material-icons white-text">security</i></span> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                        <!-- Heading -->
+                        <h5>Seguridad</h5> <!-- Replace with the title of your feature -->
+                        <p>Cuando te conectas a ticopay todos tus datos son encriptados para que solo tu tengas acceso a tu información confidencial.</p>
+                        <span class="clearfix"></span><!--This allows the floating items to have whitespace-->
+                    </div>
+
+                    <!-- Feature 6 -->
+                    <div class="feature">
+                        <!-- Icon -->
+                        <span class="icon blue"><i class="material-icons white-text">developer_mode</i></span> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                        <!-- Heading -->
+                        <h5>API</h5> <!-- Replace with the title of your feature -->
+                        <p>Conecta el Sistema ERP de tú Empresa con nuestra plataforma de Facturación Electrónica.</p>
+                        <span class="clearfix"></span><!--This allows the floating items to have whitespace-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- YouTube Video Embed -->
+        <!-- Embed a YouTube video demonstrating your app (how to use it, what it does, ETC). To emebed a video, replace "VIDEOIDHERE" with the ID of the YouTube video you wish to embed. For more information, open the "readme.pdf" file and view section H -->
+        <iframe src="https://www.youtube.com/embed/E9Gn-9Z00Do?rel=0&amp;showinfo=0" allowfullscreen id="video"></iframe>
+    </section>
+    <!-- END FEATURES SECTION -->
+    <!-- BEGIN REVIEWS SECTION -->
+    <section class="blue white-text" id="reviews">
+        @*<div class="container">
+
+                <!-- Heading -->
+                <h2 class="white-text txt-centre">Reviews</h2>
+                <p class="txt-centre">See what our users have been saying.</p>
+
+                <div id="testimonial-container">
+
+                    <!-- Testimonial -->
+                    <div class="testimonial">
+
+                        <!-- User image: replace the URL to direct to an image of your user. -->
+                        <img src="./images/people-placeholder.png" alt="Ticopay te hace la vida más fácil" title="Clientes más contentos gracias a Ticopay">
+
+                        <span class="testimonial-name">John Doe</span> <!-- Replace with the name of your user. -->
+
+                        <span class="testimonial-review">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget elit ut nunc iaculis facilisis eu ut ex. Fusce dictum ipsum leo, eget dignissim purus lacinia vitae.</span> <!-- Replace with the comment left by your user. -->
+
+                        <span class="clearfix"></span>
+
+                    </div>
+
+
+                    <!-- Testimonial -->
+                    <div class="testimonial">
+
+                        <!-- User image: replace the URL to direct to an image of your user. -->
+                        <img src="./images/people-placeholder.png" alt="Ticopay, software de facturación con respaldo en la nube" title="Clientes más contentos gracias a Ticopay">
+
+                        <span class="testimonial-name">Jane Doe</span> <!-- Replace with the name of your user. -->
+
+                        <span class="testimonial-review">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget elit ut nunc iaculis facilisis eu ut ex. Fusce dictum ipsum leo, eget dignissim purus lacinia vitae.</span> <!-- Replace with the comment left by your user. -->
+
+                        <span class="clearfix"></span>
+
+                    </div>
+
+
+                    <!-- Testimonial -->
+                    <div class="testimonial">
+
+                        <!-- User image: replace the URL to direct to an image of your user. -->
+                        <img src="./images/people-placeholder.png" alt="Has que tu negocio prospere con Ticopay, software de facturación con respaldo en la nube" title="Clientes más contentos gracias a Ticopay">
+
+                        <span class="testimonial-name">Adam Doe</span> <!-- Replace with the name of your user. -->
+
+                        <span class="testimonial-review">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget elit ut nunc iaculis facilisis eu ut ex. Fusce dictum ipsum leo, eget dignissim purus lacinia vitae.</span> <!-- Replace with the comment left by your user. -->
+
+                        <span class="clearfix"></span>
+
+                    </div>
+
+                </div>
+
+            </div>*@
+    </section>
+    <!-- END REVIEWS SECTION -->
+    <!-- BEGIN STATS SECTION -->
+    <section class="transparent white-text txt-centre" id="stats">
+        <h2>Ticopay - Software de Facturación Electrónica en Costa Rica</h2>
+        <span class="filter"></span> <!-- This makes the background image appear darker -->
+        <div class="container inline-container">
+
+
+            <!-- Downloads stat -->
+            @*<div class="stat">
+
+                    <!-- Figure -->
+                    <span class="figure">105K</span> <!-- Replace with the amount of downloads you app has -->
+                    <span class="title">Downloads</span>
+
+                </div>
+
+
+                <!-- Download button -->
+                <div id="download">
+                    <span class="circle"></span>
+                    <!-- This button automatically scrolls to the relevant section below -->
+                    <a href="#register" class="btn blue smooth">Download</a>
+                </div>
+
+
+                <!-- Rating stat -->
+                <div class="stat">
+
+                    <!-- Rating -->
+                    <span class="figure">4.5/5</span> <!-- Replace with star rating your app has -->
+                    <span class="title">App rating</span>
+
+                </div>*@
+
+        </div>
+    </section>
+    <!-- END STATS SECTION -->
+    <!-- BEGIN PRICING SECTION -->
+    <section class="grey txt-centre" id="pricing">
+        <div class="container">
+            <!-- Heading -->
+            <h2>Selecciona Uno de Nuestros Planes</h2>
+            <!-- Paragraph -->
+            <p>Te ofrecemos los mejores precios del mercado en Facturación Electrónica Mensuales y Anuales.</p> <!-- Replace with a short sentence or two persuading users to purchase a plan -->
+            <br />
+            <p>Si tienes una facturación mensual mayor a 2.000 documentos, pide tu cotización al correo ventas@ticopays.com.</p>
+            <style>
+                .toggle-on.btn {
+                    background-color: #2A3159;
+                }
+
+                .toggle-off.btn {
+                    background-color: #36733C;
+                }
+
+                .toggle-handle.btn.btn-default.btn-sm {
+                    background: #ddd !important;
+                }
+            </style>
+            <label class="switch">
+                <input type="checkbox" checked id="toggle-two" data-size="small">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <div class="container small" id="monthly_billing">
+            <div class="inline-container">
+                <!-- Plan 1 -->
+                @*<div class="plan smooth">
+                        <!-- Plan title -->
+                        <h3>Profesional Jr</h3>
+
+                        <!-- Plan price -->
+                        <div class="price blue-text">$3</div>
+
+                        <!-- Key features -->
+                        <!-- Replace with the key features of your plan -->
+                        <span class="key">1 usuario</span>
+                        <span class="key">10 facturas mensuales</span>
+                        <span class="key">Clientes: Cédula Física/ DIMEX/ NITE</span>
+
+                        <!-- Button -->
+                        <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.ProfesionalJrEditionName })" class="btn blue smooth">Regístrate</a>
+                    </div>*@
+
+                <!-- Plan 2 -->
+                <div class="plan smooth">
+                    <!-- Plan title -->
+                    <h3>Profesional</h3>
+
+                    <!-- Plan price -->
+                    <div class="price blue-text">$9/mes</div> <!-- Replace with the price of your plan -->
+                    <!-- Key features -->
+                    <!-- Replace with the key features of your plan -->
+                    <span class="key">2 usuarios</span>
+                    <span class="key">1 Sucursal - 2 Caja</span>
+                    <span class="key">500 facturas mensuales</span>
+                    <span class="key">Clientes: Cédula Física/ DIMEX/ NITE</span>
+
+                    <!-- Button -->
+                    <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.ProfesionalEditionName })" class="btn blue smooth">Regístrate</a>
+                </div>
+
+                <!-- Plan 6 -->
+                <div class="plan smooth">
+                    <!-- Plan title -->
+                    <h3>Pyme Jr</h3>
+
+                    <!-- Plan price -->
+                    <div class="price blue-text">$15/mes</div> <!-- Replace with the price of your plan -->
+                    <!-- Key features -->
+                    <!-- Replace with the key features of your plan -->
+                    <span class="key">3 usuarios</span>
+                    <span class="key">1 Sucursal - 3 Caja</span>
+                    <span class="key">600 facturas mensuales</span>
+                    <span class="key">Clientes: Cédula Jurídica/Física/ DIMEX/ NITE</span>
+
+                    <!-- Button -->
+                    <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.PymeJrEditionName })" class="btn blue smooth">Regístrate</a>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="plan smooth">
+                    <!-- Plan title -->
+                    <h3>Pyme 1</h3>
+
+                    <!-- Plan price -->
+                    <div class="price blue-text">$30/mes</div> <!-- Replace with the price of your plan -->
+                    <!-- Key features -->
+                    <!-- Replace with the key features of your plan -->
+                    <span class="key">usuarios ilimitados</span>
+                    <span class="key">N Sucursal - N Caja</span>
+                    <span class="key">1000 facturas mensuales</span>
+                    <span class="key">API para Integración</span>
+                    <span class="key">Clientes: Cédula Jurídica/Física/ DIMEX/ NITE</span>
+
+                    <!-- Button -->
+                    <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.Pyme1EditionName })" class="btn blue smooth">Regístrate</a>
+                </div>
+
+                <!-- Plan 4 -->
+                <div class="plan smooth">
+                    <!-- Plan title -->
+                    <h3>Pyme 2</h3>
+
+                    <!-- Plan price -->
+                    <div class="price blue-text">$45/mes</div> <!-- Replace with the price of your plan -->
+                    <!-- Key features -->
+                    <!-- Replace with the key features of your plan -->
+                    <span class="key">usuarios ilimitados</span>
+                    <span class="key">N Surcursal - N Caja</span>
+                    <span class="key">2000 facturas mensuales</span>
+                    <span class="key">API para Integración</span>
+                    <span class="key">Clientes: Cédula Jurídica/Física/ DIMEX/ NITE</span>
+
+                    <!-- Button -->
+                    <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.Pyme2EditionName })" class="btn blue smooth">Regístrate</a>
+                </div>
+
+                <!-- Plan 5 -->
+                @*<div class="plan smooth">
+                        <!-- Plan title -->
+                        <h3>Empresarial</h3>
+
+                        <!-- Plan price -->
+                        <div class="price blue-text">$70/mes</div> <!-- Replace with the price of your plan -->
+                        <!-- Key features -->
+                        <!-- Replace with the key features of your plan -->
+                        <span class="key">usuarios ilimitados</span>
+                        <span class="key">facturas ilimitadas</span>
+                        <span class="key">API para Integración</span>
+                        <span class="key">Clientes: Cédula Jurídica/Física/ DIMEX/ NITE</span>
+
+                        <!-- Button -->
+                        <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.BusinessEditionName })" class="btn blue smooth">Regístrate</a>
+                    </div>*@
+
+            </div>
+        </div>
+
+        <div class="container small" id="annual_billing">
+            <div class="inline-container">
+                <!-- Plan 1 -->
+                <div class="plan smooth">
+                    <!-- Plan title -->
+                    <h3>Profesional Jr</h3>
+
+                    <!-- Plan price -->
+                    <div class="price blue-text">$48/año</div>
+
+                    <!-- Key features -->
+                    <!-- Replace with the key features of your plan -->
+                    <span class="key">1 usuario</span>
+                    <span class="key">1 Sucursal - 1 Caja</span>
+                    <span class="key">10 facturas mensuales</span>
+                    <span class="key">Clientes: Cédula Física/ DIMEX/ NITE</span>
+
+                    <!-- Button -->
+                    <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.ProfesionalJrAnnualEditionName })" class="btn blue smooth">Regístrate</a>
+                </div>
+
+                <!-- Plan 2 -->
+                <div class="plan smooth">
+                    <!-- Plan title -->
+                    <h3>Profesional</h3>
+
+                    <!-- Plan price -->
+                    <div class="price blue-text">$108/año</div> <!-- Replace with the price of your plan -->
+                    <!-- Key features -->
+                    <!-- Replace with the key features of your plan -->
+                    <span class="key">2 usuarios</span>
+                    <span class="key">1 Sucursal - 2 Caja</span>
+                    <span class="key">500 facturas mensuales</span>
+                    <span class="key">Clientes: Cédula Física/ DIMEX/ NITE</span>
+
+                    <!-- Button -->
+                    <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.ProfesionalAnnualEditionName })" class="btn blue smooth">Regístrate</a>
+                </div>
+
+                <!-- Plan 6 -->
+                <div class="plan smooth">
+                    <!-- Plan title -->
+                    <h3>Pyme Jr</h3>
+
+                    <!-- Plan price -->
+                    <div class="price blue-text">$180/año</div> <!-- Replace with the price of your plan -->
+                    <!-- Key features -->
+                    <!-- Replace with the key features of your plan -->
+                    <span class="key">3 usuarios</span>
+                    <span class="key">1 Sucursal - 3 Caja</span>
+                    <span class="key">600 facturas mensuales</span>
+                    <span class="key">Clientes: Cédula Jurídica/Física/ DIMEX/ NITE</span>
+
+                    <!-- Button -->
+                    <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.PymeJrAnnualEditionName })" class="btn blue smooth">Regístrate</a>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="plan smooth">
+                    <!-- Plan title -->
+                    <h3>Pyme 1</h3>
+
+                    <!-- Plan price -->
+                    <div class="price blue-text">$360/año</div> <!-- Replace with the price of your plan -->
+                    <!-- Key features -->
+                    <!-- Replace with the key features of your plan -->
+                    <span class="key">usuarios ilimitados</span>
+                    <span class="key">N Sucursales - N Cajas</span>
+                    <span class="key">1000 facturas mensuales</span>
+                    <span class="key">API para Integración</span>
+                    <span class="key">Clientes: Cédula Jurídica/Física/ DIMEX/ NITE</span>
+
+                    <!-- Button -->
+                    <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.Pyme1AnnualEditionName })" class="btn blue smooth">Regístrate</a>
+                </div>
+
+                <!-- Plan 4 -->
+                <div class="plan smooth">
+                    <!-- Plan title -->
+                    <h3>Pyme 2</h3>
+
+                    <!-- Plan price -->
+                    <div class="price blue-text">$540/año</div> <!-- Replace with the price of your plan -->
+                    <!-- Key features -->
+                    <!-- Replace with the key features of your plan -->
+                    <span class="key">usuarios ilimitados</span>
+                    <span class="key">N Sucursales - N Cajas</span>
+                    <span class="key">2000 facturas mensuales</span>
+                    <span class="key">API para Integración</span>
+                    <span class="key">Clientes: Cédula Jurídica/Física/ DIMEX/ NITE</span>
+
+                    <!-- Button -->
+                    <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.Pyme2AnnualEditionName })" class="btn blue smooth">Regístrate</a>
+                </div>
+
+                <!-- Plan 5 -->
+                @*<div class="plan smooth">
+                        <!-- Plan title -->
+                        <h3>Empresarial</h3>
+
+                        <!-- Plan price -->
+                        <div class="price blue-text">$840/año</div> <!-- Replace with the price of your plan -->
+                        <!-- Key features -->
+                        <!-- Replace with the key features of your plan -->
+                        <span class="key">usuarios ilimitados</span>
+                        <span class="key">facturas ilimitadas</span>
+                        <span class="key">API para Integración</span>
+                        <span class="key">Clientes: Cédula Jurídica/Física/ DIMEX/ NITE</span>
+
+                        <!-- Button -->
+                        <a href="@Url.Action("Create", "SignUp",new { planType = EditionManager.BusinessAnnualEditionName })" class="btn blue smooth">Regístrate</a>
+                    </div>*@
+
+            </div>
+        </div>
+    </section>
+    <!-- END PRICING SECTION -->
+    <!-- BEGIN CONTACT SECTION -->
+    <section class="white txt-centre" id="contact">
+        <div class="container">
+            <!-- Heading -->
+            <h2>Contáctanos</h2>
+            <div class="row">
+                @*class="col-sm-6 b-r"*@
+                <div>
+                    <!-- Paragraph -->
+                    <p>¡Estamos para servirte! y te responderemos tan pronto como sea posible!</p> <!-- Replace with your typical response time -->
+                    <!-- Contact form -->
+                    @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { @class = "form-horizontal ", @id = "contact-form" }))
+                    {
+                        @Html.TextBoxFor(model => model.Name, new { @class = "contact-input smooth", @placeholder = "Nombre", @type = "text", @required = "required", @maxlength = "50", @minlenght = "2", autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @style = "color:red" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "contact-input smooth", @placeholder = "Correo Electrónico", @type = "email", @required = "required", @maxlength = "254", autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @style = "color:red" })
+                        @Html.TextBoxFor(model => model.Telefono, new { @class = "contact-input smooth", @placeholder = "Numero de Télefono", @type = "text", @required = "required", @maxlength = "15", autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Telefono, "", new { @style = "color:red" })
+                        @Html.TextBoxFor(model => model.Subject, new { @class = "contact-input smooth", @placeholder = "Asunto", @type = "text", @required = "required", @maxlength = "255", @minlenght = "4", autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Subject, "", new { @style = "color:red" })
+                        @Html.TextAreaFor(model => model.Message, new { @class = "contact-input smooth", @placeholder = "Mensaje", @type = "text", @required = "required", @maxlength = "1000", @minlenght = "4", autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Message, "", new { @style = "color:red" })
+                    <div class="form-group">
+                        @Html.ValidationMessageFor(m => m.ReCaptcha, "", new { @style = "color:red" })
+                        <div class="col-lg-offset-4 col-lg-12">
+                            <div class="g-recaptcha" data-sitekey="6LcGFCIUAAAAALkbA4SAAgiyxh343_9S2woVGhze"></div>
+                            @Html.HiddenFor(model => model.ReCaptcha, new { @id = "ReCaptcha" })
+                        </div>
+                    </div>
+                        <button type="submit" name="contactus" class="btn blue centre-margin smooth">Enviar Mensaje</button>
+                    }
+                </div>
+                <br />
+                <div class="hr-line-dashed"></div>
+                <div class="row">
+                    <h3>Contactos de Ventas</h3>
+
+                    @*<section class="grey" id="overview">*@
+
+                    <div class="inline-container">
+
+                        <div class="plan smooth" style="background-color:#F8F8F8!important">
+                            <!-- Icon -->
+                            @*<i class="material-icons blue-text">restore_page</i>*@
+                            <span class="icon"><i class="fa fa-user-circle fa-4x"></i></span><br /><br /> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                            <!-- Heading -->
+                            <h4>Jessika Barreto</h4>
+
+                            @*<h5><strong>Ventas</strong></h5>*@
+                            <!-- Paragraph -->
+                            <p><i class="fa fa-envelope"></i> jbarreto@ticopays.com</p>
+                            <p><i class="fa fa-whatsapp"></i> (506) 8589 1840</p>
+
+                        </div>
+                        <div class="plan smooth" style="background-color:#F8F8F8!important">
+                            <span class="icon"><i class="fa fa-user-circle fa-4x"></i></span><br /><br /> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                            <!-- Heading -->
+                            <h4>Alexander Muñoz</h4>
+                            <!-- Paragraph -->
+                            @*<h5><strong>Ventas</strong></h5>*@
+                            <p><i class="fa fa-envelope"></i> amunoz@ticopays.com</p>
+                            <p><i class="fa fa-whatsapp"></i> (506) 8702 5520</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="hr-line-dashed"></div>
+
+
+                    <div class="row">
+
+                        <div class="inline-container">
+                            <h3>Soporte Ticopay</h3>
+                            <div class="plan smooth" style="background-color:#F8F8F8!important">
+                                <!-- Icon -->
+                                <span class="icon"><i class="fa fa-life-ring  fa-4x"></i></span><br /><br /> <!-- To change the icon, open the "readme.pdf" file and see section G -->
+                                <!-- Heading -->
+                                <!-- Paragraph -->
+                                @*<h5><strong>Soporte</strong> </h5>*@
+                                <p><i class="fa fa-envelope"></i> soporte@ticopays.com</p>
+                                <p><i class="fa fa-phone"></i> (506) 4010-0188</p>
+                                <p><i class="fa fa-whatsapp"></i><a href="https://api.whatsapp.com/send?phone=+50683413203">(506) 8341 3203</a>/ <a href="https://api.whatsapp.com/send?phone=+50683400277">(506) 8340 0277</a> </p>
+                            </div>
+
+                        </div>
+
+                        @*<p><strong>Soporte Ticopay</strong></p>
+                            <p>soporte@ticopays.com</p>
+                            <p><abbr title="Teléfono">Telf:</abbr> (506) 4010-0188</p>*@
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+    <!-- END CONTACT SECTION -->
+    <!-- BEGIN SUBSCRIBE SECTION -->
+    <section class="subscribe white-text txt-centre" id="subscribe-background">
+        <div class="container">
+            <a class="twitter-timeline" data-width="600" data-height="600" data-theme="light" data-link-color="#36733C" href="https://twitter.com/ticopay?ref_src=twsrc%5Etfw">Tweets by ticopay</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            @* <a class="twitter-timeline" href="https://twitter.com/ticopay">Tweets más populares</a>*@
+            @*<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>*@
+        </div>
+    </section>
+    <!-- END SUBSCRIBE SECTION -->
+    <!-- BEGIN DOWNLOAD SECTION -->
+    @*<section class="blue white-text txt-centre" id="register">
+            <div class="container">
+
+                <!-- Heading -->
+                <h2>Download Apprap</h2> <!-- Replace with the name of your app -->
+
+                <p>Apprap is available free! Download now.</p> <!-- Replace with the price of your app -->
+                <!-- Download buttons -->
+                <!-- Replace "yourappurl" with the download link for your app, delete the irrelevant buttons -->
+                <a href="http://www.apple.com/yourappurl" target="_blank" class="download-btn smooth" id="apple-download">App Store</a> <!-- Apple App Store -->
+                <a href="http://www.play.google.com/yourappurl" target="_blank" class="download-btn smooth" id="play-download">Google Play</a> <!-- Google Play Store -->
+                <a href="https://www.microsoft.com/yourappurl" target="_blank" class="download-btn smooth" id="windows-download">Windows Store</a> <!-- Windows Store -->
+
+            </div>
+        </section>*@
+    <!-- END DOWNLOAD SECTION -->
+</div>
+<script>
+    $(function () {
+        $('#toggle-two').bootstrapToggle({
+            on: 'Anual',
+            off: 'Mensual'
+        });
+
+        $('#monthly_billing').fadeOut("slow");
+        $('#annual_billing').fadeIn("slow");
+
+
+        $('#toggle-two').change(function () {
+            if ($(this).prop('checked')) {
+                $('#monthly_billing').fadeOut("slow");
+                $('#annual_billing').fadeIn("slow");
+                console.log(1);
+            }
+            else {
+                $('#monthly_billing').fadeIn("slow");
+                $('#annual_billing').fadeOut("slow");
+                console.log(2);
+            }
+        });
+    })
+</script>
+<script src='https://www.google.com/recaptcha/api.js' type="text/javascript"></script>

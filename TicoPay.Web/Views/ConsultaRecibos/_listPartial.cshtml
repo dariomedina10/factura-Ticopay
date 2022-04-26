@@ -1,0 +1,113 @@
+﻿@using TicoPay.Invoices
+@model TicoPay.ConsultaRecibos.Dto.SearchConsultaRecibosInput
+@{
+    ViewBag.Title = "Consulta Recibos";
+}
+@if (Model.ClientInfo != null)
+{
+    <div class="wrapper wrapper-content animated fadeInRight white-bg">
+        @{
+            Html.RenderPartial("_clientInfoPartial", Model);
+        }
+    </div>
+    <br/>
+}
+@if (Model.Entities != null && Model.Entities.Any())
+{
+    string tarjet = "";
+    string ariaControls = "";
+    int count = 1;
+    <div class="wrapper wrapper-content animated fadeInRight white-bg">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Factura </th>
+                        <th>Fecha </th>
+                        <th>Nombre </th>
+                        <th>Estado </th>
+                        <th>Montos</th>
+                        <th>Débitos</th>
+                        <th>Créditos</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody role="tablist" aria-multiselectable="true" id="accordion">
+                    @foreach (var item in Model.Entities.OrderByDescending(a => a.Number))
+                    {
+                        //Cambiar precio por unidad por total
+                        tarjet = "#" + count;
+                        ariaControls = "aria" + count;
+                        decimal total = @item.InvoiceLines.Sum(a => a.PricePerUnit) + @item.Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.Amount) - @item.Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.Amount);
+                        <tr data-toggle="collapse" data-target="@tarjet" role="tab" data-parent="#accordion" aria-controls="@ariaControls">
+                            <td>@item.Number</td>
+                            <td>@item.DueDate.ToShortDateString()</td>
+                            <td>@item.Client.Name</td>
+                            <td>
+                                @if (item.Status == Status.Completed)
+                                {
+                                    <span class="label label-warning">Pagada</span>
+                                }
+                                @if (item.Status == Status.Parked)
+                                {
+                                    <span class="label label-primary">Pendiente</span>
+                                }
+                                @if (item.Status == Status.Voided)
+                                {
+                                    <span class="label label-danger">Anulada</span>
+                                }
+                            </td>
+                            <td>@item.InvoiceLines.Sum(a => a.PricePerUnit)</td>
+                            <td>@item.Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.Amount)</td>
+                            <td>@item.Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.Amount)</td>
+                            <td>@total</td>
+
+                        </tr>
+                        <tr>
+                            <td class="hiddenRow" colspan="12">
+                                <div class="accordian-body collapse" role="tabpanel" id="@count.ToString()">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div>
+                                                <div class="ibox-content" style="padding-top: 10px; padding-right: 10px; padding-bottom: 0px;">
+                                                    @{
+                        Html.RenderPartial("_itemPartial", item.ListItems);
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        tarjet = "";
+                        ariaControls = "";
+                        count++;
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+}
+else
+{
+    if (Model.ErrorCode == -1)
+    {
+        <div class="alert alert-danger alert-dismissible text-center" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@Model.ErrorDescription</strong>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning alert-dismissible text-center" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>¡El cliente no posee facturas pendientes!</strong>
+        </div>
+    }
+
+}
+

@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="es">
+  <texts>
+    <text name="HomePage" value="Página de inicio" />
+    <text name="About" value="Acerca de" />
+    <text name="WellcomeMessage" value="Bienvenido a WMS!" />
+
+    <text name="FormIsNotValidMessage" value="Formulario no es válido. Por favor, compruebe y corrija los errores." />
+    <text name="TenantNameCanNotBeEmpty" value="Nombre de la empresa no puede estar vacío" />
+
+
+    <text name="InvalidUserName" value="Nombre de Usuario inválido" />
+    <text name="InvalidPassword" value="Contraseña inválida" />
+    <text name="InvalidUserNameOrPassword" value="Usuario o contraseña inválidos" />
+    <text name="ThereIsNoTenantDefinedWithName{0}" value="No hay empresa definida con el nombre {0}" />
+    <text name="TenantIsNotActive" value="La empresa {0} no está activa. {1}" />
+    <text name="UserIsNotActiveAndCanNotLogin" value="El usuario {0} no está activo y no puede conectarse." />
+    <text name="PleaseEnterLoginInformation" value="Por favor, introduzca la información de inicio de sesión" />
+    <text name="TenancyName" value="Nombre de la empresa" />
+    <text name="UserNameOrEmail" value="Nombre de usuario o correo electrónico" />
+    <text name="Password" value="Contraseña" />
+    <text name="RememberMe" value="Recuérdame" />
+    <text name="LogIn" value="Iniciar sesión" />
+
+    <text name="LoginFailed" value="¡Error de inicio de sesión!" />
+
+    <text name="NameSurname" value="Nombre Apellido" />
+    <text name="UserName" value="Nombre de usuario" />
+    <text name="Name" value="Nombre" />
+    <text name="Surname" value="Apellido" />
+    <text name="EmailAddress" value="Dirección de correo electrónico" />
+
+    <text name="Tenants" value="Empresas" />
+    <text name="SavedSuccessfully" value="Guardado correctamente" />
+    <text name="CreateNewTenant" value="Crear nueva empresa" />
+    <text name="AdminEmailAddress" value="Dirección de correo electrónico del administrador" />
+    <text name="Save" value="Guardar" />
+    <text name="Cancel" value="Cancelar" />
+    <text name="TenantName_Regex_Description" value="El nombre de la empresa debe ser de al menos 2 caracteres, empieza con una letra y continua con una letra, número, guión o un guión bajo." />
+    <text name="DefaultPasswordIs" value="La contraseña por defecto es {0}" />
+    <text name="CanBeEmptyToLoginAsHost" value="Puede estar vacía para iniciar la sesión como anfitrión." />
+    <text name="Register" value="Registro" />
+    <text name="OrLoginWith" value="o iniciar sesión con" />
+    <text name="WaitingForActivationMessage" value="Su cuenta está en espera de ser activada por el administrador del sistema." />
+    <text name="TenantSelection" value="Selección de Empresa" />
+    <text name="TenantSelection_Detail" value="Por favor seleccione una de las siguientes empresas." />
+    <text name="Logout" value="Cerrar sesión" />
+
+    <text name="RegisterFormUserNameInvalidMessage">Por favor no agregue un email como nombre de usuario.</text>
+
+    <text name="DatabaseConnectionString" value="Cadena de conexion a la base de datos" />
+    <text name="Users" value="Usuarios" />
+    <text name="IsActive" value="Activo" />
+    <text name="FullName" value="Nombre" />
+    <text name="CreateNewUser" value="Crear nuevo usuario" />
+    <text name="Yes" value="Si" />
+    <text name="No" value="No" />
+    <text name="Optional" value="Opcional" />
+
+    <text name="Back" value="Regresar" />
+    <text name="Plan" value="Plan" />
+
+    <text name="UserEmailIsNotConfirmed" value="Aún no ha activado su cuenta, por favor siga las instrucciones que enviamos a su correo." />
+
+    <text name="Configuration" value="Configuración" />
+    <text name="Configuration.Tax" value="Impuestos" />
+    <text name="Configuration.GroupClients" value="Grupo de Clientes" />
+    <text name="Configuration.Roles" value="Roles" />
+    <text name="Configuration.GroupConcepts" value="Grupo de Servicios" />
+    <text name="Configuration.Tenants" value="Compañía" />    
+    <text name="Configuration.Users" value="Usuarios" />
+    <text name="Configuration.ReportSettings" value="Personalización de formatos" />
+    
+    <text name="Maintenance" value="Mantenimiento" />
+    <text name="Maintenance.Clients" value="Clientes" />
+    <text name="Maintenance.Services" value="Servicios" />
+    <text name="Maintenance.Products" value="Productos" />
+    <text name="Billing.Billing" value="Facturar" />
+    <text name="Billing" value="Facturación" />
+    <text name="Reports" value="Reportes" />
+    <text name="Reports.Clients" value="Reportes de Clientes" />
+    <text name="Reports.Closing" value="Reportes de Cierre" />
+    <text name="Reports.AccountsReceivable" value="Reporte de Cuentas por Cobrar" />
+    <text name="Reports.StatusInvoices" value="Reporte de Estatus Facturas" />
+    <text name="Reports.InvoicesSentToTribunet" value="Reporte Facturas Enviadas a Tribunet" />
+    <text name="Reports.InvoicesNotes" value="Reporte Facturas/Notas" />
+    <text name="ViewInvoices" value="Consultar Facturas " />
+    <text name="Downloads_FirmaDigital">Firma Digital</text>
+    <text name="Downloads_FirmaDigital.Manual">Manual</text>
+    <text name="Downloads_FirmaDigital.Installer">Instalador</text>
+    <text name="Integration">Integration</text>
+    <text name="Integration.SVConta">SVConta</text>
+    <text name="Integration.Zoho">Zoho</text>
+    <text name="Billing.ConfirmXML" value="Confirmar XML" />
+    <text name="Billing.OpenDrawer" value="Apertura/Cierre Caja" />
+    <text name="Dashboard" value="Dashboard" />
+
+
+    <!--PaymetnMethodType-->
+    <text name="EnumCash" value="Efectivo" />
+    <text name="EnumCreditCard" value="Tarjeta" />
+    <text name="EnumCheck" value="Cheque" />
+    <text name="EnumDeposit" value="Depósito / Transferencia" />
+
+    <text name="SignUpMessageTitle" value="Ingrese sus datos para su cuenta" />
+    <text name="SignUpMessageTitleSecondStep" value="Registrese sus datos" />
+    <text name="SignUpMessageOther" value="Finalice de configurar su cuenta Ticopay" />
+  </texts>
+</localizationDictionary>

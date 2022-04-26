@@ -1,0 +1,69 @@
+﻿@model TicoPay.Taxes.Dto.UpdateTaxInput
+@{
+    ViewBag.Title = "Editar Impuesto";
+}
+@using (Html.BeginForm("Edit", "Taxes", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>Editar @Model.Name</h4>
+    </div>
+    if (Model != null)
+    {<div class="modal-body">
+        <fieldset>
+            <div class="well col-lg-10 col-lg-offset-1">
+
+                <div class="wrapper">
+                    @Html.LabelFor(model => model.Name, new {@class = "control-label"})
+                    <div class="input-group col-lg-12">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "NameText", @Type = "text", @required = "required", @maxlength = "80" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+                <br/>
+                <div class="wrapper">
+                    @Html.LabelFor(model => model.TaxTypes, new { @class = "control-label" })
+                    <div class="input-group col-lg-12">
+                        <div>
+                            @Html.DropDownListFor(model => model.TaxTypes, Model.ListTaxTypes, "Seleccione un Tipo de Impuesto", new { @id = "typeidentificacion_DD", @class = "form-control", @required = "required" })
+                           @* @Html.EnumDropDownListFor(x => x.TaxTypes, "Seleccione un Tipo de Impuesto", new { @id = "typeidentificacion_DD", @class = "form-control", @required = "required" })*@
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="wrapper">
+                    @Html.LabelFor(model => model.Rate, new { @class = "control-label" })
+                    <div class="input-group col-lg-12">
+                        @Html.TextBoxFor(model => model.Rate, new { @class = "form-control", @id = "RateText", type = "number", @min = "0", @step = "0.01", @max = "100", @required = "required", @maxlength = "5", @pattern = @"\d+(,\d{1,2})?", @title = "ej. 15,50" })
+                        <span class="input-group-addon">%</span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Rate)
+                </div>
+                @if (Model.ErrorCode == 1)
+                {
+                    <hr />
+                    <div class="alert alert-success alert-dismissible" style="text-align: center" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+                else if (Model.ErrorCode == -1)
+                {
+                    <br />
+                    <div class="alert alert-danger alert-dismissible" style="text-align: center" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+
+    }
+}

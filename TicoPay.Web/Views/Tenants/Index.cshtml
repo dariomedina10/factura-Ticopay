@@ -1,0 +1,1048 @@
+﻿@using Abp.MultiTenancy
+@using Abp.Web.Mvc.Extensions
+@using TicoPay.MultiTenancy
+@model TicoPay.MultiTenancy.Dto.UpdateTenantInput
+@{
+    ViewBag.ActiveMenu = "Tenants"; //The menu item will be active for this page.
+    ViewBag.Firma = false;
+}
+@{
+    ViewBag.Title = "Mantenimiento de Compañía";
+}
+
+@if (Model.TipoFirma != null)
+{
+    if ((int)Model.TipoFirma == (int)TicoPay.MultiTenancy.Tenant.FirmType.Firma || (int)Model.TipoFirma == (int)TicoPay.MultiTenancy.Tenant.FirmType.Firma)
+    {
+        <script>
+            $(document).ready(function () {
+                $('#notificarDescargaManualFirmaDigital').modal("show");
+            });
+        </script>
+    }
+}
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@using (Html.BeginForm("Index", "Tenants", FormMethod.Post, new { @class = "form-horizontal", @id = "form", enctype = "multipart/form-data" }))
+{
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Editar datos de la Compañía</h2>
+        </div>
+    </div>
+    <br />
+    if (Model != null)
+    {
+    <fieldset style="position: relative;">
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CertifiedID)
+        @Html.HiddenFor(model => model.RegisterID)
+        @Html.HiddenFor(model => model.CertifiedChange, new { @id = "CertChange" })
+        @Html.HiddenFor(model => model.DeleteLogo)
+        @Html.HiddenFor(model => model.IdentificationType)
+        <div class="animated fadeIn">
+            @if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok)
+        {
+            <div class="row ">
+                <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@Model.ErrorDescription</strong>
+                </div>
+            </div>
+    }
+    else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error)
+    {
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@Model.ErrorDescription</strong>
+                </div>
+            </div>
+        </div>
+}
+        </div>
+
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    @*style="background-color: rgba(47, 64, 80, 0.25);"*@
+                    <div class="ibox-title">
+                        <h5>Compañía <small> Datos Fiscales</small></h5>
+                        <div class="ibox-tools">
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-6 b-r">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Nombre:</label>
+                                        <div class="col-sm-8">@Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm", @placeholder = "ej. TicoPay SA", @type = "text", @required = "required", @maxlength = "128" })</div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Sub-Dominio:</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.TenancyName, new { @class = "form-control input-sm", @placeholder = "TicoPay", @type = "text", @maxlength = "64", @pattern = @"^[a-zA-Z][a-zA-Z0-9_-]{1,}$", title = "ej. ticopay" })
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Tipo Identificación:</label>
+                                        <div class="col-sm-8">
+                                            <div>
+                                                @Html.DropDownListFor(model => model.IdentificationType, Model.IdentificationTypes, "Seleccione un Tipo", new { @id = "typeidentificacion_DD", @class = "form-control", @required = "required", @disabled = "disabled" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Número Identificación:</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.IdentificationNumber, new { @class = "form-control input-sm", @placeholder = "Número de Identificación", @type = "text", @required = "required", @maxlength = "12", @pattern = @"[0-9]{9,12}", @title = "Debe ingresar solo números", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Nombre Comercial:</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.ComercialName, new { @class = "form-control input-sm", @placeholder = "ej. TicoPay", @type = "text", @maxlength = "80" })
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Correo Electrónico:</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <span class="input-group-addon "><i class="fa fa-envelope"></i></span>@Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm", @placeholder = "ej. alguien@ejemplo.com", @type = "email", @required = "required", @maxlength = "60" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Teléfono:</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <span class="input-group-addon "><i class="fa fa-phone"></i></span>@Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control input-sm", @placeholder = "ej. 123-45678909", type = "text", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 123-45678909" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Móvil:</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.Fax, new { @class = "form-control input-sm", @placeholder = "ej. 123-45678909", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 123-45678909" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <!--Faltan Translates-->
+                    <div class="ibox-title">
+                        <h5>Configuración plan <small>Información del plan seleccionado</small></h5>
+                        <div class="ibox-tools">
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-6 b-r">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Plan:</label>
+                                        <div class="col-sm-10">
+                                            @{
+                                            SelectList plan = new SelectList(Model.EditionSelect.ToArray(), "Id", "DisplayName");
+                                            <div>@Html.DropDownListFor(m => m.EditionId, plan, new { @id = "plan_DD", @class = "form-control", @required = "required" })</div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Email Alternativo:</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <span class="input-group-addon "><i class="fa fa-envelope"></i></span> @Html.TextBoxFor(model => model.AlternativeEmail, new { @class = "form-control input-sm", @placeholder = "ej. alguien@ejemplo.com", @type = "email", @maxlength = "60", @title = "Dirección de correo alternativa para recibir las facturas de sus clientes" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Configuración facturación <small> Información de facturación usada en la facturación</small></h5>
+                        <div class="ibox-tools">
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-6 b-r">
+                                <div class="form-horizontal">
+                                    <div class="form-group" style="height:40px;">
+                                        <label class="col-sm-4 control-label">Moneda:</label>
+                                        <div class="col-sm-8">
+                                            <div>
+                                                @Html.DropDownListFor(model => model.CodigoMoneda, Model.CodigoMonedas, "Seleccione una Moneda", new { @id = "codigoMoneda", @class = "form-control", @required = "required" })
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        @*<div class="hr-line-dashed"></div>
+                                        <div class="form-group" style="height:40px;">*@
+                                            @*<label class="col-sm-2 control-label">Local:</label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(model => model.local, new { @class = "form-control input-sm", @placeholder = "Número del local", @type = "text", @required = "required", @maxlength = "3", @pattern = @"\d{3}", title = "ej. 001" })
+                                                    @Html.ValidationMessageFor(model => model.local, "", new { @class = "text-danger" })
+                                                </div>*@
+                                            @*<label class="col-sm-4 control-label">Último #Nota de Debito:</label>
+                                            <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.LastNoteDebitNumber, new { @class = "form-control input-sm", @placeholder = "Culminó en...", @type = "number", @required = "required", @min = "0", @max = "9999999999", title = "ej. 1" })
+                                                @Html.ValidationMessageFor(model => model.LastNoteDebitNumber, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group" style="height:40px;">
+                                           
+                                            <label class="col-sm-4 control-label">Último #Comprobante de recepción:</label>
+                                            <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.LastVoucherNumber, new { @class = "form-control input-sm", @placeholder = "Culminó en...", @type = "number", @required = "required", @min = "0", @max = "9999999999", title = "ej. 1" })
+                                                @Html.ValidationMessageFor(model => model.LastVoucherNumber, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>*@
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group" style="height:40px;">
+                                            <label class="col-sm-4 control-label">Sector:</label>
+                                            <div class="col-sm-8">
+                                                @Html.EnumDropDownListFor(model => model.Sector, "Seleccione un Sector", new { @id = "sector_DD", @class = "form-control" })
+                                            </div>
+
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group" id="validateHaciendaDiv">
+                                        <label class="col-sm-4 control-label">Validar con Hacienda?:</label>
+                                        <div class="col-sm-8">
+                                            @Html.CheckBoxFor(model => model.ValidateHacienda, new { @id = "certified_Chk" })
+
+                                                Si <i></i>
+                                                @if (@Model.CertifiedID != null)
+                                                {
+                                                    <button type="button" class="btn btn-outline btn-success btn-xs" id="alternar">Cambiar Certificado...</button>
+                                                }
+                                               
+                                                    <button type="button" class="btn btn-outline btn-success btn-xs hidden" id="btnCredenciales">Cambiar Credenciales...</button>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div id="divCredenciales" class="divCredenciales">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Usuario Hacienda:</label>
+                                                <div class="col-sm-8" style="padding-bottom:5px">
+                                                    @Html.TextBoxFor(model => model.UserTribunet, new { @class = "form-control ", @id = "userTribunet", @autocomplete = "off" })
+                                                    @Html.ValidationMessageFor(model => model.UserTribunet, "", new { @class = "text-danger" })
+                                                </div>
+                                               
+                                                <label class="col-sm-4 control-label">Contraseña Hacienda:</label>
+                                                <div class="col-sm-8" style="padding-bottom:5px">
+                                                    @Html.TextBoxFor(model => model.PasswordTribunet, new { @class = "form-control ", @type = "password", @id = "passwordTribunet", @maxlength = "500", @autocomplete = "new-password" })
+                                                    @Html.ValidationMessageFor(model => model.CertifiedPassword, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id='othersunit' class="othersunit" style="height:40px;">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Certificado:</label>
+                                                <div class="col-sm-8" style="padding-bottom:5px">
+                                                    @Html.TextBoxFor(model => model.file, new { @class = "form-control input-sm", @type = "file", @name = "file", @accept = ".p12" })
+                                                    @Html.ValidationMessageFor(model => model.file, "", new { @class = "text-danger" })
+                                                </div>
+                                                <label class="col-sm-4 control-label"></label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">PIN de 4 dígitos que ingreso en Hacienda</p>
+                                                </div>
+                                                <label class="col-sm-4 control-label">Contraseña Certificado:</label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(model => model.CertifiedPassword, new { @class = "form-control input-sm", @type = "password", @maxlength = "12" })
+                                                    @Html.ValidationMessageFor(model => model.CertifiedPassword, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-horizontal">
+                                        @*<div class="form-group" style="height:40px;">
+                                            <label class="col-sm-4 control-label">Último #Factura:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.LastInvoiceNumber, new { @class = "form-control input-sm", @placeholder = "Culminó en...", @type = "number", @required = "required", @maxlength = "10", @min="0", @max="9999999999", @pattern = @"\d{1-10}", title = "ej. 1" })
+                                                @Html.ValidationMessageFor(model => model.LastInvoiceNumber, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group" style="height:40px;">
+                                            <label class="col-sm-4 control-label">Último #Nota de Crédito:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.LastNoteCreditNumber, new { @class = "form-control input-sm", @placeholder = "Culminó en...", @type = "number", @required = "required", @maxlength = "10", @min = "0", @max = "9999999999", @pattern = @"\d{1-10}", title = "ej. 1" })
+                                                @Html.ValidationMessageFor(model => model.LastNoteCreditNumber, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group" style="height:40px;">
+                                            <label class="col-sm-4 control-label">Último #Tiquete:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.LastTicketNumber, new { @class = "form-control input-sm", @placeholder = "Culminó en...", @type = "number", @required = "required", @maxlength = "10", @min = "0", @max = "9999999999", @pattern = @"\d{1-10}", title = "ej. 1" })
+                                                @Html.ValidationMessageFor(model => model.LastTicketNumber, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>*@
+                                        <div class="form-group" style="height:40px;">
+                                            <label class="col-sm-4 control-label">Unidad de Medida predeteminada:</label>
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(model => model.UnitMeasurementDefault, Model.UnitMeasurements, "Seleccione la Unidad de Medida", new { @id = "measurement_DD", @class = "form-control ", @required = "required" })
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed othersunit3"></div>
+                                        <div class="form-group othersunit3" style="height:40px;">
+
+                                        <label class="col-sm-4 control-label">Indique la descripción de la medida:</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(model => model.UnitMeasurementOthersDefault, new { @class = "form-control col-sm-7", @id = "OthersText", @Type = "text", @maxlength = "20" })
+                                        </div>
+
+                                    </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group" id="validateHaciendaDiv">
+                                            <label class="col-sm-6 control-label">Mostrar C&oacute;digo de Producto/Servicio en PDF?:</label>
+                                            <div class="col-sm-6">
+                                                @Html.CheckBoxFor(model => model.ShowServiceCodePdf, new { @id = "ShowServiceCodePdf_Chk" })
+
+                                                Si <i></i>
+
+                                            </div>
+                                        </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div id="firmaDiv">
+                                        <div class="form-group" style="height:40px;">
+                                            <label class="col-sm-4 control-label">Tipo de Firma para Facturación:</label>
+                                            <div class="col-sm-8">
+                                                @Html.EnumDropDownListFor(model => model.TipoFirma, "Seleccione una Firma para Facturación", new { @id = "tipoFirma_DD", @class = "form-control" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="hr-line-dashed"></div>
+                                    </div>
+
+                                    <div class="form-group" style="height:60px;" id="firmaPredeterminadaDiv">
+                                        <label class="col-sm-4 control-label">Firma Prederteminada Facturación Recurrente:</label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(model => model.FirmaRecurrente, Model.FirmaRecurrentes, "Seleccione Firma Prederteminada", new { @id = "firmaRecurrente_DD", @class = "form-control" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Configuración punto de venta <small> Configuración de impresora de punto de venta</small></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-6 b-r">
+                                <div class="form-horizontal">
+                                   
+                                    <div class="form-group" id="validateHaciendaDiv">
+                                        <label class="col-sm-6 control-label">Es un punto de venta?:</label>
+                                        <div class="col-sm-6">
+                                            @Html.CheckBoxFor(model => model.IsPos, new { @id = "IsPos_Chk" })
+
+                                            Si <i></i>
+                                          
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                  
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">                                   
+                                    <div id="printerDiv">
+                                        <div class="form-group" style="height:40px;">
+                                            <label class="col-sm-4 control-label">Modelo de impresora:</label>
+                                            <div class="col-sm-8">
+                                                @Html.EnumDropDownListFor(model => model.PrinterType, "Seleccione una impresora", new { @id = "tipoImpresora_DD", @class = "form-control", @required = "required" })
+                                            </div>
+
+                                        </div>
+
+                                        <div class="hr-line-dashed"></div>
+                                    </div>
+
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <!--Faltan Translates-->
+                    <div class="ibox-title">
+                        <h5>Localidad <small> Toda la información sobre la dirección de la compañía</small></h5>
+                        <div class="ibox-tools">
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-6 b-r">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <a><span id="popOver_Name"></span></a>
+                                        <label class="col-sm-2 control-label">Provincia:</label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DropDownListFor(x => x.ProvinciaID, new SelectList(Model.Province, "Id", "NombreProvincia"), "", new
+                                        {
+                                            @class = "form-control",
+                                            @required = "required",
+                                            data_cascade_combo = "#canton_DD",
+                                            data_cascade_combo_source = Url.Action("GetCanton", "Tenants"),
+                                            data_cascade_combo_param_name = "id"
+                                        })
+                                            @Html.ValidationMessageFor(model => model.ProvinciaID, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Canton:</label>
+                                        <div class="col-sm-8">
+                                            <div>
+                                                @Html.DropDownListFor(m => m.CantonID, new SelectList(Model.Cantons, "Id", "NombreCanton"), new
+                                            {
+                                                @id = "canton_DD",
+                                                @class = "form-control",
+                                                @required = "required",
+                                                data_cascade_combo = "#distrito_DD",
+                                                data_cascade_combo_source = Url.Action("GetDistritos", "Tenants"),
+                                                data_cascade_combo_param_name = "id"
+                                            })
+                                                @Html.ValidationMessageFor(model => model.CantonID, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Distrito:</label>
+                                        <div class="col-sm-8">
+                                            <div>
+                                                @Html.DropDownListFor(m => m.DistritoID, new SelectList(Model.Distritos, "Id", "NombreDistrito"), new
+                                            {
+                                                @id = "distrito_DD",
+                                                @class = "form-control",
+                                                @required = "required",
+                                                data_cascade_combo = "#barrio_DD",
+                                                data_cascade_combo_source = Url.Action("GetBarrios", "Tenants"),
+                                                data_cascade_combo_param_name = "id"
+                                            })
+                                                @Html.ValidationMessageFor(model => model.DistritoID, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">¿Usar Dirección Corta en PDF?:</label>
+                                        <div class="col-sm-8">
+                                            @Html.CheckBoxFor(model => model.IsAddressShort, new { @id = "address_Chk", @type = "checkbox" })
+                                            Si
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Barrio:</label>
+                                        <div class="col-sm-7">
+                                            <div>
+                                                @Html.DropDownListFor(m => m.BarrioId, new SelectList(Model.BarriosList, "Id", "NombreBarrio"), new
+                                            {
+                                                @id = "barrio_DD",
+                                                @class = "form-control",
+                                                @required = "required"
+                                            })
+                                                @Html.ValidationMessageFor(model => model.BarrioId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">País:</label>
+                                        <div class="col-sm-7">
+                                            @{
+                                            SelectList countries = new SelectList(Model.CountrySelect.ToArray(), "Id", "CountryName");
+                                            <div>@Html.DropDownListFor(m => m.CountryID, countries, new { @id = "countryID", @class = "form-control", @required = "required" })</div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Otras señas:</label>
+                                        <div class="col-sm-7">
+                                            @Html.TextAreaFor(model => model.Address, new { @class = "form-control input-sm", @placeholder = "ej. 500 mts oeste termales del bosque", @type = "text", @required = "required", @maxlength = "160" })
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+
+                                    <div id="labelAddressShort" class="form-group">
+                                        <label class="col-sm-3 control-label">Dirección Corta:</label>
+                                        <div class="col-sm-7">
+                                            @Html.TextAreaFor(model => model.AddressShort, new { @id = "txtAddressShort", @class = "form-control input-sm", @placeholder = "ej. San Carlos, Alajuela - Costa Rica", @type = "text", @maxlength = "160" })
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Otros datos</h5>
+                        <div class="ibox-tools">
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-6 b-r">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-sm-5">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <img id="imgPreview" alt="Logo" src="@Model.LogoBase64String" style="height:auto;width:100%;" />
+                                                    </div>
+                                                    <div class="panel-footer">
+                                                        <span>
+                                                            <label>Logo de la empresa (Tamaño Máximo 1MB)</label>
+                                                        </span>
+                                                        @Html.FileFor(model => model.LogoFile, new { style = "visibility:hidden;height:1px;", @class = "form-control input-sm", @name = "logo", @onchange = "ShowPreview(this)", @accept = "image/jpeg,image/png,image/pjpeg,image/x-png" })
+                                                        <span>
+                                                            <label for="LogoFile" class="btn btn-sm btn-default"><i class="fa fa-upload"></i></label>
+                                                            <i id="btnClearLogo" class="btn btn-sm btn-default"><i class="fa fa-trash"></i></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (!Model.IsFreeEdition)
+                                {
+                                    <div class="col-sm-6">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label id="SmsNoficicarFacturaACobroLabel" class="col-sm-6 control-label">Notificar Facturas a Cobro por SMS:</label>
+                                                <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                        @Html.CheckBoxFor(model => model.SmsNoficicarFacturaACobro, new { @type = "checkbox" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if (Model.TenancyName == "ticopay")
+                                            {
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Costo SMS:</label>
+                                                    <div class="col-sm-3">
+                                                        @Html.TextBoxFor(model => model.CostoSms, new { @class = "form-control input-sm", @placeholder = "Costo SMS", @type = "text", step = "any", min = 0 })
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                Html.HiddenFor(model => model.CostoSms);
+                                            }
+                                            <div class="hr-line-dashed ConvertUSD"></div> 
+                                            <div class="form-group ConvertUSD">
+                                                <label id="ConversionUSD" class="col-sm-6 control-label" style="padding-top:2px">Conversión automática de USD/CRC :</label>
+                                                <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                       @Html.CheckBoxFor(model => model.IsConvertUSD, new { @id="convert_USD"})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="row ">
+            <div class="col-lg-offset-7"><a><span id="popOver_Save"></span></a></div>
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="col-lg-offset-5">
+                            <a class="btn btn-default" href="@Url.Action("Index", "Home")">Cerrar</a>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<div id="SmsNoficicarFacturaACobroConfirm" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirmar Activación de Servicio de SMS</h3>
+            </div>
+            <div class="modal-body">
+                <p>El costo por SMS enviado es de <strong><span id="divCostoSms"></span></strong></p>
+                <p>¿Está seguro que quiere activar el servicio?.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAcceptSmsNoficicarFacturaACobro" class="btn btn-primary">Aceptar</button>
+                <button type="button" id="btnCancelSmsNoficicarFacturaACobro" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="notificarDescargaManualFirmaDigital" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Firma Digital</h3>
+            </div>
+            <div class="modal-body" style="text-align:center">
+                <p>Descargar Manual y el Instalador de Firma Digital</p>
+                <strong> <span>Aquí</span></strong>
+                <br />
+                <img src="@Url.Content("~/images/ticopay-descarga-manual-instalador-firma2.png")" alt="Alternate Text" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAcceptnotificarDescargaManualFirmaDigital" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/tutorial/turorial.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    moveScroll();
+    function checkForChanges() {
+        if ($("#certified_Chk").is(':checked')) {
+            $("#firmaDiv").removeClass("hidden");
+            $("#firmaPredeterminadaDiv").addClass("hidden");
+            $("#alternar").removeClass("hidden");
+          
+            if ("@Model.UserTribunet" == "") {
+                $("#divCredenciales").removeClass("hidden");
+                $("#btnCredenciales").addClass("hidden");
+            } else {
+                $("#divCredenciales").addClass("hidden");
+                $("#btnCredenciales").removeClass("hidden");
+                
+            }
+        } else {
+            $("#firmaDiv").addClass("hidden");
+            $("#firmaPredeterminadaDiv").addClass("hidden");
+            $('.othersunit').addClass("hide");
+            $("#alternar").addClass("hidden");
+            $("#divCredenciales").addClass("hidden");
+        }
+    }
+
+    function checkValidationAddresShort() {
+        if ($('#address_Chk').is(':checked')) {
+            $('#labelAddressShort').addClass('required');
+            $('#txtAddressShort').attr('required', true);
+
+        } else {
+            $('#labelAddressShort').removeClass('required');
+            $('#txtAddressShort').attr('required', false);
+        }
+    }
+
+
+    function checkIsPosChanges() {
+        if ($("#IsPos_Chk").is(':checked')) {
+            $("#printerDiv").removeClass("hidden");
+            $("#tipoImpresora_DD").removeClass('required');
+            $("#tipoImpresora_DD").attr('required', true);
+
+        } else {
+            $("#printerDiv").addClass("hidden");
+            $("#tipoImpresora_DD").addClass('required');
+            $("#tipoImpresora_DD").attr('required', false);
+        }
+    }
+    $("#certified_Chk").on('change', function () {
+        changeCheckCertified();
+        selectTipoFirma();
+    });
+
+    $("#IsPos_Chk").on('change', function () {
+        checkIsPosChanges();
+
+    });
+    function changeCheckCertified() {
+        checkForChanges();
+    }
+
+    function clickAlternar() {
+        $('.othersunit').toggleClass("hide")
+
+    }
+
+    $('#alternar').on('click', function () {
+        clickAlternar();
+    });
+    $('#btnCredenciales').on('click', function () {
+        $('.divCredenciales').toggleClass("hidden");
+    });
+
+    $('#address_Chk').on('change', function (e) {
+        checkValidationAddresShort();
+    });
+    $(document).ready(function () {
+        loadLogo();
+        $('#popOver_Firma').popover('show');
+        popOverSave(TutorialCia, '', 'right', true);
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        var _certchange = $('#CertifiedId').val();
+
+
+        //if (_certchange == "")
+        //{
+        //    $('#othersunit').show();
+        //    $('#othersunit2').show();
+        //}
+        //else{
+        //$('.othersunit').hide();
+        //$('#othersunit2').hide();
+        //}
+        $('.othersunit3').hide();
+
+        if ($("#measurement_DD").val() == "Otros") {
+            $('.othersunit3').show();
+        } else {
+            $('.othersunit3').hide();
+        }
+        $("#measurement_DD").bind("change", function () {
+            var selectedVal = $(this).val();
+
+            if (selectedVal == "Otros") {
+                $('.othersunit3').show();
+            } else {
+                $('.othersunit3').hide();
+            }
+        });
+        checkForChanges();
+        checkValidationAddresShort();
+        checkIsPosChanges();
+        clickAlternar()
+        $("#btnClearLogo").click(function (e) {
+            var input = $("#LogoFile");
+            input.replaceWith(input.val('').clone(true));
+            $('#imgPreview').attr('src', '');
+            $("#DeleteLogo").val(true);
+        })
+    });
+
+    function mostrarDiv(valor) {
+        if (valor > 0) {
+            $('.othersunit').addClass("hide");
+        }
+    }
+
+    $(document).ready(function () {
+        var config = {
+            '.chosen-select': {},
+            '.chosen-select-deselect': { allow_single_deselect: true },
+            '.chosen-select-no-single': { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+            '.chosen-select-width': { width: "95%" }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    });
+
+    $(document).on('change', '[data-cascade-combo]', function (event) {
+        var id = $(this).attr('data-cascade-combo');
+        var url = $(this).attr('data-cascade-combo-source');
+        var paramName = $(this).attr('data-cascade-combo-param-name');
+        var data = {};
+        data[paramName] = id;
+
+        $.ajax({
+            url: url,
+            data: {
+                id: $(this).val()
+            },
+            success: function (data) {
+                $(id).html('');
+                $.each(data.result, function (index, type) {
+                    var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                    $(id).append(content);
+                });
+            }
+        });
+    });
+
+    function ShowPreview(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgPreview').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function loadLogo() {
+        $.ajax({
+            url: '@Url.Action("GetLogo", "Tenants")',
+            success: function (data) {
+                $('#imgPreview').attr('src', data.result);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        checkPlanIsValidateWithHacienda();
+        $("#plan_DD").on('change', function () {
+            checkPlanIsValidateWithHacienda();
+        });
+    });
+
+    function checkPlanIsValidateWithHacienda() {
+        if ($("#plan_DD").val() == 1) {
+            $("#validateHaciendaDiv").addClass("hidden");
+            $('#SmsNoficicarFacturaACobro').addClass("hidden");
+            $('#SmsNoficicarFacturaACobroLabel').addClass("hidden");
+            $('#CertChange').val(false);
+            $('#certified_Chk').attr('checked', false);
+            $('#alternar').addClass("hide");
+            changeCheckCertified();
+            selectTipoFirma();
+        } else {
+            $("#validateHaciendaDiv").removeClass("hidden");
+            $('#SmsNoficicarFacturaACobro').removeClass("hidden");
+            $('#SmsNoficicarFacturaACobroLabel').removeClass("hidden");
+        }
+    }
+
+    $(document).ready(function () {
+        selectTipoFirma();
+        $("#tipoFirma_DD").on('change', function () {
+            selectTipoFirma();
+        });
+        mostrarDiv('@Model.CertifiedID')
+    });
+
+    function selectTipoFirma() {
+        var opcion = $("#tipoFirma_DD").val();
+        switch (opcion) {
+            case "0":
+                if ($("#certified_Chk").is(':checked')) {
+                    $("#firmaPredeterminadaDiv").addClass("hidden");
+                    $('.othersunit').removeClass("hide");
+                    $('#alternar').removeClass("hide");
+                } else {
+                    $('.othersunit').addClass("hide");
+                }
+                break;
+            case "1":
+                $("#firmaPredeterminadaDiv").addClass("hidden");
+                $('.othersunit').addClass("hide");
+                $('#alternar').addClass("hide");
+                break;
+            case "2":
+                if ($("#certified_Chk").is(':checked')) {
+                    $("#firmaPredeterminadaDiv").removeClass("hidden");
+                    $('.othersunit').removeClass("hide");
+                    $('#alternar').removeClass("hide");
+                } else {
+                    $('.othersunit').addClass("hide");
+                }
+                break;
+            case "":
+                $("#firmaPredeterminadaDiv").addClass("hidden");
+                $('.othersunit').addClass("hide");
+                $('#alternar').addClass("hide");
+                break;
+        }
+    };
+
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#SmsNoficicarFacturaACobro').change(function () {
+            if (this.checked) {
+                abp.ui.setBusy();
+                $.ajax({
+                    url: '@Url.Action("GetCostoSms", "Tenants")',
+                    success: function (data) {
+                        $(".modal-body #divCostoSms").html(data.result);
+                $("#SmsNoficicarFacturaACobroConfirm").modal("show");
+                        abp.ui.clearBusy();
+                    },
+                    error: function (err) {
+                        abp.ui.clearBusy();
+            }
+        });
+            }
+        });
+        $("#btnAcceptSmsNoficicarFacturaACobro").click(function (e) {
+            $('#SmsNoficicarFacturaACobro').attr('checked', 'checked');
+            $("#SmsNoficicarFacturaACobroConfirm").modal('hide');
+        });
+        $("#btnCancelSmsNoficicarFacturaACobro").click(function (e) {
+            $('#SmsNoficicarFacturaACobro').removeAttr('checked');
+        });
+        $("#btnAcceptnotificarDescargaManualFirmaDigital").click(function (e) {
+            $('#notificarDescargaManualFirmaDigital').modal("hide");
+        });
+
+        $('#plan_DD').change(function () {
+            var showFinalConfirm = false;
+            var LastIndex = $('#plan_DD')[0].selectedIndex;
+            abp.message.confirm(
+                    'Al realizar un cambio de plan se realizará un prorrateo de su plan anterior con el nuevo plan, si realiza el cambio antes del día 15 del mes actual será generada una factura el día actual, si realiza el cambio después del 15 del mes actual la factura adicional será generada el primero del próximo mes.',
+                    '¿Seguro desea realizar el cambio de plan?',
+                    function (isConfirmed) {
+                        if (isConfirmed) {
+                            setTimeout(Confirm,500);
+                            return false;
+                        } else {
+                            $('#plan_DD')[0].selectedIndex = 0;
+                        }
+                    }
+                );
+            $(".confirm").html("Si");
+            $(".cancel").html("No");
+
+            function Confirm() {
+                abp.message.info("Para confirmar el cambio de plan haga clic en 'Guardar'."); // Success!
+            }
+
+    });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#codigoMoneda").change(function () {
+            if ($(this).val() == '@Model.CodigoMoneda' && '@Model.IsConvertUSD') {
+                $('#convert_USD').prop('checked', true);
+            } else {
+                $('#convert_USD').prop('checked', false);
+            }
+            if ($(this).val() == "CRC") {
+                $('#ConversionUSD').text("Conversión automática de CRC/USD:");
+            } else if ($(this).val() == "USD") {
+                $('#ConversionUSD').text("Conversión automática de USD/CRC:");
+            }
+        })
+    });
+</script>
+
+

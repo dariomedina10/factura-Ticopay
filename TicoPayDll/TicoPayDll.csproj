@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>HNG Carmenta Global Group Gerencia de Desarrollo</Authors>
+    <Company>HNG Carmenta Global Group</Company>
+    <Product>TicoPay</Product>
+    <PackageLicenseUrl>https://www.ticopays.com/home/termsandconditions</PackageLicenseUrl>
+    <PackageProjectUrl>https://www.ticopays.com</PackageProjectUrl>
+    <Version>1.0.0.23</Version>
+    <FileVersion>1.0.0.23</FileVersion>
+    <AssemblyVersion>1.0.0.23</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,55 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Productos",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#TableListEntity > tbody > tr > td:nth-child(1)",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=a.btn.btn-xs.btn-danger",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=btnModalOkDeleteConfirmation",
+      "Value": ""
+    }
+  ]
+}

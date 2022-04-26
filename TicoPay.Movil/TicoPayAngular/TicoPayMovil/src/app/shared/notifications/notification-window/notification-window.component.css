@@ -1,0 +1,45 @@
+/* Animacion para las notificaciones */
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+            transform: translateX(0);
+    }
+}
+.notify {
+    width: 100%;
+    padding: 8px 16px;
+    animation: 0.3s ease-out 0s 1 slideInFromRight;
+}
+
+.notify::after {
+    -webkit-transform: scale3d(5, 5, 5);
+    transform: scale3d(5);
+}
+
+.notify i {
+    margin-right: 16px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.error {
+    background-color: #ec3131;
+    color: white;
+}
+
+.success {
+    background-color: #4bc47a;
+    color: white;
+}
+
+.route {
+    background-color: #4bc47a;
+    color: white;
+}
+
+.warning {
+    background-color: #e4a216;
+    color: white;
+}

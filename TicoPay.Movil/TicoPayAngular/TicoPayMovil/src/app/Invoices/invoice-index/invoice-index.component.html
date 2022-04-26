@@ -1,0 +1,165 @@
+<div class="loader-screen" *ngIf="_loading"></div>
+<div class="panel panel-default form-horizontal" role="form" *ngIf="!_loading">
+  <div class="panel-heading">
+    <div class="form-group">
+      <div class="col-xs-4 col-md-4 text-center">
+        <label class="control-label" control-label>Facturación </label>
+      </div>
+      <div class="col-xs-8 col-md-8 text-right">
+        <button type="button" class="btn btn-sm btn-default" (click)="newInvoice()">
+          <span class="glyphicon glyphicon-plus"></span> Nuevo Comprobante</button>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div>
+      <div class="form-group">
+        <div class="col-xs-8 col-md-10 text-right">
+          <label class="control-label" for="cswitch">
+            <span class="glyphicon glyphicon-filter"></span> Filtrar</label>
+        </div>
+        <div class="col-xs-4 col-md-2 align-center-middle text-left">
+          <label class="switch" id="cswitch">
+            <input type="checkbox" #filtroFacturas="ngModel" name="filtroFacturas" [(ngModel)]='_filtroFacturas' (change)="onFiltroFacturasChange()">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+      <div *ngIf="_filtroFacturas">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-center">
+            <label>Cliente específico </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-3 col-md-2 text-right">
+            <label class="control-label" for="cFilter">Filtrar por : </label>
+          </div>
+          <div class="col-xs-9 col-md-10 text-left">
+            <input #cFilter="ngModel" name="cFilter" [(ngModel)]='_clientFilter' (change)='clientFilterChange()' type="text" class="form-control"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-3 col-md-4 text-right">
+            <label class="control-label" *ngIf="_clientFilter" for="clientID">(Filtrado por {{_clientFilter}})</label>
+            <label class="control-label" *ngIf="!_clientFilter" for="clientID">Clientes </label>
+          </div>
+          <div class="col-xs-9 col-md-8 text-left">
+            <select #clientId="ngModel" name="clientId" class="form-control" id="clientID" [(ngModel)]="_clientId">
+              <option *ngFor='let client of _filteredClients' [value]="client.id">{{client.name}} {{client.lastName | formatCell : true}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-center">
+            <label>Fecha del comprobante </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-3 col-md-6 text-right">
+            <label class="control-label" for="invoiceFromDate">Desde</label>
+          </div>
+          <div class="col-xs-9 col-md-6 text-left">
+            <input #invoiceFromDate="ngModel" name="invoiceFromDate" [(ngModel)]='_invoiceFromDate' type="date" class="form-control"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-3 col-md-6 text-right">
+            <label class="control-label" for="invoiceToDate">Hasta</label>
+          </div>
+          <div class="col-xs-9 col-md-6 text-left">
+            <input #invoiceToDate="ngModel" name="invoiceToDate" [(ngModel)]='_invoiceToDate' type="date" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-center">
+            <label>Estatus del comprobante </label>
+          </div>
+          <div class="col-xs-3 col-md-6 text-right">
+            <label for="invoiceStatus" class="control-label">Estado</label>
+          </div>
+          <div class="col-xs-9 col-md-6 text-left">
+            <select #invoiceStatus="ngModel" name="invoiceStatus" id="invoiceStatus" class="form-control" [(ngModel)]="_invoiceStatus"
+              class="form-control">
+              <option value="null">Todas</option>
+              <option value="{{invoiceStatusList.Pagada}}">Pagadas</option>
+              <option value="{{invoiceStatusList.Provisional}}">Provisionales</option>
+              <option value="{{invoiceStatusList.Contabilizada}}">Contabilizadas</option>
+              <option value="{{invoiceStatusList.Reversada}}">Reversadas</option>
+              <option value="{{invoiceStatusList.Pendiente}}">Pendientes</option>
+              <option value="{{invoiceStatusList.Anulada}}">Anuladas</option>
+            </select>
+          </div>
+        </div>
+        <!-- Fin opciones de filtrado -->
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 col-md-12 text-right">
+        <button type="button" class="btn btn-default" (click)="searchInvoices()">
+          <span class="glyphicon glyphicon-search"></span> Buscar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf='_invoices && _invoices.length' class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      Comprobantes Electrónicos :
+    </h4>
+  </div>
+  <div class="panel-body">
+    <div>
+      <!-- Inicio Lista de Servicios Seleccionados -->
+      <div class="table-responsive">
+        <table datatable [dtOptions]='dtOptions' class="table table-striped table-hover">
+          <!-- Inicio table Headers -->
+          <thead>
+            <tr>
+              <th data-priority="2">Comprobante</th>
+              <th>Fecha</th>
+              <th data-priority="3">Nombre de cliente</th>
+              <th>Estatus</th>
+              <th>Total</th>
+              <th>Tipo</th>
+              <th data-priority="1">
+                <span class="glyphicon glyphicon-list-alt"></span>
+              </th>
+            </tr>
+          </thead>
+          <!-- Fin table Headers -->
+          <!-- Inicio table Rows -->
+          <tbody>
+            <tr *ngFor='let invoice of _invoices'>
+              <td>{{invoice.consecutiveNumber}}</td>
+              <td>{{invoice.dueDate | date :'dd-MM-yyyy'}}</td>
+              <td>{{invoice.ClientName | formatCell : true : this._pantallaMobile}}</td>
+              <td>{{invoice.status | invoiceStatus}}</td>
+              <td>{{invoice.total | currency: invoice.simboloMoneda :'code':'1.2-2'}}</td>
+              <td>{{invoice.typeDocument | tipoComprobante}}</td>
+              <td>
+                <a (click)="invoiceDetails(invoice)">
+                  <span class="glyphicon glyphicon-list-alt"></span>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+          <!-- Fin table Rows -->
+        </table>
+      </div>
+    </div>
+    <!-- Fin Lista de Servicios Seleccionados -->
+  </div>
+</div>
+<div *ngIf='!(_invoices && _invoices.length) && !_loading' class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title text-center">
+      ¡Seleccione un criterio de búsqueda y presione el botón buscar!
+    </h4>
+  </div>
+</div>
+<div class="container text-center">
+  <app-loader></app-loader>
+</div>

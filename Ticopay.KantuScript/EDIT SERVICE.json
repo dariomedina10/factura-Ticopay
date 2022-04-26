@@ -1,0 +1,140 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Servicios",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=searchName",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=searchName",
+      "Value": "SERVICIO DE BASES DE DATOS"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-success",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=span.glyphicon.glyphicon-edit",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=priceText",
+      "Value": "13000"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=QuantityText",
+      "Value": "1"
+    },
+    {
+      "Command": "type",
+      "Target": "id=DiscountText",
+      "Value": "10"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-primary",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#form > div.modal-footer > button.btn.btn-default",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=searchName",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=searchName",
+      "Value": "SERVICIO DE BASES DE DATOS"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-success",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=span.glyphicon.glyphicon-edit",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=priceText",
+      "Value": "22000"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=QuantityText",
+      "Value": "1"
+    },
+    {
+      "Command": "type",
+      "Target": "id=DiscountText",
+      "Value": "10"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-primary",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#form > div.modal-footer > button.btn.btn-default",
+      "Value": ""
+    }
+  ]
+}

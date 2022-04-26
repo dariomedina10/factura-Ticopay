@@ -1,0 +1,88 @@
+﻿@using PagedList.Mvc;
+@model TicoPay.BranchOffices.Dto.SearchBranchOfficesInput
+
+@Html.HiddenFor(model => model.NameFilter, new { @id = "SrchNameFilter_hidden" })
+@Html.HiddenFor(model => model.CodeFilter, new { @id = "SrchCodeFilter_hidden" })
+@Html.HiddenFor(model => model.Page, new { @id = "SrchPage_hidden" })
+
+
+@if (Model != null && Model.Entities != null && Model.Entities.Any())
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+    <div class="wrapper wrapper-content animated fadeInRight white-bg">
+        @if (Model.ErrorCode == -1)
+        {
+            <div class="alert alert-danger" style="text-align: center">@Model.ErrorDescription</div>
+        }
+        else
+        {
+            <div class="wrapper-conten">
+                <div>
+
+                    <div style="text-align: right">
+
+                        Página @(Model.Entities.PageCount < Model.Entities.PageNumber ? 0 : Model.Entities.PageNumber) de @Model.Entities.PageCount
+
+                        @Html.PagedListPager(Model.Entities, page => Url.Action("AjaxPage", new { page, name = Model.NameFilter, code = Model.CodeFilter }),
+                            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "anyListEntity", OnBegin = "onBegin(this)", OnComplete = "onComplete(this)" }))
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="TableListEntity" class="table" style="font-size: small">
+                        <thead class="text-center">
+                            <tr>
+                                <th style="text-align: center">
+                                    Código
+                                </th>
+                                <th style="text-align: center">
+                                    Nombre
+                                </th>
+                                <th style="text-align: center">
+                                    Ubicación
+                                </th>
+
+                                <th style="text-align: center">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Entities)
+                            {
+                            <tr>
+                                <td style="text-align: center">
+                                    @item.Code
+                                </td>
+                                <td style="text-align: center">
+                                    @item.Name
+                                </td>
+                                <td style="text-align: center">
+                                    @item.Location
+                                </td>
+                                <td style="text-align: center">
+                                    <a class="btn btn-xs btn-default" onclick="editFunc($(this))" data-identity='@item.Id' title="Editar Sucursal"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a class="btn btn-xs btn-info" onclick="detailFunc($(this))" data-identity='@item.Id' title="Detalle Sucursal"><span class="glyphicon glyphicon-list"></span></a>
+                                    @{ if (item.Code != "001")
+                                        {
+                                            <a class="btn btn-xs btn-danger" onclick="deleteFunc($(this))" data-identity='@item.Id' title="Borrar Sucursal"><span class="glyphicon glyphicon-remove"></span></a>
+                                        }
+
+                                    }
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info alert-dismissible" role="alert" style="text-align: center;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>¡No se han encontrado ningúna  sucursal registrado!</strong>
+    </div>
+
+}

@@ -1,0 +1,262 @@
+﻿@model TicoPay.Users.Dto.UpdateUserDrawers
+@{
+    //ViewBag.Title = "Apertura/Cierre Caja";
+}
+<script type="text/javascript">
+    function disabledButton() {
+        $("#btnSubmit").attr("disabled", "disabled");
+    }
+    $(document).ready(function () {
+
+        var gridGroup = $("#gridGroup").grid({
+
+            dataKey: "Id",
+            primaryKey: "Id",
+            uiLibrary: "bootstrap",
+            notFoundText: "No se han configurado Cajas",
+            columns: [
+
+                { field: "Id", title: "Id", hidden: true },
+                { field: "IdDrawerUser", title: "IdDrawer", hidden: true },
+                { field: "Name", title: "Sucursal", width: "30%", sortable: true },
+                { field: "Code", title: "Código Caja", sortable: true },
+                { field: "Description", title: "Caja", width: "30%",  sortable: true },
+                { field: "Delete", title: "", width: 34, type: "icon", icon: "glyphicon-remove", tooltip: "Delete", events: { "click": Remove } }
+            ]
+        });
+
+        $("#btnAgregar").click(function (e) {
+
+            //clearErrors();
+            
+            e.stopPropagation();
+            if ($('#Drawers_DD').val() == "") {
+                writeError('msgNotaError', 'Debe seleccionar una Caja', 'error');
+                abp.ui.clearBusy();
+                return false;
+            }
+            var infoGroups = $('#Drawers_DD').val().split("_");
+            var data = gridGroup.getById(infoGroups[0]);
+
+            if (data != null) {
+                writeError('msgNotaError', 'La caja ya se encuentra seleccionada', 'error');
+                abp.ui.clearBusy();
+                return false;
+            }
+
+            gridGroup.addRow({ "Id": infoGroups[0], "IdDrawerUser": null, "Name": infoGroups[1], "Code": $('#Drawers_DD option:selected').text(), "Description": infoGroups[3] });
+
+
+        });
+
+        $("#btnGuardar").click(function (e) {
+            
+                var params = JSON.stringify({
+                    Id: $("#hd_id").val(),
+                    ListDrawers: gridGroup.getAll()
+                });
+
+
+                abp.ui.setBusy();
+                $.ajax({
+                    url: '@Url.Action("updateDrawers","Users")',
+                    type: "post",
+                    cache: false,
+                    data: params,
+                    contentType: "application/json; charset=utf-8",                   
+                    success: function (data) {                        
+                        $(".modal-body p.body").html(data);                        
+                        abp.ui.clearBusy();
+                    }, error: function (xhr, ajaxOptions, thrownError) {
+                        writeError("IndexAlerts", "¡Error Guardar Cajas!", "error");
+                        abp.ui.clearBusy();
+                    }
+                });
+            
+
+
+        });
+
+        function Remove(e) {
+            gridGroup.removeRow(e.data.record["Id"]);
+            return false;
+        }
+
+        $("#Branchs_DD").on("change", function () {
+            var id = $(this).attr('data-cascade-combo');
+
+            var url = $(this).attr('data-cascade-combo-source');
+
+            var paramName = $(this).attr('data-cascade-combo-param-name');
+
+            var data = {};
+            data[paramName] = id;
+
+            $.ajax({
+                url: url,
+                data: {
+                    idBranch: $(this).val()
+                },
+                success: function (data) {
+                    $(id).html('');
+                    $.each(data.result, function (index, type) {
+                        var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                        $(id).append(content);
+                    });
+                }
+            });
+        });
+
+       
+        
+
+    });
+
+</script>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h3 class="modal-title">@Model.Name: Configuración de cajas</h3>
+</div>
+
+@if ((Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok) && (Model.ErrorDescription != string.Empty))
+{
+
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@Model.ErrorDescription</strong>
+            </div>
+        </div>
+    </div>
+}
+else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error || Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.InvoicesMonthlyLimitReached)
+{
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@Model.ErrorDescription</strong>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+   
+
+    <div class=" modal-body">
+        @if (Model.BranchOffice.Count > 0)
+    {
+
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class=" row">
+                <div class="col-lg-5">
+
+                    <label class="control-label"> Sucursal:</label>
+                    @Html.HiddenFor(model => model.Id, new { @id = "hd_id" })
+                    @Html.DropDownList("Branchs_DD", new SelectList(Model.BranchOffice.ToArray(), "Id", "Name"), "Seleccione",
+ new
+ {
+     @class = "form-control",
+     data_cascade_combo = "#Drawers_DD",
+     data_cascade_combo_source = Url.Action("GetDrawer", "Users"),
+     data_cascade_combo_param_name = "id",
+     @required = "required",
+     @title = "Seleccione",
+     @Id = "Branchs_DD"
+ }
+ )
+
+
+                </div>
+
+                <div class="col-lg-5">
+
+                    <label class="control-label"> Caja:</label>
+                    @Html.DropDownList("Drawers_DD", new SelectListItem[] { new SelectListItem { Value = "", Text = "Seleccione" } },
+                     new
+                     {
+
+                         @class = "form-control",
+                         @required = "required",
+                         @title = "Seleccione",
+                         @id = "Drawers_DD"
+
+                     })
+
+
+                </div>
+
+                <div class="col-lg-2">
+
+                    <input id="btnAgregar" type="button" value="Agregar" class="btn btn-success" onclick="addfunc" style="margin-top:25px" />
+                </div>
+            </div>
+            <br />
+
+            <h4>Cajas del Usuario</h4>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="gridGroup" style="width:100%; padding-left:5%">
+                        @if (Model.ListDrawers != null && Model.ListDrawers.Count() > 0)
+                    {
+                        <tbody>
+                            @foreach (var item in Model.ListDrawers)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.IdDrawerUser</td>
+                                <td>@item.Name</td>
+                                <td>@item.Code</td>
+                                <td>@item.Description</td>
+                                <td></td>
+                            </tr>
+                    }
+                        </tbody>
+                }
+                    </table>
+                </div>
+
+            </div>
+
+
+
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+        </div>
+}
+else
+{
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>"No existen Sucursales Registradas"</strong>
+            </div>
+        </div>
+    </div>
+}
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button id="btnGuardar" type="button" class="btn btn-primary" >Guardar</button>
+    </div>
+
+
+

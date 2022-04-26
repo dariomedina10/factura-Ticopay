@@ -1,0 +1,191 @@
+﻿@using Microsoft.AspNet.Identity
+
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <img class="img-responsive" src="~/images/ticopay-facturacion-electronica-logo-completo-blanco.png" alt="Ticopay, software de facturación para Costa Rica">
+                    @*<h2 style="text-align: center; color: white">TicoPay</h2>*@
+                    @*<img src="~/images/ticopay-facturacion-electronica-logo-completo-verde-azul-vertical.png" alt="TicoPay">*@
+                </div>
+                <div class="logo-element">
+                    TP
+                </div>
+            </li>
+
+            @if (ViewBag.IsGrantedTaxAdministration == true)
+            {
+                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Reportes</span><span class=""></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        @if (IsGranted("TaxAdministration.ViewInvoices"))
+                        {
+                            <li><a href="@Url.Action("Index", "ReportTaxAdministration")"><i class="glyphicon glyphicon-print"></i>Consultar Facturas</a></li>
+}
+                    </ul>
+                </li>
+}
+else
+{
+                <li class="">
+                    <a href="@Url.Action("Index", "Home")"><i class="fa fa-th-large"></i> <span class="nav-label">Inicio</span> </a>
+                </li>
+if (IsGranted("Maintenance"))
+{
+                    <li>
+                        <a id="contentMaintenance" href="#"><i class="fa fa-edit"></i> <span class="nav-label">Mantenimientos</span><span id="nav_Maintenance" class=""></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            @if (IsGranted("Maintenance.Clients"))
+    {
+                        <li><a href="@Url.Action("Index", "Clients")"><i class="glyphicon glyphicon-user"></i>Clientes<span id="nav_Clients"></span></a></li>
+}
+                            @if (IsGranted("Maintenance.Services"))
+    {
+                        <li><a href="@Url.Action("Index", "Services")"><i class="glyphicon glyphicon-paperclip"></i>Servicios<span id="nav_Services"></span></a></li>
+}
+                            @if (IsGranted("Maintenance.Products"))
+    {
+                                <li><a href="@Url.Action("Index", "Products")"><i class="glyphicon glyphicon-tags"></i>Productos<span id="nav_Productos"></span></a></li>
+}
+                        @*Nota Integradsor dos Opcioens Sucursal y Cajas Falta Security*@
+                            <li><a href="@Url.Action("Index", "Drawers")"><i class="fa fa-money"></i>Cajas<span id="nav_Cajas"></span></a></li>
+                             <li><a href="@Url.Action("Index", "BranchOffices")"><i class="fa fa-building-o"></i>Sucursales<span id="nav_Sucursales"></span></a></li>
+
+
+                        </ul>
+                    </li>
+}
+if (IsGranted("Billing"))
+{       
+        
+        <li>
+            <a href="#"><i class="glyphicon glyphicon-check"></i> <span class="nav-label">Facturación</span></a>
+            <ul class="nav nav-second-level collapse">
+
+                @if (IsGranted("Billing.OpenDrawer"))
+                {
+                    <li class="">
+                <a id="linkOpendrawer" href="@Url.Action("Open", "Drawers")"><i class="glyphicon glyphicon-log-in"></i> <span class="nav-label">Apertura/Cierre Cajas</span> </a>
+                    </li>
+}
+                @if (IsGranted("Billing.Billing"))
+                {
+            <li>
+                <a href="@Url.Action("Index", "Invoice")"><i class="fa fa-calculator"></i> <span class="nav-label">Facturar</span> </a>
+            </li>
+}
+                @if (IsGranted("Billing.ConfirmXML"))
+    {
+                    <li class="">
+                        <a href="@Url.Action("Index", "Voucher")"><i class="fa fa-file-text"></i> <span class="nav-label">Confirmar XML</span> </a>
+                    </li>
+}
+
+            </ul>
+        </li>
+}
+
+
+if (IsGranted("Reports"))
+{
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Reportes</span><span class=""></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            @if (IsGranted("Reports.Closing"))
+                            {
+                                <li><a href="@Url.Action("Index", "ReportClosing")"><i class="glyphicon glyphicon-print"></i>Reporte de Cierres</a></li>
+}
+                            @if (IsGranted("Reports.AccountsReceivable"))
+                            {
+                                <li><a href="@Url.Action("Index", "ReportCxC")"><i class="glyphicon glyphicon-print"></i>Reporte de Cuentas por Cobrar</a></li>
+}
+                            @if (IsGranted("Reports.Clients"))
+                            {
+                                <li><a href="@Url.Action("Index", "ReportClients")"><i class="glyphicon glyphicon-print"></i>Reporte de Clientes</a></li>
+}
+                            @if (IsGranted("Reports.StatusInvoices"))
+                            {
+                                <li><a href="@Url.Action("Index", "ReportStatusInvoices")"><i class="glyphicon glyphicon-print"></i>Reporte de Estatus Facturas</a></li>
+}
+                            @if (IsGranted("Reports.InvoicesNotes"))
+                            {
+                                <li><a href="@Url.Action("Index", "ReportInvoicesNotes")"><i class="glyphicon glyphicon-print"></i>Reporte Facturas/Notas</a></li>
+}
+                        </ul>
+                    </li>
+}
+if (IsGranted("Integration"))
+{
+                    <li>
+                        <a href="#"><i class="glyphicon glyphicon-equalizer"></i> <span class="nav-label">Integración</span><span class=""></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            @if (IsGranted("Integration.SVConta"))
+                            {
+                                <li><a href="@Url.Action("Index", "IntegrationSVConta")"><i class="glyphicon glyphicon-export"></i> Archivo SVConta</a></li>
+}
+                            @if (IsGranted("Integration.Zoho"))
+                            {
+                                <li><a href="@Url.Action("Index", "IntegrationZoho")"><i class="glyphicon glyphicon-export"></i> Archivo Zoho</a></li>
+}
+                        </ul>
+                    </li>
+}
+if (IsGranted("Configuration"))
+{
+                    <li>
+
+                        <a id="contentConfiguration" href="#"><i class="glyphicon glyphicon-wrench"></i> <span class="nav-label">Configuración</span><span id="nav_Configuration" class=""></span></a>
+
+                        <ul class="nav nav-second-level collapse">
+                            @if (IsGranted("Configuration.Tax"))
+                            {
+                                <li><a href="@Url.Action("Index", "Taxes")"><i class="glyphicon glyphicon-random"></i>Impuestos</a></li>
+}
+                            @if (IsGranted("Configuration.GroupClients"))
+                            {
+                                <li><a href="@Url.Action("Index", "Groups")"><i class="fa fa-bookmark-o"></i>Categorías Clientes</a></li>
+}
+                            @if (IsGranted("Configuration.GroupConcepts"))
+                            {
+                                <li><a href="@Url.Action("Index", "GroupConcepts")"><i class="glyphicon glyphicon-align-justify"></i>Grupos de Servicios</a></li>
+}
+                            @if (IsGranted("Configuration.Users"))
+                            {
+                                <li><a href="@Url.Action("Index", "Users")"><i class="fa fa-users"></i>Usuarios</a></li>
+}
+                            @if (IsGranted("Configuration.Roles"))
+                            {
+                                <li><a href="@Url.Action("Index", "Roles")"><i class="glyphicon glyphicon-lock"></i>Roles</a></li>
+}
+                            @if (IsGranted("Configuration.Tenants"))
+                            {
+                                <li><a href="@Url.Action("Index", "Tenants")"><i class="glyphicon glyphicon-cog"></i>Compañía<span id="nav_Compania" class=""></span></a></li>
+}
+                            @if (IsGranted("Configuration.ReportSettings"))
+                            {
+                                <li><a href="@Url.Action("Index", "ReportSettings")"><i class="glyphicon glyphicon-print"></i>Personalización de formatos<span id="nav_ReportSettings" class=""></span></a></li>
+}
+                        </ul>
+                    </li>
+}
+if (IsGranted("Downloads_FirmaDigital"))
+{
+                    <li>
+                        <a href="@Url.Action("Index", "Home")"><i class="fa fa-download" style="color:white"></i> <span style="color:white" class="nav-label">Firma Digital</span> </a>
+                        <ul class="nav nav-second-level collapse">
+                            @if (IsGranted("Downloads_FirmaDigital.Manual"))
+                            {
+                                <li><a href="@Url.Action("Download", "Tenants", new { file = TicoPay.Common.FileDownload.Manual_Firma_Digital })"><i class="glyphicon glyphicon-book"></i>Manual</a></li>
+}
+                            @if (IsGranted("Downloads_FirmaDigital.Installer"))
+                            {
+                                <li><a href="@Url.Action("Download", "Tenants", new { file = TicoPay.Common.FileDownload.Instalador_Firma_Digital })"><i class="glyphicon glyphicon-cd"></i>Instalador</a></li>
+}
+                        </ul>
+                    </li>
+}
+}
+        </ul>
+    </div>
+</nav>

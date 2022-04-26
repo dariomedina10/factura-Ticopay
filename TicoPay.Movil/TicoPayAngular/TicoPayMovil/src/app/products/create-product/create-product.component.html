@@ -1,0 +1,150 @@
+<div class="container-fluid">
+  <form autocomplete="off" method="POST" novalidate #createQuickProductForm="ngForm" (submit)="submitQuickProduct(createQuickProductForm)"
+    class="form" role="form">
+    <div class="wrapper border-bottom white-bg page-heading">
+      <div class="col-lg-12 text-center">
+        <h4>Crear un nuevo producto</h4>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label class="control-label" for="productName">Nombre</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <input #productName="ngModel" name="productName" id="productName" minlength="2" maxlength="79" [(ngModel)]='_product.name'
+            type="text" required placeholder="ej. Baterías" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label class="control-label" for="productPrice">Precio de Venta</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <input #productPrice="ngModel" name="productPrice" id="productPrice" [(ngModel)]='_product.retailPrice' type="number" min="1" required
+            placeholder="ej. 125,00" class="form-control" maxlength="13" (keypress)="onDecimalValueChange($event)" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label class="control-label" for="productTax">Tipo de impuesto</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <select #productTax="ngModel" name="productTax" id="productTax" required [(ngModel)]="_product.taxId" class="form-control">
+            <option disabled selected [ngValue]="undefined"> Seleccione ... </option>
+            <option *ngFor='let tax of _taxes' [value]="tax.id">{{tax.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label class="control-label" for="productUnitMeasurement">Unidad de Medida</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <select #productUnitMeasurement="ngModel" name="productUnitMeasurement" id="productUnitMeasurement" required [(ngModel)]="_product.unitMeasurement"
+            class="form-control">
+            <option value="{{unitMeasurement.Amperio}}">Amperio</option>
+            <option value="{{unitMeasurement.AmperioXMetro}}">Amperios por Metro</option>
+            <option value="{{unitMeasurement.AmperioXMetroCuadrado}}">Amperio por Metro Cuadrado</option>
+            <option value="{{unitMeasurement.AnguloGrado}}">Angulo Grado</option>
+            <option value="{{unitMeasurement.AnguloMinuto}}">Angulo Minuto</option>
+            <option value="{{unitMeasurement.AnguloSegundo}}">Angulo Segundo</option>
+            <option value="{{unitMeasurement.Barn}}">Barn</option>
+            <option value="{{unitMeasurement.Becquere}}">Becquere</option>
+            <option value="{{unitMeasurement.Candela}}">Candela</option>
+            <option value="{{unitMeasurement.CandelaXMetroCuadrado}}">Candela por Metro Cuadrado</option>
+            <option value="{{unitMeasurement.Centimetro}}">Centimetro</option>
+            <option value="{{unitMeasurement.Coulomb}}">Coulomb</option>
+            <option value="{{unitMeasurement.CoulombXKilogramo}}">Coulomb por Kilogramo</option>
+            <option value="{{unitMeasurement.CoulombXMetroCubico}}">Coulomb por Metro Cubico</option>
+            <option value="{{unitMeasurement.CoulombXMetroCuadrado}}">Coulomb por Metro Cuadrado</option>
+            <option value="{{unitMeasurement.Decibel}}">Decibel</option>
+            <option value="{{unitMeasurement.Dia}}">Dia</option>
+            <option value="{{unitMeasurement.ElectronVoltio}}">Electron Voltio</option>
+            <option value="{{unitMeasurement.EsteRadian}}">EsteRadian</option>
+            <option value="{{unitMeasurement.Faradios}}">Faradios</option>
+            <option value="{{unitMeasurement.FaradioXMetro}}">Faradio por Metro</option>
+            <option value="{{unitMeasurement.Gal}}">Gal</option>            
+            <option value="{{unitMeasurement.GradosCentigrados}}">Grados Centigrados</option>
+            <option value="{{unitMeasurement.GradosKelvin}}">Grados Kelvin</option>
+            <option value="{{unitMeasurement.Gramos}}">Gramos</option>
+            <option value="{{unitMeasurement.Gray}}">Gray</option>
+            <option value="{{unitMeasurement.GrayXSegundo}}">Gray por Segundo</option>            
+            <option value="{{unitMeasurement.Henry}}">Henry</option>
+            <option value="{{unitMeasurement.HenryXMetro}}">Henry por Metro</option>
+            <option value="{{unitMeasurement.Hercio}}">Hercio</option>
+            <option value="{{unitMeasurement.Hora}}">Hora</option>
+            <option value="{{unitMeasurement.Joule}}">Joule</option>
+            <option value="{{unitMeasurement.JouleXKelvin}}">Joule por Kelvin</option>
+            <option value="{{unitMeasurement.JouleXKilogramo}}">Joule por Kilogramo</option>
+            <option value="{{unitMeasurement.JouleXKilogramoKelvin}}">Joule por Kilogramo Kelvin</option>
+            <option value="{{unitMeasurement.JouleXMetroCubico}}">Joule por Metro Cubico</option>
+            <option value="{{unitMeasurement.JouleXMol}}">Joule por Mol</option>
+            <option value="{{unitMeasurement.JouleXMolKelvin}}">Joule por Mol Kelvin</option>
+            <option value="{{unitMeasurement.Katal}}">Katal</option>
+            <option value="{{unitMeasurement.KatalXMetroCubico}}">Katal por Metro Cubico</option>
+            <option value="{{unitMeasurement.Kilogramo}}">Kilogramo</option>
+            <option value="{{unitMeasurement.KilogramoMetroCubico}}">Kilogramo por Metro Cubico</option>
+            <option value="{{unitMeasurement.Kilometro}}">Kilometro</option>
+            <option value="{{unitMeasurement.Litro}}">Litro</option>
+            <option value="{{unitMeasurement.Lumen}}">Lumen</option>
+            <option value="{{unitMeasurement.Lux}}">Lux</option>
+            <option value="{{unitMeasurement.Metro}}">Metros</option>
+            <option value="{{unitMeasurement.MetroCuadrado}}">Metro Cuadrado</option>            
+            <option value="{{unitMeasurement.MetroCubico}}">Metro Cubico</option>
+            <option value="{{unitMeasurement.MetrosXSegundo}}">Metros por Segundo</option>
+            <option value="{{unitMeasurement.MetrosXSegundoCuadrado}}">Metros por Segundo Cuadrado</option>
+            <option value="{{unitMeasurement.MiliLitro}}">MiliLitro</option>
+            <option value="{{unitMeasurement.Milimetro}}">Milimetro</option>
+            <option value="{{unitMeasurement.Minuto}}">Minuto</option>
+            <option value="{{unitMeasurement.Moles}}">Moles</option>
+            <option value="{{unitMeasurement.MolXMetroCubico}}">Mol por Metro Cubico</option>            
+            <option value="{{unitMeasurement.Newton}}">Newton</option>
+            <option value="{{unitMeasurement.NewtonMetro}}">Newton Metro</option>
+            <option value="{{unitMeasurement.NewtonXMetro}}">Newton por Metro</option>
+            <option value="{{unitMeasurement.NumeroOndas}}">Numero Ondas</option>
+            <option value="{{unitMeasurement.Ohmios}}">Ohmios</option>
+            <option value="{{unitMeasurement.Onza}}">Onza</option>
+            <option value="{{unitMeasurement.Pascal}}">Pascal</option>
+            <option value="{{unitMeasurement.PascalSegundo}}">Pascal Segundo</option>
+            <option value="{{unitMeasurement.Pulgada}}">Pulgada</option>
+            <option value="{{unitMeasurement.Radian}}">Radian</option>
+            <option value="{{unitMeasurement.RadianXSegundo}}">Radian por Segundo</option>
+            <option value="{{unitMeasurement.RadianXSegundoCuadrado}}">Radian por Segundo Cuadrado</option>
+            <option value="{{unitMeasurement.Segundo}}">Segundo</option>
+            <option value="{{unitMeasurement.Siemens}}">Siemens</option>
+            <option value="{{unitMeasurement.Sievert}}">Sievert</option>
+            <option value="{{unitMeasurement.Tesla}}">Tesla</option>
+            <option value="{{unitMeasurement.Tonelada}}">Tonelada</option>
+            <option value="{{unitMeasurement.Unidad}}">Unidad</option>
+            <option value="{{unitMeasurement.UnidadAstronomica}}">Unidad Astronomica</option>
+            <option value="{{unitMeasurement.UnidadMasaAtomica}}">Unidad de Masa Atomica</option>
+            <option value="{{unitMeasurement.Uno}}">Uno</option>
+            <option value="{{unitMeasurement.Vatios}}">Vatios</option>
+            <option value="{{unitMeasurement.VatioXEsteRadian}}">Vatio por EsteRadian</option>
+            <option value="{{unitMeasurement.VatioXEsteRadianMetroCuadrado}}">Vatio por EsteRadian Metro Cuadrado</option>
+            <option value="{{unitMeasurement.VatiosXMetroCuadrado}}">Vatios por Metro Cuadrado</option>
+            <option value="{{unitMeasurement.VatioXMetroKelvin}}">Vatio por Metro Kelvin</option>
+            <option value="{{unitMeasurement.Voltios}}">Voltios</option>            
+            <option value="{{unitMeasurement.VoltioXMetro}}">Voltio por Metro</option>
+            <option value="{{unitMeasurement.Weber}}">Weber</option>
+          </select>
+        </div>
+      </div>      
+      <div class="form-group">
+        <!-- style="padding: 15px 1px;" -->
+        <div class="col-xs-12 col-md-12 text-right">
+          <button class="btn btn-primary btn-responsive" [disabled]="!createQuickProductForm.form.valid" type="submit">Agregar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

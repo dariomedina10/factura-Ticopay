@@ -1,0 +1,19 @@
+﻿
+<div class="row">
+    <div class="col-sm-12 col-sx-4">
+        <img class="logoGrande" src="/images/ticopay-facturacion-electronica-logo-completo-verde-azul.png">
+        <img class="logopequeno" src="/images/ticopay-facturacion-electronica-logo-inciales.png">
+    </div>
+    <div class="col-sm-12 col-sx-8">
+
+        <p> <strong> Versión: </strong>@(System.Configuration.ConfigurationManager.AppSettings["Version"].ToString())</p>
+        <p> <strong>Copyright </strong>@(System.Configuration.ConfigurationManager.AppSettings["Copyright"].ToString()) </p>
+    </div>
+
+</div>
+<h4>Términos y Condiciones</h4>
+<div class="gray-bg">
+    <div id="termsAndConditionsContent" style="max-height:400px;overflow-y: auto;">
+        @Html.Partial("_TermsAndConditions")
+    </div>
+</div>

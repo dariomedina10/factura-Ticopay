@@ -1,0 +1,202 @@
+﻿@model TicoPay.Vouchers.Dto.VoucherDto
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("textarea[maxlength]").keyup(function () {
+
+            var limit = $(this).attr("maxlength"); // Límite del textarea
+            var value = $(this).val();             // Valor actual del textarea
+            var current = value.length;              // Número de caracteres actual
+            if (limit < current) {                   // Más del límite de caracteres?
+                // Establece el valor del textarea al límite
+                $(this).val(value.substring(0, limit));
+            }
+        });
+
+        if ('@Model.ErrorCode' == '@TicoPay.Common.ErrorCodeHelper.Ok')
+        {
+            $("#detailsM").val("@Model.DetailsMessage");
+            $("#message").val("@Model.Message");
+            @{ int tipo = Convert.ToInt32(Model.TipoFirma);}
+            $("#TipoFirma").val("@tipo");
+        }
+
+
+        function validarArchvio() {
+
+            if ('@Model.isFile' == 'True') {
+                $('#GenerateVoucher_btn').removeAttr('Disabled');
+            } else {
+                $("#GenerateVoucher_btn").attr("Disabled", "Disabled");
+            }
+        }
+        $("#message").on('change', function (e) {
+
+            var msj = $("#message").val();
+            if (msj != '@TicoPay.Vouchers.MessageVoucher.Aceptado') {
+                $('#detailsM').removeAttr('Disabled');
+            } else {
+                $("#detailsM").attr("disabled", true);
+            }
+
+            //activar Detalle y colocar requerido
+        })
+
+
+        validarArchvio();
+
+
+        $('#form').submit(function () {
+            $("#GenerateVoucher_btn").attr("Disabled", "Disabled");
+            return true;
+        });
+    });
+
+</script>
+
+@if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok)
+{
+    <div class="row ">
+        <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@Model.ErrorDescription</strong>
+        </div>
+    </div>
+
+}
+else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error)
+{
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@Model.ErrorDescription</strong>
+            </div>
+        </div>
+    </div>
+}
+else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.None)
+{
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="alert alert-warning alert-dismissible" role="alert" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@Model.ErrorDescription</strong>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Create", "voucher", FormMethod.Post, new { id = "form" }))
+{
+    if (Model.ListType != null)
+    {
+        <div class="wrapper wrapper-content animated fadeInRight white-bg">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <h3>Datos Confirmación</h3>
+                        @Html.HiddenFor(model => model.VoucherKeyRef)
+                        @Html.HiddenFor(model => model.Coin)
+                        @*@Html.HiddenFor(model => model.TipoFirma)*@
+                        @Html.HiddenFor(model => model.ConsecutiveNumberInvoice)
+                        @Html.HiddenFor(model => model.DateInvoice)
+                        @Html.HiddenFor(model => model.Email)
+                        @Html.HiddenFor(model => model.IdentificationSender)
+                        @Html.HiddenFor(model => model.IdentificationReceiver)
+                        @Html.HiddenFor(model => model.NameSender)
+                        @Html.HiddenFor(model => model.NameReceiver)
+                        @Html.HiddenFor(model => model.Totalinvoice)
+                        @Html.HiddenFor(model => model.TotalTax)
+                        @Html.HiddenFor(model => model.XLM)
+                        @Html.HiddenFor(model => model.Type)
+                        @Html.HiddenFor(model => model.StatusTribunet)
+                        @Html.HiddenFor(model => model.MessageSupplier)
+                        @Html.HiddenFor(model => model.MessageTaxAdministrationSupplier)
+                        <div class="form-horizontal">
+                            @*<div class="form-group">
+            @Html.LabelFor(model => model.VoucherKeyRef, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.VoucherKeyRef,  new { @class = "form-control",  @required = "required", @ReadOnly= "ReadOnly"})
+
+
+            </div>
+        </div>*@
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(model => model.Message, TicoPay.Application.Helpers.EnumHelper.GetSelectList(typeof(TicoPay.Vouchers.MessageVoucher)), new { @class = "form-control", @id = "message" })
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DetailsMessage, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.TextAreaFor(model => model.DetailsMessage, new { @class = "form-control", @disabled = "disabled", @maxlength = "80", @id = "detailsM", @required = "required" })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TipoFirma, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+
+                                    @Html.DropDownListFor(model => model.TipoFirma, Model.ListType, new { @class = "form-control", @id = "TipoFirma" })
+                                    @*@Html.DropDownList("TipoFirm", TicoPay.Application.Helpers.EnumHelper.GetSelectList(TicoPay.MultiTenancy.Tenant.FirmType.Llave), new { @class = "form-control", @disabled = "disabled" })*@
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsTypeDocument, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    <p>
+                                        @Html.CheckBoxFor(m => m.IsTypeDocument, new
+                                   {
+                                       @id = "toggle-two",
+                                       @data_toggle = "toggle",
+                                       @type = "checkbox",
+                                       @data_width = "100",
+                                       @data_on = "Compras",
+                                       @data_off = "Gastos"
+                                   })
+                                    </p>
+                                    @Html.HiddenFor(model => model.TypeVoucher, new { @id = "hd_TypeVoucher" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+                    @{Html.RenderPartial("_TemplateVoucher", Model);}
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <br />
+    }
+
+
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content">
+                    <div class="col-lg-offset-5">
+                        <a class="btn btn-default" href="@Url.Action("Index", "Voucher")">Cerrar</a>
+                        <button type="submit" class="btn btn-primary" id="GenerateVoucher_btn" disabled>Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

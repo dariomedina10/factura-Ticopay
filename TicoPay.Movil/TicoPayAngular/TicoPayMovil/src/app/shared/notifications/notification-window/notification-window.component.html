@@ -1,0 +1,9 @@
+<div class="notify {{notification.type}}">
+    <a type="button" class="close">
+        <i class="material-icons" (click)="dismiss()"><span class="glyphicon glyphicon-remove"></span></i>
+    </a>
+    {{notification.message}}
+    <a *ngIf="notification.type === 'route'" (click)="navigate(notification)">
+        {{notification.routeText}}
+    </a>
+</div>

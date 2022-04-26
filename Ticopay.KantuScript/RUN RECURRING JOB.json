@@ -1,0 +1,60 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/hangfire/recurring",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link= @POS=3",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "//*[@id=\"wrap\"]/div[2]/div/div/div/div[2]/table/tbody/tr[3]/td[1]/input",
+      "Value": "BackgroundJobManager.TriggerSyncsInvoicesJob"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"wrap\"]/div[2]/div/div/div/div[2]/table/tbody/tr[3]/td[1]/input",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "//*[@id=\"wrap\"]/div[2]/div/div/div/div[1]/button[1]",
+      "Value": ""
+    }
+  ]
+}

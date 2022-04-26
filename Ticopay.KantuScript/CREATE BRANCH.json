@@ -1,0 +1,80 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "//*[@id=\"contentMaintenance\"]/span[1]",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Sucursales",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Crear Sucursal",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=codeText",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=codeText",
+      "Value": "999"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=nameText",
+      "Value": "Suc 999"
+    },
+    {
+      "Command": "type",
+      "Target": "id=lcoationText",
+      "Value": "Suc 999"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"form\"]/div[3]/button[2]",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"form\"]/div[3]/button[1]",
+      "Value": ""
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+﻿#LoginArea {
+    max-width: 400px;
+    margin: 120px auto 10px auto;
+}
+
+.tpNoFocus:focus {
+    outline: 0px;
+    border-color: none;
+}
+
+body {
+    background-repeat: round;
+    background-image: url('../../images/ticopay-facturacion-electronica-factura-register-background.png');
+}

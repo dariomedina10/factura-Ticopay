@@ -1,0 +1,1442 @@
+/* ----------------------------------- */
+/*
+
+- Thank you for purchasing Apprap - App Landing Page Template from hBeThemes.
+- You can edit the colours and images of the page below, comments have been included. Open the "readme.pdf" file for more guidance.
+- It's recommended that you leave the names of the div's (.name or #name) as they are, changing them will disrupt the layout and responsive design.
+- You do not have to edit any colours if you are happy with them in their current state.
+
+/*
+/* ----------------------------------- */
+
+
+
+
+
+
+
+
+/*------------------------------------------------------------------
+
+[ Table of Contents ]
+
+1. Colour Scheme
+    1.1 Blue background / blue text colour
+    1.2 Grey background / grey text colour
+    1.3 White background / white text colour
+    1.4 Transparent background colour
+
+2. Logo
+
+3. Backgrounds and Image
+    3.1 Header background
+    3.2 Video background
+
+4. Reset
+
+5. Body
+    5.1 Body
+    5.2 HTML
+    5.3 Container
+    5.4 Scrollbar
+    5.5 Section container
+
+6. Text
+    6.1 h1
+    6.2 h2
+    6.3 h3
+    6.4 h4
+    6.5 h5
+    6.6 p
+    6.7 Limited h
+
+7. Buttons and Anchors
+    7.1 Anchor
+    7.2 Overlay
+    7.3 Button
+    7.4 Button mask
+
+8. Forms and Inputs
+    8.1 Reset
+    8.2 Input
+    8.3 Textarea
+    9.4 Placeholder
+
+9. Layout
+
+10. Fade In Animation
+
+11. Smooth animation
+
+12. Header
+    12.1 Header filter
+    12.2 Header navigation bar
+    12.3 Header logo
+    12.4 Header links div
+    12.5 Header links
+    12.6 Header download link
+    12.7 Header h1
+    12.8 Header typewriter
+    12.9 Header paragraph
+    12.10 Header about button
+    12.11 Header mockup
+    12.12 Header container
+
+13. Overview strip
+    13.1 Strip
+    3.2 Overview features box
+    13.3 Overview features box icon
+    13.4 Overview features box heading 3
+    13.5 Overview features box paragraph
+
+14. Features
+    14.1 Features left container
+    14.2 Features right container
+    14.3 Features mockup
+    14.4 Features feature
+    14.5 Features feature icon
+    14.6 Features feature heading 5
+    14.7 Features feature paragraph
+    14.8 Features section container
+
+15. Reviews
+    15.1 Reviews section container
+    15.2 Testimonial container
+    15.3 Testimonial
+
+16. Stats
+    16.1 Stats container
+    16.2 Stats filter
+    16.3 Stats statistic
+    16.4 Stats download
+    16.5 Stats circle
+    16.6 Stats download button
+
+17. Pricing
+    17.1 Plan
+    17.2 Plan heading 3
+    17.3 Plan price
+    17.4 Plan key
+    17.5 Plan button
+
+18. Contact
+    18.1 Contact form
+
+19. Subscribe
+    19.1 Subscribe heading 2
+    19.2 Subscribe form
+    19.3 Subscribe input
+
+20. Download
+    20.1 Download button
+    20.2 Apple button
+    20.3 Google button
+    20.4 Windows button
+
+21. Footer
+    21.1 Footer
+    21.2 Footer anchor
+    21.3 Footer image
+
+22. Popup
+
+------------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+/* 1 */
+/* ----------------------------------- */
+/* ---------- Colour Scheme ---------- */
+/* ----------------------------------- */
+
+/* 1.1 */
+.blue {
+    background-color: #2A3159
+}
+/* Use www.colorpicker.com and change the HEX value to the colour you want. */
+.blue-text {
+    color: #2A3159
+}
+/* Use www.colorpicker.com and change the HEX value to the colour you want, it should match the colour above. */
+
+
+/* 1.2 */
+.grey {
+    background-color: #F8F8F8;
+}
+
+.grey-text {
+    color: #F8F8F8;
+}
+
+
+/* 1.3 */
+.white {
+    background-color: #FFF;
+}
+
+.white-text {
+    color: #FFF;
+}
+
+
+/* 1.4 */
+.transparent {
+    background: transparent;
+}
+
+
+
+
+
+
+/* 2 */
+/* ----------------------------------- */
+/* -------------- Logo --------------- */
+/* ----------------------------------- */
+
+#header-logo {
+    display: block;
+    float: left;
+    margin: 10px 0 0 0;
+    height: 40px; /* Change the height of your logo in pixels [px] */
+    width: 130px; /* Change the width of your logo in pixels [px], it's recommended you keep it at 100px or below */
+}
+
+
+
+
+
+
+
+
+/* 3 */
+/* ----------------------------------- */
+/* ----- Backgrounds and Images ------ */
+/* ----------------------------------- */
+
+/* 3.1 */
+/* === To edit the images of the image slider, open the "apprap-js.js" file in the "apprap-js" folder === */
+
+#slider {
+    left: 0;
+    height: 100%;
+    opacity: 1;
+    min-width: 100%;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: opacity 1s;
+    width: auto;
+}
+
+    #slider.fadeOut {
+        opacity: 0;
+    }
+
+
+
+/* 3.2 */
+#subscribe-background {
+    background-color: #242C40; /* Change the URL to direct to your background image */
+}
+/* This is the background colour of the subscribe section, it's currently very dark blue */
+
+
+
+
+
+
+
+
+/* ----------------------------------- */
+/* ------------ Other CSS ------------ */
+/* ----------------------------------- */
+/* Do not edit below here unless you know what you're doing */
+
+/* 4 */
+/* - Reset - */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: top
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block
+}
+
+body {
+    line-height: 1
+}
+
+ol, ul {
+    list-style: none
+}
+
+blockquote, q {
+    quotes: none
+}
+
+    blockquote:before, blockquote:after, q:before, q:after {
+        content: '';
+        content: none
+    }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+strong {
+    font-weight: 600
+}
+
+
+
+
+
+
+
+
+/* 5 */
+/* - Main Body - */
+
+/* 5.1 */
+body {
+    background-attachment: fixed;
+    background-color: #FFF;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #3D3D3D;
+    font-family: 'Roboto', sans-serif; /* If you have changed font change font family here. */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+* {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 5.2 */
+html {
+    height: 100%;
+}
+
+/* 5.3 */
+.container {
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto;
+    max-width: 1170px;
+    position: relative;
+    width: 100%;
+}
+
+/* 5.4 */
+::-webkit-scrollbar {
+    background: #EDEDED;
+    border-radius: 0;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.24);
+    border-radius: 0;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.26);
+        border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 0;
+    }
+
+/* 5.5 */
+section {
+    display: block;
+    height: auto;
+    margin: 0;
+    padding: 60px 0;
+    position: relative;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+/* 6 */
+/* - Text - */
+
+/* 6.1 */
+h1 {
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* 6.2 */
+h2 {
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* 6.3 */
+h3 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 28px;
+}
+
+/* 6.4 */
+h4 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 28px;
+}
+
+/* 6.5 */
+h5 {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+/* 6.6 */
+p {
+    font-size: 14px;
+    line-height: 22px;
+}
+
+/* 7.6 */
+.limited-h {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 38px;
+    margin: 0 auto 28px auto;
+    width: 700px;
+}
+
+
+/* 7 */
+/* Buttons and Anchors */
+
+/* 7.1 */
+a {
+    color: inherit !important;
+    text-decoration: underline;
+}
+
+/* 7.2 */
+.overlay {
+    color: inherit;
+    text-decoration: none;
+}
+
+    .overlay:hover {
+        color: inherit;
+    }
+
+/* 7.3 */
+.btn {
+    border: none;
+    border-radius: 2px;
+    color: #FFF !important;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    height: 48px;
+    line-height: 47px;
+    overflow: hidden;
+    outline: none;
+    padding: 0 28px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: auto;
+}
+
+    .btn:hover {
+        box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.14);
+        cursor: pointer;
+    }
+
+.btn-100 {
+    width: 100%;
+}
+
+/* 7.5 */
+.btn2 {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 2px;
+    color: #FFF;
+    display: inline-block;
+    font-size: 15px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 22px;
+    text-align: center;
+    text-decoration: none;
+    width: auto;
+}
+
+    .btn2:hover {
+        border: 1px solid #2A3159;
+        background-color: #2A3159;
+        color: #FFF !important;
+    }
+
+
+
+
+
+
+
+/* 8 */
+/* Forms and Inputs */
+
+/* 8.1 */
+input, textarea, select, button {
+    outline: 0;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    font: 13px 'Open Sans', sans-serif;
+    -moz-appearance: none;
+}
+
+/* 8.2 */
+input {
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    box-sizing: border-box;
+    display: block;
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    width: 100%;
+}
+
+/* 8.3 */
+textarea {
+    border: 1px solid #DDD;
+    box-sizing: border-box;
+    display: block;
+    height: 150px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    padding: 18px 20px;
+    resize: none;
+    width: 100%;
+}
+
+/* 8.4 */
+::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, 0.45);
+}
+
+:-moz-placeholder {
+    color: rgba(0, 0, 0, 0.45);
+}
+
+::-moz-placeholder {
+    color: rgba(0, 0, 0, 0.45);
+}
+
+:-ms-input-placeholder {
+    color: rgba(0, 0, 0, 0.45);
+}
+
+
+
+
+
+
+
+/* 9 */
+/* - Layout - */
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.inline-container {
+    display: block;
+    font-size: 0;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.block {
+    display: block;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.centre-margin {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.txt-centre {
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+/* 10 */
+/* - Fade animation - */
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    opacity: 0;
+    opacity: 1 \9;
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+}
+
+    .fade-in.one {
+        -webkit-animation-delay: 0.5s;
+        -moz-animation-delay: 0.5s;
+        animation-delay: 0.5s;
+    }
+
+    .fade-in.two {
+        -webkit-animation-delay: 1s;
+        -moz-animation-delay: 1s;
+        animation-delay: 1s;
+    }
+
+    .fade-in.three {
+        -webkit-animation-delay: 1.5s;
+        -moz-animation-delay: 1.5s;
+        animation-delay: 1.5s;
+    }
+
+    .fade-in.four {
+        -webkit-animation-delay: 2s;
+        -moz-animation-delay: 2s;
+        animation-delay: 2s;
+    }
+
+
+
+
+
+
+
+
+/* 11 */
+/* - Animation - */
+.smooth {
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -ms-transition: .2s;
+    -o-transition: .2s;
+    transition: .2s
+}
+
+
+
+
+
+
+
+
+/* 12 */
+/* - Header - */
+
+header {
+    color: #FFF;
+    display: block;
+    height: auto;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    text-shadow: 2px 1px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+.popup-nav-btn {
+    display: none;
+}
+
+/* 12.1 */
+header .filter {
+    background-color: rgba(0, 0, 0, 0.7);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.grad {
+    background: rgba(54,115,60,0.87);
+    background: -moz-linear-gradient(top, rgba(54,115,60,0.87) 0%, rgba(42,49,89,0.87) 1%, rgba(54,115,60,0.83) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(54,115,60,0.87)), color-stop(1%, rgba(42,49,89,0.87)), color-stop(100%, rgba(54,115,60,0.83)));
+    background: -webkit-linear-gradient(top, rgba(54,115,60,0.87) 0%, rgba(42,49,89,0.87) 1%, rgba(54,115,60,0.83) 100%);
+    background: -o-linear-gradient(top, rgba(54,115,60,0.87) 0%, rgba(42,49,89,0.87) 1%, rgba(54,115,60,0.83) 100%);
+    background: -ms-linear-gradient(top, rgba(54,115,60,0.87) 0%, rgba(42,49,89,0.87) 1%, rgba(54,115,60,0.83) 100%);
+    background: linear-gradient(to bottom, rgba(54,115,60,0.87) 0%, rgba(42,49,89,0.87) 1%, rgba(54,115,60,0.83) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#36733c', endColorstr='#36733c', GradientType=0 );
+}
+
+/* 12.2 */
+header nav {
+    box-sizing: border-box;
+    display: block;
+    padding: 30px 0 130px 0;
+    width: 100%;
+}
+
+    /* 12.3 */
+    header nav img {
+        display: inline-block;
+        float: left;
+    }
+
+    /* 12.4 */
+    header nav div {
+        display: inline-block;
+        float: right;
+    }
+
+        /* 12.5 */
+        header nav div a {
+            color: #FFF;
+            font-size: 14px;
+            display: inline-block;
+            margin: 0 0 0 35px;
+            padding: 18px 0;
+            text-decoration: none;
+            text-align: center;
+        }
+
+            /* 12.6 */
+            header nav div a.download {
+                border: 1px solid rgba(255,255,255,0.6);
+                border-radius: 2px;
+                padding: 18px;
+            }
+
+                header nav div a.download:hover {
+                    background-color: #2196F3;
+                    border: 1px solid #2196F3;
+                }
+
+/* 12.7 */
+header h1 {
+    display: block;
+    font-size: 70px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+/* 12.8 */
+header .typewriter {
+    display: inline-block;
+    margin: 5px 0 0;
+    width: auto;
+}
+
+    header .typewriter h2 {
+        animation: typing 3.5s steps(40,end),blink-caret .75s step-end infinite;
+        border-right: 3px solid #FFF;
+        color: #FFF;
+        font-size: 28px;
+        line-height: 34px;
+        margin: 0;
+        max-width: 454px;
+        padding-right: 5px;
+        overflow: hidden;
+        text-transform: none;
+        white-space: nowrap;
+    }
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink-caret {
+    from,to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: #FFF
+    }
+}
+
+/* 12.9 */
+header p {
+    color: rgba(255,255,255,0.92);
+    display: block;
+    margin: 60px 0 25px;
+    width: 500px;
+}
+
+/* 12.10 */
+header #about-btn {
+    color: rgba(255,255,255,0.86);
+    display: inline-block;
+    font-size: 15px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 0 0 30px;
+    text-decoration: none;
+    width: auto;
+}
+
+/* 12.11 */
+header img.mockup {
+    bottom: 0;
+    display: inline-block;
+    height: 560px;
+    position: absolute;
+    right: -20px;
+    width: 440px;
+}
+
+/* 12.12 */
+header .container {
+    padding-bottom: 150px;
+}
+
+
+
+
+
+
+
+
+/* 13 */
+/* - Overview strip - */
+
+/* 13.1 */
+#overview {
+    font-size: 0;
+}
+
+    /* 13.2 */
+    #overview .features-box {
+        background-color: #FFF;
+        border: 1px solid #EDEDED;
+        box-sizing: border-box;
+        display: inline-block;
+        font-size: 14px;
+        padding: 30px 40px;
+        position: relative;
+        margin: 0 0 0 -1px;
+        text-align: center;
+        width: 25%;
+    }
+
+        #overview .features-box:hover {
+            border: 0px solid #EDEDED;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            -ms-transform: scale(1.2,1.2);
+            -webkit-transform: scale(1.2,1.2);
+            transform: scale(1.2,1.2);
+        }
+
+        /* 13.3 */
+        #overview .features-box .icon {
+            border: 1px solid #EDEDED;
+            border-radius: 50%;
+            display: inline-block;
+            height: auto;
+            margin: 0 auto 30px auto;
+            padding: 22px;
+            width: auto;
+        }
+
+            #overview .features-box .icon i {
+                font-size: 32px;
+            }
+
+        /* 13.4 */
+        #overview .features-box h4 {
+            margin: 0 0 20px 0;
+        }
+
+        /* 13.5 */
+        #overview .features-box p {
+            display: block;
+            font-size: 12px;
+            line-height: 18px;
+        }
+
+
+
+
+
+
+
+
+/* 14 */
+/* - Features - */
+
+/* 14.1 */
+#features-left {
+    display: inline-block;
+    height: auto;
+    margin-top: 50px;
+    width: 40%;
+}
+
+/* 14.2 */
+#features-right {
+    box-sizing: border-box;
+    display: inline-block;
+    height: auto;
+    margin-top: 50px;
+    padding: 0 0 0 80px;
+    width: 60%;
+}
+
+/* 14.3 */
+#features-left img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+
+/* 14.4 */
+#features-right .feature {
+    display: block;
+    height: auto;
+    margin: 0 0 34px 0;
+    width: auto;
+}
+
+    /* 14.5 */
+    #features-right .feature .icon {
+        box-shadow: 0 6px 30px rgba(30, 136, 229, 0.4);
+        display: inline-block;
+        float: left;
+        margin: 0 15px 0 0;
+        padding: 8px;
+    }
+
+        #features-right .feature .icon i {
+            font-size: 24px;
+        }
+
+    /* 14.6 */
+    #features-right .feature h5 {
+        display: block;
+        font-size: 18px;
+        line-height: 38px;
+        margin: 0 0 2px 0;
+    }
+
+    /* 14.7 */
+    #features-right .feature p {
+        margin: 0 0 0 56px;
+    }
+
+/* 14.8 */
+#features {
+    position: relative;
+    padding-bottom: 300px;
+}
+
+    #features #video {
+        border: 0;
+        bottom: -222px;
+        box-shadow: 0 14px 50px rgba(0, 0, 0, 0.6);
+        height: 450px;
+        left: 50%;
+        position: absolute;
+        transform: translateX(-50%);
+        width: 800px;
+        z-index: 3;
+    }
+
+
+
+
+
+
+
+
+/* 15 */
+/* - Reviews - */
+
+/* 15.1 */
+#reviews {
+    padding-top: 300px;
+}
+
+/* 15.2 */
+#testimonial-container {
+    background: rgba(255, 255, 255, 0.13) url('../images/ticopay-facturacion-electronica-factura-software-dots-pattern.png') repeat;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.015);
+    box-sizing: border-box;
+    display: block;
+    margin: 30px auto 0 auto;
+    padding: 50px;
+    width: 800px;
+}
+
+/* 15.3 */
+.testimonial {
+    display: none;
+}
+
+    .testimonial img {
+        border: 10px solid rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        display: inline-block;
+        float: left;
+        height: 120px;
+        margin: 0 40px 0 0;
+        width: 120px;
+    }
+
+.testimonial-name {
+    display: block;
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+}
+
+.testimonial-review {
+    display: block;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 24px;
+}
+
+
+
+
+
+
+
+
+/* 16 */
+/* - Stats - */
+#stats h2 {
+    display: none;
+}
+
+/* 16.1 */
+#stats {
+    overflow: hidden;
+    padding: 40px 0 32px 0 !important;
+    position: relative;
+}
+
+    /* 16.2 */
+    #stats .filter {
+        background-color: rgba(0, 0, 0, 0.7);
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    /* 16.3 */
+    #stats .stat {
+        display: inline-block;
+        font-size: 14px;
+        margin: 52px 40px 0 40px;
+        position: relative;
+        z-index: 2;
+    }
+
+        #stats .stat .figure {
+            display: block;
+            font-size: 38px;
+            font-weight: 700;
+            margin: 0 auto 10px 0;
+        }
+
+        #stats .stat .title {
+            display: block;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            margin: 0 auto;
+        }
+
+    /* 16.4 */
+    #stats #download {
+        display: inline-block;
+        font-size: 14px;
+        height: 170px;
+        margin: 0 20px;
+        position: relative;
+        text-align: left;
+        width: 170px;
+    }
+
+    /* 16.5 */
+    #stats .circle {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+        position: absolute;
+        height: 170px;
+        width: 170px;
+        -webkit-animation-name: circle;
+        -webkit-animation-duration: 4s;
+        -webkit-animation-iteration-count: infinite;
+        animation-name: circle;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+    }
+
+@-webkit-keyframes circle {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    50% {
+        transform: scale(4, 4);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes circle {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    50% {
+        transform: scale(4, 4);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+/* 16.6 */
+#stats #download a {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+
+
+
+
+
+
+
+/* 17 */
+/* - Pricing - */
+
+/* 17.1 */
+.plan {
+    background-color: #FFF;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: inline-block;
+    height: auto;
+    font-size: 14px;
+    margin: 50px 20px 0 20px;
+    padding: 30px 40px;
+    text-align: center;
+    width: 320px;
+}
+
+    .plan:hover {
+        box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
+        transform: scale(1.05,1.05);
+    }
+
+    /* 17.2 */
+    .plan h3 {
+        margin-bottom: 25px;
+    }
+
+    /* 17.3 */
+    .plan .price {
+        display: block;
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
+
+        .plan .price span {
+            font-size: 14px;
+            font-weight: 600;
+            vertical-align: baseline;
+        }
+
+    /* 17.4 */
+    .plan .key {
+        display: block;
+        font-size: 18px;
+        font-weight: 300;
+        margin: 0 0 22px 0;
+    }
+
+    /* 17.5 */
+    .plan .btn {
+        box-sizing: border-box;
+        margin-top: 30px;
+        width: 100%;
+    }
+
+
+
+
+
+
+
+
+/* 18 */
+/* - Contact - */
+
+/* 18.1 */
+#contact-form {
+    margin: 40px 0 0 0;
+}
+
+
+
+
+
+
+
+
+/* 19 */
+/* - Subscribe - */
+
+
+/* 19.1 */
+.subscribe h2 {
+    line-height: 36px;
+}
+
+/* 19.2 */
+.subscribe form {
+    margin-top: 30px;
+}
+
+/* 19.3 */
+.subscribe input {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.15);
+    color: rgba(255, 255, 255, 0.8);
+    display: inline-block;
+    margin-right: 10px;
+    width: 250px;
+}
+
+    .subscribe input::-webkit-input-placeholder {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .subscribe input:-moz-placeholder {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .subscribe input::-moz-placeholder {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .subscribe input:-ms-input-placeholder {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+
+
+
+
+
+
+
+/* 20 */
+/* - Download - */
+
+/* 20.1 */
+.download-btn {
+    background-position: 22px center;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 2px;
+    color: #FFF;
+    display: inline-block;
+    font-size: 15px;
+    height: 50px;
+    line-height: 50px;
+    margin: 40px 30px 0 30px;
+    padding: 0 22px 0 55px;
+    text-align: center;
+    text-decoration: none;
+    width: auto;
+}
+
+    .download-btn:hover {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+
+/* 20.2 */
+#apple-download {
+    background-image: url('../images/ticopay-facturacion-electronica-factura-software-apple-logo.png');
+}
+
+/* 20.3 */
+#play-download {
+    background-image: url('../images/ticopay-facturacion-electronica-logo-play.png');
+}
+
+/* 20.4 */
+#windows-download {
+    background-image: url('../images/ticopay-facturacion-electronica-logo-windows.png');
+}
+
+
+
+
+
+
+
+
+/* 21 */
+/* - Footer - */
+
+/* 21.1 */
+footer {
+    box-sizing: border-box;
+    display: block;
+    padding: 24px 0;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+    /* 21.2 */
+    footer a {
+        display: inline-block;
+        height: 50px;
+        margin: 0 8px;
+        width: 50px;
+    }
+
+        footer a img {
+            height: 50px;
+            width: 50px;
+        }
+
+
+
+
+
+
+
+
+/* 22 */
+/* - Popup - */
+.popup {
+    background: rgba(0, 0, 0, 0.9) !important;
+    bottom: 0;
+    display: none;
+    height: auto;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9999999999;
+}

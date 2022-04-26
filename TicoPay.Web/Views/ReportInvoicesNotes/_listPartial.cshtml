@@ -1,0 +1,229 @@
+﻿@using TicoPay.Invoices
+@model TicoPay.ReportStatusInvoices.Dto.ReportStatusInvoicesInputDto<TicoPay.ReportStatusInvoices.Dto.ReportInvoicesNotes>
+
+<script>
+
+    $(document).ready(function () {
+        var table = $('#TableListEntity').DataTable({
+            columnDefs: [
+                { orderable: false, targets: 7 }
+            ],
+            dom: 'Bfrtip',
+            paging: true,
+            searching: true,
+            order: [[1, "desc"]],
+            "bAutoWidth": false,
+            "sScrollY": "500px",
+            "sScrollX": "100%",
+            buttons: [{
+                extend: 'copy',
+                text: 'Copiar al portapapeles'
+            }, 'csv', {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible',
+                },
+                customizeData: function (data) {
+                    for (var i = 0; i < data.body.length; i++) {
+                        data.body[i][1] = '\u200C' + data.body[i][1];
+                    }
+                }
+            }, {
+                extend: "pdfHtml5",
+                orientation: 'landscape',
+                pageSize: 'letter',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                },
+                customize: function (doc) {
+                    doc.pageMargins = [20, 10, 5, 10];
+                    doc.styles.tableHeader.fontSize = 9;
+                    doc.defaultStyle.fontSize = 9;
+
+                    var rowCount = doc.content[1].table.body.length;
+                    for (i = 1; i < rowCount; i++) {
+                        var name = doc.content[1].table.body[i][4].text;
+                        var delimiter = name.split(" ");
+                        var namef = '';
+                        $.each(delimiter, function (index, value) {
+                            if (value.length > 8) {
+                                text = value.substring(0, 8) + '...';
+                            }
+                            else {
+                                text = value;
+                            }
+                            namef += text + ' ';
+                        });
+                        doc.content[1].table.body[i][4].text = namef;
+                    };
+                }
+            }
+                , 'print'],
+            language: {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                buttons: {
+                    copyTitle: 'Copiar al portapapeles',
+                    copySuccess: {
+                        _: 'Copiado %d filas al portapapeles',
+                        1: 'Copiado una fila al portapapeles'
+                    }
+                }
+            }
+        });
+        $('#TableListEntity tbody').on('click', '#details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            console.log($(this).attr('id'));
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+
+                row.child(row.data()[11]).show();
+                tr.addClass('shown');
+            }
+        });
+        console.log($("#TableListEntity > tbody").children().length)
+    });
+</script>
+<style>
+    .ClientName {
+        white-space: nowrap;
+        min-width: 100px;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+        margin: 0 auto;
+    }
+</style>
+
+@if (Model != null && Model.InvoicesList != null && Model.InvoicesList.Any())
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+    <div class="wrapper wrapper-content white-bg text-center">
+        <table id="TableListEntity" class="table table-responsive table-striped table-hover" style="font-size: small">
+            <thead>
+                <tr>
+                    <th style="text-align: center">
+                        Tipo de Documento
+                    </th>
+                    <th style="text-align: center">
+                        Nro documento
+                    </th>
+                    <th style="text-align: center">
+                        Documento de referencia
+                    </th>
+                    <th style="text-align: center">
+                        Nombre Cliente
+                    </th>
+                    <th style="text-align: center">
+                        Identificación / Pasaporte
+                    </th>
+                    <th style="text-align: center">
+                        Fecha documento
+                    </th>
+                    <th style="text-align: center">
+                        Moneda
+                    </th>
+                    <th>Impuesto</th>
+                    <th>Descuento</th>
+                    <th style="text-align: center">
+                        Monto
+                    </th>
+                    <th></th>
+                    <th class="hidden"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.InvoicesList.OrderByDescending(a => a.ConsecutiveNumber))
+                {
+                    <tr>
+                        <td style="text-align: center">
+                            @TicoPay.Application.Helpers.EnumHelper.GetDescription(item.Type)
+                        </td>
+                        <td style="text-align: center">
+                            @item.ConsecutiveNumber
+                        </td>
+                        <th style="text-align: center">
+                            @item.ConsecutiveNumberReference
+                        </th>
+                        <td class="ClientName" style="text-align: center">
+                            @item.ClientName
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.IdentificationType != TicoPay.Invoices.XSD.IdentificacionTypeTipo.NoAsiganda)
+                            {
+                                @item.ClientIdentification;
+                            }
+                            else
+                            {
+                                @item.IdentificacionExtranjero;
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            <p>@item.Date.ToString("dd/MM/yyyy")</p>
+                        </td>
+                        <td style="text-align: center">
+                            @item.CodigoMoneda
+                        </td>
+                        <td>@Html.FormatValue(@item.Impuesto, currencyFmt)</td>
+                        <td>@Html.FormatValue(@item.Descuento, currencyFmt)</td>
+                        <td style="text-align: center">
+                            @Html.FormatValue(@item.Total, currencyFmt)
+                        </td>
+                        <td>
+                            @if (item.PaymentInvoices.Count() > 0)
+                            {
+                                <a href="javascript:void(0);" title="Notas aplicadas"><i id="details-control" class="glyphicon glyphicon-th-list"></i></a>
+
+                            }
+
+                        </td>
+
+                        <td class="hidden">@{Html.RenderPartial("_listDetailsPartial", item.PaymentInvoices);}</td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
+else
+{
+    <div class="wrapper wrapper-content white-bg text-center">
+        <div class="alert alert-warning alert-dismissible" role="alert" style="text-align: center;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>¡No se han encontrado ningún Documento</strong>
+        </div>
+    </div>
+
+}
+

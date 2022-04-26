@@ -1,0 +1,291 @@
+﻿@model TicoPay.ReportClosing.Dto.DashboardDto
+
+@{
+    ViewBag.Title = "Dashboard TicoPay";
+}
+@if (Model != null && Model.ClientList != null && Model.ClientList.Any())
+{
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-success pull-right">Mensual</span>
+                    <h5>Facturado</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">40 886,200</h1>
+                    @*<div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>*@
+                    <small>Total Facturado</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-info pull-right">Mensual</span>
+                    <h5>Pagado</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">275,800</h1>
+                    @*<div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>*@
+                    <small>Total Pagado</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-primary pull-right">Mensual</span>
+                    <h5>Clientes</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">106,120</h1>
+                    @*<div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>*@
+                    <small>Nuevos Clientes</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-danger pull-right">Mensual</span>
+                    <h5>Usuarios Activos</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">80,600</h1>
+                    @*<div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>*@
+                    <small>En el mes</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Facturas</h5>
+                    <div class="pull-right">
+                        @*<div class="btn-group">
+                                <button type="button" class="btn btn-xs btn-white active">Today</button>
+                                <button type="button" class="btn btn-xs btn-white">Monthly</button>
+                                <button type="button" class="btn btn-xs btn-white">Annual</button>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-dashboard-chart" style="padding: 0px; position: relative;">
+                                    <canvas class="flot-base" width="565" height="200" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 565px; height: 200px;"></canvas>
+                                    <div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
+                                        <div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;">
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 50px; text-align: center;">Enero</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 100px; text-align: center;">Febrero</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 150px; text-align: center;">Marzo</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 201px; text-align: center;">Abril</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 251px; text-align: center;">Mayo</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 301px; text-align: center;">Junio</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 351px; text-align: center;">Julio</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 401px; text-align: center;">Agosto</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 452px; text-align: center;">Septiembre</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 64px; top: 185px; left: 502px; text-align: center;">Octubre</div>
+                                        </div>
+                                        <div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;">
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 173px; left: 19px; text-align: right;">0</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 132px; left: 6px; text-align: right;">250</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 92px; left: 6px; text-align: right;">500</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 52px; left: 6px; text-align: right;">750</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 12px; left: 0px; text-align: right;">1000</div>
+                                        </div>
+                                        <div class="flot-y-axis flot-y2-axis yAxis y2Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;">
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 173px; left: 553px;">0</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 144px; left: 553px;">5</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 115px; left: 553px;">10</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 87px; left: 553px;">15</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 58px; left: 553px;">20</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 29px; left: 553px;">25</div>
+                                            <div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 553px;">30</div>
+                                        </div>
+                                    </div>
+                                    <canvas class="flot-overlay" width="565" height="200" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 565px; height: 200px;"></canvas>
+                                    <div class="legend">
+                                        <div style="position: absolute; width: 111px; height: 30px; top: 13px; left: 35px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div>
+                                        <table style="position:absolute;top:13px;left:35px;;font-size:smaller;color:#545454">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="legendColorBox">
+                                                        <div style="border:1px solid #000000;padding:1px">
+                                                            <div style="width:4px;height:0;border:5px solid #1ab394;overflow:hidden"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="legendLabel">Numero de Facturas</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="legendColorBox">
+                                                        <div style="border:1px solid #000000;padding:1px">
+                                                            <div style="width:4px;height:0;border:5px solid #1C84C6;overflow:hidden"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="legendLabel">Pagos</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            @*<ul class="stat-list">
+                                    <li>
+                                        <h2 class="no-margins">2,346</h2>
+                                        <small>Total orders in period</small>
+                                        <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i></div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 48%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h2 class="no-margins ">4,422</h2>
+                                        <small>Orders in last month</small>
+                                        <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i></div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 60%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h2 class="no-margins ">9,180</h2>
+                                        <small>Monthly income from orders</small>
+                                        <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 22%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>
+                                </ul>*@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<script type="text/javascript">
+        $(document).ready(function() {
+
+            var data2 = [
+                [gd(2012, 1, 1), 7], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
+                [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
+                [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
+                [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
+                [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
+                [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
+                [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
+                [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
+            ];
+
+            var data3 = [
+                [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
+                [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
+                [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
+                [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
+                [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
+                [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
+                [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
+                [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
+            ];
+
+
+            var dataset = [
+                {
+                    label: "Numero de Facturas",
+                    data: data3,
+                    color: "#1ab394",
+                    bars: {
+                        show: true,
+                        align: "center",
+                        barWidth: 24 * 60 * 60 * 600,
+                        lineWidth:0
+                    }
+
+                }, {
+                    label: "Pagos",
+                    data: data2,
+                    yaxis: 2,
+                    color: "#1C84C6",
+                    lines: {
+                        lineWidth:1,
+                            show: true,
+                            fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.2
+                            }, {
+                                opacity: 0.4
+                            }]
+                        }
+                    },
+                    splines: {
+                        show: false,
+                        tension: 0.6,
+                        lineWidth: 1,
+                        fill: 0.1
+                    },
+                }
+            ];
+
+
+            var options = {
+                xaxis: {
+                    mode: "time",
+                    tickSize: [3, "day"],
+                    tickLength: 0,
+                    axisLabel: "Date",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Arial',
+                    axisLabelPadding: 10,
+                    color: "#d5d5d5"
+                },
+                yaxes: [{
+                    position: "left",
+                    max: 1070,
+                    color: "#d5d5d5",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Arial',
+                    axisLabelPadding: 3
+                }, {
+                    position: "right",
+                    clolor: "#d5d5d5",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: ' Arial',
+                    axisLabelPadding: 67
+                }
+                ],
+                legend: {
+                    noColumns: 1,
+                    labelBoxBorderColor: "#000000",
+                    position: "nw"
+                },
+                grid: {
+                    hoverable: false,
+                    borderWidth: 0
+                }
+            };
+
+            function gd(year, month, day) {
+                return new Date(year, month - 1, day).getTime();
+            }
+
+            var previousPoint = null, previousLabel = null;
+
+            $.plot($("#flot-dashboard-chart"), dataset, options);
+
+        });
+</script>
+

@@ -1,0 +1,102 @@
+﻿@model TicoPay.BranchOffices.Dto.CreateBranchOfficesInput
+@{
+    ViewBag.Title = "Crear Sucursal";
+}
+
+
+<style>
+    .error {
+        color: #a94442;
+    }
+</style>
+
+@if (Model.isEnabled)
+{
+
+    using (Ajax.BeginForm("Create", "Services", new AjaxOptions { HttpMethod = "POST" }, new { @class = "form-horizontal ", @id = "form" }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Crear Sucursal</h4>
+
+        </div>
+        if (Model != null)
+        {<div class="modal-body">
+                <fieldset>
+                    <div class="col-lg-12"><a><span id="popOver_Name"></span></a></div>
+                    <div class="well col-lg-12 ">
+                        <div class="input-group col-lg-10">
+                            @Html.LabelFor(model => model.Code, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Code, new { @class = "form-control", @id = "codeText", type = "number", @required = "required", @maxlenght = "3", @placeholder = "Código Formato 000" })
+                            <p class="error">@Html.ValidationMessageFor(model => model.Code)</p>
+                        </div>
+                        <div class="input-group col-lg-10">
+                            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "nameText", @Type = "text", @required = "required", @maxlength = "50", @placeholder = "Nombre" })
+                            <p class="error">@Html.ValidationMessageFor(model => model.Name)</p>
+                        </div>
+                        <div class="input-group col-lg-10">
+                            @Html.LabelFor(model => model.Location, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Location, new { @class = "form-control", @id = "lcoationText", type = "text", @required = "required", @maxlength = "200", @placeholder = "Ubicacion" })
+                            <p class="error">@Html.ValidationMessageFor(model => model.Location)</p>
+                        </div>
+                        <br />
+                        <br />
+                        @if (Model.ErrorCode == 1)
+                        {
+                            <hr />
+                            <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>@Model.ErrorDescription</strong>
+                            </div>
+                        }
+                        else if (Model.ErrorCode == -1)
+                        {
+                            <br />
+                            <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>@Model.ErrorDescription</strong>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-lg-12"><a><span id="popOver_Save"></span></a></div>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        }
+    }
+}
+else
+{
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="widget-head-color-box navy-bg p-lg text-center">
+                <div class="m-b-md">
+                    <h2 class="font-bold no-margins">
+                        Opción Inhabilitada
+                    </h2>
+                    <small>Actualización Requerida</small>
+                </div>
+                <i class=" fa fa-lock fa-5x"></i>
+
+            </div>
+            <div class="widget-text-box">
+                @*<h4 class="media-heading">Alex Smith</h4>*@
+                <p>@Model.ErrorDescription</p>
+                <div class="text-right">
+                    @*<a href="" class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>*@
+                    @if (IsGranted("Configuration.Tenants"))
+                    {
+                        <a href="@Url.Action("Index", "Tenants")" class="btn btn-xs btn-primary"><i class="fa fa-gear"></i> Ir a Compañía</a>
+                    }
+                    <button type="button" class="btn btn-xs btn-default" data-dismiss="modal"><i class="fa fa-times"></i>Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}

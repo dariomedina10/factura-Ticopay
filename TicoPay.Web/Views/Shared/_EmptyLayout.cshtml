@@ -1,0 +1,39 @@
+﻿@using System.Web.Optimization
+@using System.Threading
+@using System.Web.Optimization
+@using Abp.Timing
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TicoPay | @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/font-awesome/css")
+    @Styles.Render("~/Bundles/vendor/css")
+    @Styles.Render("~/bundles/css")
+    @RenderSection("styles", required: false)
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <script src="@Url.Content("~/Scripts/jsTree3/jquery.min.js")"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/style.min.css" />
+
+    <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.blockUI.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/validator.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/plugins/chosen/chosen.jquery.js")" type="text/javascript"></script>
+    <script src="~/Abp/Framework/scripts/abp.js"></script>
+</head>
+<body class="gray-bg">
+    <div id="wrapper">
+        <div>
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

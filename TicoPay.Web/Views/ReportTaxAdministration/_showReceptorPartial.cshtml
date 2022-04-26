@@ -1,0 +1,105 @@
+﻿@model  TicoPay.ReportTaxAdministration.Dto.SearchReceptorInput
+@using MvcPaging
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Lista de Clientes</h4>
+</div>
+<br />
+<div class="col-lg-12">
+    <div class="input-group">
+        @Html.TextBoxFor(model => model.Query, new { @class = "form-control", @id = "searchBoxClient", @placeholder = "Búsqueda de clientes...", @type = "text" })
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="searchReceptores()">Buscar</button>
+        </span>
+    </div><!-- /input-group -->
+</div><!-- /.col-lg-6 -->
+
+<br />
+<hr />
+<div class="dataTables_wrapper" id="">
+    @if (Model.Entities.TotalItemCount > 0)
+    {
+        <div class="pull-right" style="margin-right: 2%;">
+            @Html.Pager(Model.Entities.PageSize, Model.Entities.PageNumber, Model.Entities.TotalItemCount, new AjaxOptions {UpdateTargetId = "anyModalForm"}).Options(o => o.Action("ShowReceptorList").DisplayTemplate("Bootstrap3Pagination").AddRouteValue("q", Model.Query))
+        </div>
+
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th style="text-align: center">
+                        Código
+                    </th>
+                    <th style="text-align: center">
+                        Cédula
+                    </th>
+                    <th style="text-align: center">
+                        Nombre
+                    </th>
+                    <th style="text-align: center">
+                        Telefono
+                    </th>
+                    <th style="text-align: center">
+                        Correo
+                    </th>
+                    <th style="text-align: center">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Entities.OrderBy(a=>a.Code))
+                {
+                    <tr>
+                        <td style="text-align: center">
+                            @item.Code
+                        </td>
+                        <td style="text-align: center">
+                            @item.Identification
+                        </td>
+                        <td style="text-align: center">
+                            @item.Name
+                        </td>
+                        <td style="text-align: center">
+                            @item.PhoneNumber
+                        </td>
+                        <td style="text-align: center">
+                            @item.Email
+                        </td>
+
+                        <td style="text-align: center">
+                            <div class="btn btn-default btn-xs" data-dismiss="modal" onclick="saveReceptorData('@item.Id','@item.Name','@item.Code')">Usar</div>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <br />
+        <div class="alert alert-info" style="text-align: center">
+            No existen Clientes Registrados.
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#searchBoxClient').keyup($.debounce(400, searchReceptores));
+    });
+
+    function searchReceptores() {
+        var tenantId = $("#TenantId_hidden").val();
+        $.ajax({
+            url: '@Url.Action("ShowReceptorList", "ReportTaxAdministration")',
+            type: "POST",
+            cache: false,
+            data: { q: $("#searchBoxClient").val() },
+            success: function (data) {
+                $("#anyModalForm").html(data);
+            }, error: function (err) { writeError("IndexAlerts", "¡Error al consultar los Clientes!", "error"); }
+        });
+        return false;
+    }
+</script>

@@ -1,0 +1,23 @@
+﻿@using System.Web.Mvc.Html
+@model TicoPay.Roles.Dto.SearchRolesInput
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    @using (Html.BeginForm(Model.Action, Model.Control, FormMethod.Post, new { @id = "searchForm" }))
+    {
+        <div class="row">
+            <div class="col-lg-1">
+                <label>
+                    Búsqueda
+                </label>
+            </div>
+            <div class="col-lg-9">
+                <div class="input-group">
+                    @Html.TextBoxFor(model => model.Query, new { @placeholder = "Introducir Búsqueda...", @type = "text", @id = "searchText", @class = "form-control" })
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-success">Buscar</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,55 @@
+﻿@model TicoPay.ReportClosing.Dto.ReportClosingInputDto<TicoPay.ReportClosing.Dto.ReportClosingDto>
+@{
+    ViewBag.Title = "Reporte de Cierres";
+}
+<script type="text/javascript">
+ 
+    $(document).ready(function () {
+
+        $("#Branch_DD").on("change", function () {
+         
+            var id = $(this).attr('data-cascade-combo');
+
+            var url = $(this).attr('data-cascade-combo-source');
+
+            var paramName = $(this).attr('data-cascade-combo-param-name');
+
+            var data = {};
+            data[paramName] = id;
+
+            $.ajax({
+                url: url,
+                data: {
+                    id: $(this).val()
+                },
+                success: function (data) {
+                    $(id).html('');
+                    $(id).append('<option value="">Todas</option>');
+                    $.each(data.result, function (index, type) {
+                        var    content = '<option value="' + type.value + '">' + type.text + '</option>';
+                        $(id).append(content);
+                    });
+                }
+            });
+        });
+
+      
+
+    });
+
+</script>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Reporte de Cierres</h2>
+    </div>
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchPartial", Model);}
+<br />
+<div id="anyListEntity">
+    @{Html.RenderPartial("_listPartial", Model);}
+</div>
+
+

@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{85E440F0-6EDF-4215-80EC-C7B05D6578C8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>HerramientasConector</RootNamespace>
+    <AssemblyName>HerramientasConector</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuPrincipal.Designer.cs">
+      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tenant.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tenant.Designer.cs">
+      <DependentUpon>Tenant.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TxtFile.cs" />
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuPrincipal.resx">
+      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Tenant.resx">
+      <DependentUpon>Tenant.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TicoPayDll\TicoPayDll.csproj">
+      <Project>{fdcdb7ab-5ab7-4347-8791-ab33f393c545}</Project>
+      <Name>TicoPayDll</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Images\abrir_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\abrir_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\aceptar_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\aceptar_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\actualizar_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\actualizar_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\agregar_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\agregar_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\conectar_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\conectar_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\configurar_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\configurar_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\detener_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\detener_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\eliminar_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\eliminar_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\iniciar_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\iniciar_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\procesar_16x16_ticopay-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\procesar_24x24_ticopay-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\TicopayVertical.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

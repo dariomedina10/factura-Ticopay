@@ -1,0 +1,170 @@
+﻿{
+  "CreationDate": "2018-6-25",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Clientes",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=searchCode",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=searchIdentification",
+      "Value": "333333368"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-success",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "css=span.glyphicon.glyphicon-edit",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=linkFact",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-default.btnAddService",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=ddServices",
+      "Value": "label=SERVICIO DE BASES DE DATOS"
+    },
+    {
+      "Command": "type",
+      "Target": "id=discountPercentageService",
+      "Value": "10"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=btnOkAddNewService",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-primary",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Clientes",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=searchCode",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=searchIdentification",
+      "Value": "333333368"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-success",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "css=span.glyphicon.glyphicon-edit",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=linkFact",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=span.glyphicon.glyphicon-remove",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=btnModalOkDeleteOnDemand",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-primary",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Cerrar",
+      "Value": ""
+    }
+  ]
+}

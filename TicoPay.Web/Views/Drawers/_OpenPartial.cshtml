@@ -1,0 +1,181 @@
+﻿@model TicoPay.Drawers.Dto.CreateDrawerInput
+@{
+    //ViewBag.Title = "Apertura/Cierre Caja";
+}
+<script type="text/javascript">
+    function disabledButton() {
+        $("#btnSubmit").attr("disabled", "disabled");
+    }
+    $(document).ready(function () {
+
+        $("#Branch_DD").on("change", function () {
+         
+            var id = $(this).attr('data-cascade-combo');
+
+            var url = $(this).attr('data-cascade-combo-source');
+
+            var paramName = $(this).attr('data-cascade-combo-param-name');
+
+            var data = {};
+            data[paramName] = id;
+
+            $.ajax({
+                url: url,
+                data: {
+                    id: $(this).val()
+                },
+                success: function (data) {
+                    $(id).html('');
+                    $.each(data.result, function (index, type) {
+                        var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                        $(id).append(content);
+                    });
+                }
+            });
+        });
+
+        if (@Model.BranchOffice.Count > 0) {
+            $("#btnSubmit").removeAttr("disabled");
+        } else {
+            $("#btnSubmit").attr("disabled", "disabled");
+        }
+        if ('@Model.IsOpen'=='True') {
+            $("#Branch_DD").removeAttr("disabled");
+            $("#Drawer_DD").removeAttr("disabled");
+            $("#btnSubmit").val("Abrir Caja");
+            $("#btnSubmit").addClass("btn-success");
+            $("#btnSubmit").removeClass("btn-danger");
+        } else {
+            $("#Branch_DD").attr("disabled", "disabled");
+            $("#Drawer_DD").attr("disabled", "disabled");
+            $("#btnSubmit").val("Cerrar Caja");
+            $("#btnSubmit").removeClass("btn-success");
+            $("#btnSubmit").addClass("btn-danger");
+        }
+
+    });
+
+</script>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h3 class="modal-title">Apertura y Cierre de Caja</h3>
+</div>
+
+@if ((Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok) && (Model.ErrorDescription != string.Empty))
+{
+
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@Model.ErrorDescription</strong>
+            </div>
+        </div>
+    </div>
+    }
+    else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error || Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.InvoicesMonthlyLimitReached)
+    {
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@Model.ErrorDescription</strong>
+            </div>
+        </div>
+    </div>
+
+    }
+    else
+    {
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="alert alert-info alert-dismissible" role="alert" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong><span id="titulo">@ViewBag.Title</span></strong>
+            </div>
+        </div>
+    </div>
+    }
+
+    @using (Ajax.BeginForm("Open", "Drawera", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "DrawersContent", OnBegin = "disabledButton();" }, new { @class = "form-horizontal ", @id = "formDrawer" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="modal-body">
+            @if (Model.BranchOffice.Count > 0)
+            {
+                <h4></h4>
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Sucursal:</label>
+                        @*@Html.LabelFor(model => model.BranchOfficeId, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+
+                            @Html.HiddenFor(model => model.IsOpen)
+
+                            @Html.DropDownListFor(model => model.BranchOfficeId, new SelectList(Model.BranchOffice.ToArray(), "Id", "Name"), "Seleccione una Sucursal",
+
+                    new
+                    {
+                        @class = "form-control",
+                        data_cascade_combo = "#Drawer_DD",
+                        data_cascade_combo_source = Url.Action("GetDrawer", "Drawers"),
+                        data_cascade_combo_param_name = "id",
+                        @required = "required",                    
+                        @title = "Seleccione una Sucursal",                       
+                        //  onchange = "getCajas();",
+                        @Id = "Branch_DD"
+                    }
+               )
+                            @Html.ValidationMessageFor(model => model.BranchOfficeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Caja:</label>
+                        @*@Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.Id, Model.DrawerUser, "Seleccione una Caja",
+   new
+   {
+
+       @class = "form-control",
+       @required = "required",      
+       @title = "Seleccione una Caja",
+       @id = "Drawer_DD"
+
+   })
+                            @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @if (!Model.IsOpen)
+                    {
+                        @Html.HiddenFor(model => model.Id)
+                    }
+
+
+
+                @*<div class="form-group">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+
+                </div>
+            }
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <input id="btnSubmit" type="submit" value="Abrir" class="btn btn-success" disabled="disabled" />
+        </div>
+
+    }

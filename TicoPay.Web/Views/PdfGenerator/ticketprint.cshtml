@@ -1,0 +1,23 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Imprimir Comprobante</title>
+</head>
+<body style="height:3000px">
+    @*<embed src='@Url.Action("pathprint", "PdfGenerator", new { id = ViewBag.Id })' type="application/pdf">*@
+    @*<embed id="PDFtoPrint" src='@Url.Content("/Download/Manual.pdf")' type="application/pdf" width="100%" height="100%">*@
+    @*<iframe id="PDFtoPrint" src='@Url.Content("/Download/Manual.pdf")' width="100%" height="100%"></iframe>*@
+    <iframe id="PDFtoPrint" src='@Url.Action("pathprint", "PdfGenerator", new { id = ViewBag.Id, type=ViewBag.Type  })' width="100%" height="100%"></iframe>
+</body>
+</html>
+<script>
+    document.getElementById("PDFtoPrint").focus(); 
+    document.getElementById("PDFtoPrint").contentWindow.print();
+</script>

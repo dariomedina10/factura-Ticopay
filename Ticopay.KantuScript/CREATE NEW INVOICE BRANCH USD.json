@@ -1,0 +1,115 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "//*[@id=\"side-menu\"]/li[4]/a/span",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"side-menu\"]/li[4]/ul/li[2]/a/span",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"content\"]/div[1]/a",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#btnShowClientsList > span",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=div.btn.btn-default.btn-xs",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=newLine",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": "SERVICIO DE BASES DE DATOS"
+    },
+    {
+      "Command": "click",
+      "Target": "link=SERVICIO DE BASES DE DATOS",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=CreditCardChk",
+      "Value": "on"
+    },
+    {
+      "Command": "click",
+      "Target": "id=CreditCardChk",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=nroCreditCardText",
+      "Value": "121213"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "//*[@id=\"observacionGeneral\"]/div/div[2]/textarea",
+      "Value": "OBSERVACION GENERAL"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=GenerateInvoice_btn",
+      "Value": ""
+    }
+  ]
+}

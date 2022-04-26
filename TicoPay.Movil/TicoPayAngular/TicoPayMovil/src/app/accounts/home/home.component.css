@@ -1,0 +1,44 @@
+.navbar-default {
+    background-color: rgb(54, 115, 60);
+    color: white;
+}
+
+.navbar-toggle {
+    background-color: rgb(54, 115, 60);
+    color: white;
+}
+
+.navbar-brand {
+    background-color: rgb(54, 115, 60);
+    color: white;
+}
+
+.navbar-collapse>ul>li>a {
+    background-color: rgb(54, 115, 60);
+    color: white;
+}
+.navbar-right {
+    background-color: rgb(54, 115, 60);
+    color: white;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: white;
+}
+
+.nav.navbar-nav.navbar-right li ul {
+    background-color: rgb(54, 115, 60);
+}
+
+.nav.navbar-nav.navbar-right li ul a:hover, .nav.navbar-nav.navbar-right li ul a:focus {
+    background-color: rgb(8, 83, 15);
+    color: white;
+}
+
+.nav.navbar-nav.navbar-right li ul a{
+    color: white;
+}
+
+.messages {
+    width: 300px;
+}

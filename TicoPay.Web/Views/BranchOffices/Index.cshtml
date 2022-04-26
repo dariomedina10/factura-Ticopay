@@ -1,0 +1,237 @@
+﻿@using Abp.Web.Mvc.Extensions
+@model TicoPay.BranchOffices.Dto.SearchBranchOfficesInput
+@{
+    ViewBag.Title = "Mantenimiento de Sucursales";
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Scripts/branchOffices.js")
+}
+@*<script src="@Url.Content("~/Scripts/tutorial/turorial.js")" type="text/javascript"></script>*@
+<script src="@Url.Content("~/Scripts/ListPager.js")" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        //  popOverCreate(TutorialSer, '#nav_NewServices', 'Haga clic en la opción de Crear Sucursal');
+        //$('#searchName').blur($.debounce(200, searchDebounce));
+        //$('#searchPriceSince').blur($.debounce(50, searchDebounce));
+        //$('#searchPriceUntil').blur($.debounce(50, searchDebounce));
+        //$('select#Taxes_DD').change($.debounce(100, searchDebounce));
+        //$('select#Recurrents_DD').change($.debounce(100, searchDebounce));
+        $('#importFile').change(function () {
+            $("#msgErrorAnyModal").html("");
+            $("#IndexAlerts").html("");
+            var data = new FormData();
+            data.append("upload", this.files[0])
+
+            $("#btnImport").prop("disabled", true);
+
+            abp.ui.setBusy();
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/imports/ImportBranchOffices",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    if (data.Success == false) {
+
+                        writeErrorButton("IndexAlerts", "!Error al importar Sucursales!", "error", data.Error);
+
+                    } else {
+                        writeErrorSS("IndexAlerts", "!Sucursales importados con éxito!", "success");
+                    }
+                    $("#btnImport").prop("disabled", false);
+                    abp.ui.clearBusy();
+                    refreshList();
+                    cleanImportFile();
+                },
+                error: function (e) {
+                    $("#btnImport").prop("disabled", false);
+                    abp.ui.clearBusy();
+                    cleanImportFile();
+                }
+            });
+        });
+        function cleanImportFile() {
+            var input = $("#importFile");
+            input.replaceWith(input.val('').clone(true));
+        }
+    });
+
+    function writeErrorSS(control, msg, type) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            msg = "Error al importar sucursales."
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+            $("#" + control).html(alert);
+        } else { abp.notify.warn(msg, ""); }
+    }
+
+    function writeErrorButton(control, msg, type, data) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><strong>Error al importar Sucursales.     </strong><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Ver Detalles</button ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+            var mensaje = '<div><strong>' + data + '</strong></div>'
+            $("#" + control).html(alert);
+            $("#modal-body").html(mensaje);
+        } else { abp.notify.warn(msg, ""); }
+    }
+    
+    function refreshList() {
+        $.ajax({
+            url: "/BranchOffices/AjaxPage",
+            type: "GET",
+            cache: false,
+            data: { name: $("#SrchNameFilter_hidden").val(), priceSince: $("#SrchPriceSinceFilter_hidden").val(), priceUntil: $("#SrchPriceUntilFilter_hidden").val(), taxId: $("#SrchTaxId_hidden").val(), recurrentId: $("#SrchRecurrentId_hidden").val(), page: $("#SrchPage_hidden").val() },
+            success: function (data) {
+                $("#anyListEntity").html(data);
+            }, error: function (xhr, ajaxOptions, thrownError) {
+                writeError("IndexAlerts", "¡Error al consultar los Servicios!", "error");
+            }
+        });
+        return false;
+    };
+    //var searchDebounceUrl = "/Services/SearchDebounce";
+    //this.searchDebounce = function () {
+    //    $("#IndexAlerts").html("");
+    //    $.ajax({
+    //        url: searchDebounceUrl,
+    //        type: "POST",
+    //        cache: false,
+    //        data: { name: $("#searchName").val(), priceSince: $("#searchPriceSince").val(), priceUntil: $("#searchPriceUntil").val(), taxId: $("#Taxes_DD").val(), recurrentId: $("#Recurrents_DD").val() },
+    //        success: function (data) {
+    //            $("#anyListEntity").html(data);
+    //        }, error: function (err) { writeError("IndexAlerts", "¡Error al consultar los Clientes!", "error"); }
+    //    });
+    //    return false;
+    ////};
+    //function writeError(control, msg, type) {
+    //    if (type === "success") {
+    //        abp.notify.success(msg, "");
+    //    } else if (type === "error") {
+    //        abp.notify.error(msg, "");
+    //        var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+    //        $("#" + control).html(alert);
+    //    } else { abp.notify.warn(msg, ""); }
+    //}
+</script>
+<style>
+    input[type="file"] {
+        display: none;
+    }
+</style>
+@*@if (Model.isEnabled)
+    {*@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Mantenimiento de Sucursales</h2>
+    </div>
+    <br />
+    <div class="col-lg-4">
+        <a id="contentCreateNew" class="btn btn-default btnCreateForm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Sucursal<span id="nav_NewBranchOffice"></span></a>
+        <label for="importFile" class="btn btn-default">
+            <i class="fa fa-file" aria-hidden="true"></i>&nbsp;Importar Sucursales
+        </label>
+        <input id="importFile" type="file" />
+    </div>
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{ Html.RenderPartial("_searchPartial", Model); }
+    <br />
+    <div id="anyListEntity">
+        @{ Html.RenderPartial("_listPartial", Model); }
+    </div>
+    <div id="anyModalForm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p class="body" id="anyModalBody">
+                    </p>
+                </div>
+                <div class="msgErrorAnyModal">
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Detalle Error - Importación de Sucursales</h4>
+                </div>
+                <div class="modal-body" id="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                    @*<button type="button" class="btn btn-primary">Save changes</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="DeleteConfirmation_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" id="ItemToDelete_hidden" />
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirmación de borrado de Sucursal.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea borrar la Sucursal?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning" id="btnModalOkDeleteConfirmation">Continuar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    @*}
+        else
+        {
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-8">
+                    <h2>Mantenimiento de Sucursales</h2>
+                </div>
+            </div>
+            <br />
+
+            <div class="row ">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <div class="widget-head-color-box navy-bg p-lg text-center">
+                        <div class="m-b-md">
+                            <h2 class="font-bold no-margins">
+                                Opción Inhabilitada
+                            </h2>
+                            <small>Actualización Requerida</small>
+                        </div>
+                        <i class=" fa fa-lock fa-5x"></i>
+
+                    </div>
+                    <div class="widget-text-box">
+                        @*<h4 class="media-heading">Alex Smith</h4>*@
+    @*<p>@Model.ErrorDescription</p>
+        <div class="text-right">
+            @*<a href="" class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>*@
+    @*@if (IsGranted("Configuration.Tenants"))
+        {
+            <a href="@Url.Action("Index", "Tenants")" class="btn btn-xs btn-primary"><i class="fa fa-gear"></i> Ir a Compañía</a>
+        }*@
+
+    @*</div>
+                    </div>
+                </div>
+
+            </div>
+        }*@

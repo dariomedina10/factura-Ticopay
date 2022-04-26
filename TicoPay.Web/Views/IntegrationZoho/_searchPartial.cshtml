@@ -1,0 +1,139 @@
+﻿@using System.Globalization
+@using TicoPay.Invoices
+@model TicoPay.ReportStatusInvoices.Dto.ReportStatusInvoicesInputDto<TicoPay.ReportStatusInvoices.Dto.IntegracionZohoSVConta>
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>Opciones de búsqueda</h5>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+
+        </div>
+    </div>
+    <div class="ibox-content">
+    @using (Html.BeginForm(Model.Action, Model.Control, FormMethod.Post, new { @id = "searchForm" }))
+    {
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Html.LabelFor(model => model.InitialDate, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.InitialDate, new { @class = "form-control", @type = "date" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(model => model.FinalDate, new { @class = "control-label col-md-4" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.FinalDate, new { @class = "form-control", @type = "date" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+
+                    <div class="col-lg-6">
+                        @Html.Label(" Sucursal:", new { @class = "control-label col-lg-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.BranchOfficeId, new SelectList(Model.BranchOffice.ToArray(), "Id", "Name"), "Todas",
+                              new
+                              {
+                                  @class = "form-control",
+                                  data_cascade_combo = "#Drawer_DD",
+                                  data_cascade_combo_source = Url.Action("GetDrawer", "ReportClosing"),
+                                  data_cascade_combo_param_name = "id",
+
+                                  @title = "Seleccione una Sucursal",
+                                         //  onchange = "getCajas();",
+                                         @Id = "Branch_DD"
+                              }
+                              )
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        @Html.Label(" Caja:", new { @class = "control-label col-lg-4" })
+                        <div class="col-md-7">
+                            @Html.DropDownListFor(model => model.DrawerId, Model.DrawerUser, "Todas",
+                              new
+                              {
+                                  @class = "form-control",
+
+                                  @title = "Seleccione una Caja",
+                                  @id = "Drawer_DD"
+
+                              })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Html.HiddenFor(model => model.ClientId, new { @id = "ClientId_hidden" })
+                        @Html.LabelFor(model => model.ClientId, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.ClientName, new { @class = "form-control", @readonly = "readonly", @id = "ClientName_text" })
+                                <a href="javascript:void(0);" id="btnShowClientsList" class="input-group-addon btn" title="Escoger">...</a>
+                                <a href="javascript:void(0);" id="btnClearClientsList" class="input-group-addon btn" title="Limpiar">X</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="control-label col-md-4" style="font-weight:bold"> Nro documento</div>
+                        @*@Html.LabelFor(model => model.NumberInvoice, new { @class = "control-label col-md-4" })*@
+
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.NumberInvoice, new { @class = "form-control", @id = "NumberInvoice_text", @title = "Solo números. " })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Html.Label("Tipo de Documento", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @{
+                                @Html.DropDownListFor(m => m.Type, Model.Types, "Seleccionar un Tipo de Documento", new { @id = "Types_DD", @class = "form-control", required = "Seleccionar un Tipo de Documento" })
+                                }
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(model => model.CodigoMoneda, new { @class = "control-label col-md-4" })
+                        <div class="col-md-7">
+                            @Html.DropDownListFor(m => m.CodigoMoneda, Model.CodigoMonedas, "Todos", new { @id = "moneda_DD", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Html.LabelFor(model => model.StatusPay, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @{
+                                @Html.DropDownListFor(m => m.StatusPay, Model.listStatus, "Todos", new { @id = "Status_DD", @class = "form-control" })}
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <button class="btn btn-primary " type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+    </div>
+   
+</div>
+
+

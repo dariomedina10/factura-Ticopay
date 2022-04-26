@@ -1,0 +1,120 @@
+<div class="container-fluid">
+  <form autocomplete="off" method="POST" novalidate #createQuickClientForm="ngForm" (submit)="submitQuickClient(createQuickClientForm)"
+    class="form" role="form">
+    <div class="wrapper border-bottom white-bg page-heading">
+      <div class="col-lg-12 text-center">
+        <h4>Crear un nuevo cliente</h4>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label for="clientName" class="control-label">Nombre</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <input #clientName="ngModel" name="clientName" id="clientName" minlength="2" maxlength="79" [(ngModel)]='_client.name' type="text"
+            required placeholder="ej. Pedro" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label for="clientLastName" class="control-label">Apellido</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <input #clientLastName="ngModel" name="clientLastName" id="clientLastName" minlength="2" maxlength="79" [(ngModel)]='_client.lastName'
+            type="text" [required]="_client.identificationType != identificationType.CedulaJuridica" placeholder="ej. Perez"
+            class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label for="clientIdentificationType" class="control-label">Tipo de Identificación</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <select #clientIdentificationType="ngModel" name="clientIdentificationType" id="clientIdentificationType" class="form-control"
+            required [(ngModel)]="_client.identificationType" class="form-control">
+            <option disabled selected [ngValue]="undefined"> Seleccione ... </option>
+            <option [ngValue]="identificationType.CedulaFisica">Cedula Física</option>
+            <option [ngValue]="identificationType.CedulaJuridica">Cedula Jurídica</option>
+            <option [ngValue]="identificationType.DIMEX">DIMEX</option>
+            <option [ngValue]="identificationType.NITE">NITE</option>
+            <option [ngValue]="identificationType.NoAsiganda">Extranjero</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="_client.identificationType < 4">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-left">
+            <label for="clientIdentification" class="control-label">Número de Identificación</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-center">
+            <input #clientIdentification="ngModel" name="clientIdentification" id="clientIdentification" minlength="9" maxlength="12"
+              pattern="[0-9]{9,12}" [(ngModel)]='_client.identification' type="text" required placeholder="ej. 123456789 (No digite guiones ni espacios)"
+              class="form-control" />
+          </div>
+          <div class="col-xs-12 col-md-12 text-center">
+            <div *ngIf="clientIdentification.invalid && (clientIdentification.dirty || clientIdentification.touched)" class="alert alert-danger">
+              <div [hidden]="!clientIdentification.errors.pattern">
+                El número de identificación debe llevar solo caracteres numéricos, debe tener 9 dígitos para la cedula física, 10 dígitos
+                para la cedula jurídica o el Nite, y 11 a 12 para el Dimex.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="_client.identificationType === 4">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-left">
+            <label for="clientIdentificationExtranjero" class="control-label">Número de identificación extrajera</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-center">
+            <input #clientIdentificationExtranjero="ngModel" name="clientIdentificationExtranjero" id="clientIdentificationExtranjero"
+              minlength="3" maxlength="20" pattern="[a-zA-Z0-9]+" [(ngModel)]='_client.identificacionExtranjero' type="text" required
+              placeholder="ej. E123456789 (No digite guiones ni espacios)" class="form-control" />
+          </div>
+          <div class="col-xs-12 col-md-12 text-center">
+            <div *ngIf="clientIdentificationExtranjero.invalid && (clientIdentificationExtranjero.dirty || clientIdentificationExtranjero.touched)"
+              class="alert alert-danger">
+              <div [hidden]="!clientIdentificationExtranjero.errors.pattern">
+                El número de identificación extranjera debe llevar solo caracteres alfanuméricos y debe tener un máximo de 20 dígitos.
+              </div>
+              <div [hidden]="!clientIdentificationExtranjero.errors.minlength">
+                El número de identificación extranjera debe tener un mínimo de 3 dígitos.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label for="clientEmail" class="control-label">Correo Electrónico</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <input #clientEmail="ngModel" name="clientEmail" id="clientEmail" [(ngModel)]='_client.email' maxlength="100" type="email"
+            required placeholder="ej. alguien@ejemplo.com" class="form-control"   
+            pattern="[a-zA-Z][\w+.-]+@[\w+.-]+\.[a-zA-Z0-9]{2,5}$"      
+          />
+          <!-- pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" -->
+        </div>
+      </div>
+      <div class="form-group">
+        <!-- style="padding: 15px 1px;" -->
+        <div class="col-xs-12 col-md-12 text-right">
+          <button class="btn btn-primary btn-responsive" [disabled]="!createQuickClientForm.form.valid" type="submit">Agregar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

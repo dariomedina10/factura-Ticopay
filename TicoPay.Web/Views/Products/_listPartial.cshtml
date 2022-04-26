@@ -1,0 +1,111 @@
+﻿@using TicoPay.Inventory
+@using PagedList.Mvc;
+@model TicoPay.Inventory.Dto.SearchProductsInput
+
+@Html.HiddenFor(model => model.NameFilter, new { @id = "SrchNameFilter_hidden" })
+@Html.HiddenFor(model => model.BrandFilter, new { @id = "SrchBrandFilter_hidden" })
+@Html.HiddenFor(model => model.TaxFilter, new { @id = "SrchTaxFilter_hidden" })
+
+@Html.HiddenFor(model => model.Page, new { @id = "SrchPage_hidden" })
+
+@if (Model != null && Model.Entities != null && Model.Entities.Any())
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+    <div class="wrapper wrapper-content animated fadeInRight white-bg">
+        @if (Model.ErrorCode == -1)
+        {
+            <div class="alert alert-danger" style="text-align: center">@Model.ErrorDescription</div>
+        }
+        else
+        {
+            <div class="wrapper-conten">
+                <div>
+                    @*<div class="alert alert-info col-md-12 alert-dismissible" role="alert" style="text-align: center">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                        </div>*@
+                    <div style="text-align: right">
+
+                        Página @(Model.Entities.PageCount < Model.Entities.PageNumber ? 0 : Model.Entities.PageNumber) de @Model.Entities.PageCount
+
+                        @Html.PagedListPager(Model.Entities, page => Url.Action("AjaxPage", new { page, name = Model.NameFilter, brand = Model.BrandFilter, tax = Model.TaxFilter }),
+                                           PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "anyListEntity", OnBegin = "onBegin(this)", OnComplete = "onComplete(this)" }))
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="TableListEntity" class="table" style="font-size: small">
+                        <thead class="text-center">
+                            <tr>
+                                <th style="text-align: center">
+                                    Nombre
+                                </th>
+                                <th style="text-align: center">
+                                    Precio Venta
+                                </th>
+                                @*<th style="text-align: center">
+                                        Inventario
+                                    </th>*@
+                                <th style="text-align: center">
+                                    Impuesto
+                                </th>
+                                <th style="text-align: center">
+                                    Estatus
+                                </th>
+                                <th style="text-align: center">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Entities.OrderBy(a => a.Name))
+                            {
+                                <tr>
+                                    <td style="text-align: center">
+                                        @item.Name
+                                    </td>
+                                    <td style="text-align: center">
+                                        @Html.FormatValue(@item.RetailPrice, currencyFmt)
+                                    </td>
+                                    @*<td style="text-align: center">
+                                            @item.TotalInStock
+                                        </td>*@
+                                    <td style="text-align: center">
+                                        @if (item.Tax != null)
+                                        {
+                                            <text>@item.Tax.Name</text>
+                                        }
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if (item.Estado == Product.Estatus.Activo)
+                                        {
+                                            <span class="label label-primary">Activo</span>
+                                        }
+                                        @if (item.Estado == Product.Estatus.Inactivo)
+                                        {
+                                            <span class="label label-warning">Inactivo</span>
+                                        }
+                                    </td>
+                                    <td style="text-align: center">
+                                        <a class="btn btn-xs btn-default" onclick="editFunc($(this))" data-identity='@item.Id' title="Editar Producto"><span class="glyphicon glyphicon-edit"></span></a>
+                                        <a class="btn btn-xs btn-info" onclick="detailFunc($(this))" data-identity='@item.Id' title="Detalle del Producto"><span class="glyphicon glyphicon-list"></span></a>
+                                        @if (item.CanBeDeleted == 0) { 
+                                        <a class="btn btn-xs btn-danger" onclick="deleteFunc($(this))" data-identity='@item.Id' title="Borrar el Producto"><span class="glyphicon glyphicon-remove"></span></a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info alert-dismissible" role="alert" style="text-align: center;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>¡No se han encontrado ningún Producto registrado!</strong>
+    </div>
+
+}

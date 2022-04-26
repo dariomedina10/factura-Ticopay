@@ -1,0 +1,115 @@
+﻿@model TicoPay.GroupConcept.Dto.CreateGroupConceptsInput
+@{
+    ViewBag.Title = "Crear Grupo de Servicios";
+}
+@using (Ajax.BeginForm("Create", "GroupConcepts", new AjaxOptions { HttpMethod = "POST" }, new { @class = "form-horizontal ", @id = "form" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.CronExpression, new { @id = "CronExprHidden" })
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Crear Grupo de Servicios</h4>
+    </div>
+    if (Model != null)
+    {
+        <div class="well">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "NameText", @Type = "text", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "DescriptionText", @Type = "text" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Services, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div>@Html.DropDownListFor(m => m.Services, new SelectList(Model.AvailableServicios, "Id", "Name"), new { @id = "Services_DD", @class = "chosen-select ", multiple = "multiple", @data_placeholder = "Seleccione uno o varios servicios..." })</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CronExpression, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div>
+                            <div id='cronSelector'></div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @if (Model.ErrorCode == 1)
+                {
+                    <hr />
+                    <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+                else if (Model.ErrorCode == -1)
+                {
+                    <hr />
+                    <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    }
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#cronSelector').cron({
+            customValues: {
+                "quincena": "0 0 1 1/15 * ? *",
+                "trimestre": "0 0 1 1 1/3 ? *",
+                "semestre": "0 0 1 1 1/6 ? *"
+            },
+            onChange: function () {
+                $('#CronExprHidden').val($(this).cron("value"));
+            }
+        });
+
+        var config = {
+            '.chosen-select': { width: '408px', class: 'form-control' },
+            '.chosen-select-deselect': { allow_single_deselect: true },
+            '.chosen-select-no-single': { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+            '.chosen-select-width': { width: "95%" }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    });
+
+    $(document).on('change', '[data-cascade-combo]', function (event) {
+        var id = $(this).attr('data-cascade-combo');
+        var url = $(this).attr('data-cascade-combo-source');
+        var paramName = $(this).attr('data-cascade-combo-param-name');
+        var data = {};
+        data[paramName] = id;
+        $.ajax({
+            url: url,
+            data: {
+                id: $(this).val()
+            },
+            success: function (data) {
+                $(id).html('');
+                $.each(data.result, function (index, type) {
+                    var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                    $(id).append(content);
+                });
+            }
+        });
+    });
+</script>

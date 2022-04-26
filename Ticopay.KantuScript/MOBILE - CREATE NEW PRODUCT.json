@@ -1,0 +1,115 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "name=userName",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "name=userName",
+      "Value": "admin"
+    },
+    {
+      "Command": "type",
+      "Target": "name=password",
+      "Value": "P@ssw0rd"
+    },
+    {
+      "Command": "click",
+      "Target": "/html/body/app-root/ng-component/div/div/div[2]/div/form/button",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"page-wrapper\"]/div/ng-component/div[1]/div[1]/div/div[2]/button",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "4000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "link=Detalle del comprobante",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"panelServicio\"]/div/div[1]/div[3]/div[2]/button",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=productName",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=productName",
+      "Value": "NEW PRODUCT 1"
+    },
+    {
+      "Command": "type",
+      "Target": "id=productPrice",
+      "Value": "1500"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=productTax",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=productTax",
+      "Value": "label=IVA"
+    },
+    {
+      "Command": "click",
+      "Target": "id=productTax",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"panelServicio\"]/div/div[1]/div[4]/app-create-quickproduct/div/form/div[2]/div[9]/div/button",
+      "Value": ""
+    }
+  ]
+}

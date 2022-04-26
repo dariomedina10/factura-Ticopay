@@ -1,0 +1,470 @@
+﻿@model TicoPay.MultiTenancy.Dto.CreateTenantInput
+@{
+    ViewBag.Title = "Editar Compañía";
+}
+<style>
+    body {
+        background-repeat: round;        
+        background-image: url('../../images/ticopay-facturacion-electronica-factura-register-background.png');
+        height: 100%;
+    }
+
+    .signup-backdrp {
+        background-color: #050505;
+        opacity: .8;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+    }
+
+    .responsive-img {
+        width: 100%;
+        height: auto;
+    }
+
+</style>
+
+<div id="termsAndConditionsModal" class="modal fade" style="overflow-y: initial !important;z-index: 50000 !important;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Términos y Condiciones de TicoPay</h4>
+            </div>
+            <div class="modal-body" style="max-height:400px;overflow-y: auto;">
+                <div id="termsAndConditionsContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="signup-backdrp"></div>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                </div>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="well bs-component">
+                    <div align="center">
+                        <img class="responsive-img" src="~/images/ticopay-facturacion-electronica-factura-software-encabezado-registrate.jpg" id="header-logo" alt="Logo" />
+                    </div>
+                    @using (Html.BeginForm("Create", "Tenants", FormMethod.Post, new { @class = "form-horizontal", @id = "form" }))
+                    {
+                        <div class="row wrapper border-bottom white-bg">
+                            <h2 align="center">@L("CreateNewTenant")</h2>
+                            <h3 align="center">@L("Plan") @Model.EditionDisplayName</h3>
+                        </div>
+                        <br />
+                        <div id="FormaPago" class="alert alert-info">
+                            @*<img width="80" src="http://www.bncr.fi.cr/BNCR/images/logo.gif" alt="" />*@
+                            <span>
+                                <strong> Forma de Pago!</strong> Para su comodidad, en la factura le enviamos los datos para realizar el pago de su suscripción a nuestra plataforma.
+                            </span>
+                        </div>
+                        if (Model != null)
+                        {
+                            <fieldset style="position: relative;z-index: 9999;">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.EditionName)
+                                @Html.HiddenFor(model => model.EditionId)
+                                <div class="animated fadeIn">
+                                    @if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Ok)
+                                    {
+                                        <div class="row ">
+                                            <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center;">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <strong>@Model.ErrorDescription</strong>
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (Model.ErrorCode == TicoPay.Common.ErrorCodeHelper.Error)
+                                    {
+                                        <div class="row ">
+                                            <div class="col-lg-12">
+                                                <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center;">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <strong>@Model.ErrorDescription</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="row ">
+                                        <div class="col-lg-12">
+                                            <div class="ibox float-e-margins">
+                                                <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25);">
+                                                    <h5>Cliente <small> Datos Fiscales</small></h5>
+                                                </div>
+                                                <div class="ibox-content">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 b-r">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Nombre:</label>
+                                                                    <div class="col-sm-8">@Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm", @placeholder = "ej. TicoPay", @type = "text", @required = "required", @maxlength = "128" })</div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Sub-Dominio:</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(model => model.TenancyName, new { @class = "form-control input-sm", @placeholder = "TicoPay", @type = "text", @maxlength = "64" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Tipo:</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.DropDownListFor(model => model.IdentificationType, Model.IdentificationTypes, "Seleccione un Tipo", new { @id = "typeidentificacion_DD", @class = "form-control", @required = "required" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Número:</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(model => model.IdentificationNumber, new { @class = "form-control input-sm", @placeholder = "Número de Identificación", @type = "text", @required = "required", @maxlength = "12" })
+                                                                        @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Nombre Comercial:</label>
+                                                                    <div class="col-sm-7">
+                                                                        @Html.TextBoxFor(model => model.ComercialName, new { @class = "form-control input-sm", @placeholder = "ej. TicoPay", @type = "text", @maxlength = "80" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Correo:</label>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon "><i class="fa fa-envelope"></i></span>@Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm", @placeholder = "ej. alguien@ejemplo.com", @type = "email", @required = "required", @maxlength = "60" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Teléfono:</label>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon "><i class="fa fa-phone"></i></span>@Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control input-sm", @placeholder = "ej. 123-4567890", type = "text", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 123-4567890" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Móvil:</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(model => model.Fax, new { @class = "form-control input-sm", @placeholder = "ej. 123-4567890", @maxlength = "12", @pattern = @"\d{3}-\d{8}", title = "ej. 123-4567890" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col-lg-12">
+                                            <div class="ibox float-e-margins">
+                                                <!--Faltan Translates-->
+                                                <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25);">
+                                                    <h5>Configuración del usuario <small>Información del usuario administrador</small></h5>
+                                                </div>
+                                                <div class="ibox-content">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 b-r">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">@L("Name"):</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(model => model.AdminName, new { @class = "form-control input-sm", @placeholder = L("Name"), @required = "required", @maxlength = @TicoPay.Users.User.MaxNameLength })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">@L("Surname"):</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(model => model.AdminSurname, new { @class = "form-control input-sm", @placeholder = L("Surname"), @required = "required", @maxlength = @TicoPay.Users.User.MaxSurnameLength })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">@L("EmailAddress"):</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(model => model.AdminEmailAddress, new { @class = "form-control input-sm", @placeholder = "ej. alguien@ejemplo.com", @type = "email", @required = "required", @maxlength = @TicoPay.Users.User.MaxEmailAddressLength })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">@L("UserName"):</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(model => model.AdminUserName, new { @class = "form-control input-sm", @placeholder = L("UserName"), @required = "required", @maxlength = @TicoPay.Users.User.MaxUserNameLength })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">@L("Password"):</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(model => model.AdminPassword, new { @class = "form-control input-sm", @placeholder = L("Password"), @type = "password", @required = "required", @maxlength = @TicoPay.Users.User.MaxPasswordLength })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col-lg-12">
+                                            <div class="ibox float-e-margins">
+                                                <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25);">
+                                                    <h5>Configuración de facturación <small> Información de facturación </small></h5>
+                                                </div>
+                                                <div class="ibox-content">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 b-r">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Codigo Moneda:</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.EnumDropDownListFor(model => model.CodigoMoneda, "Seleccione un Tipo", new { @id = "moneda_DD", @class = "form-control", @required = "required" })
+                                                                    </div>
+                                                                </div>
+                                                                @*<div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Local:</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(model => model.local, new { @class = "form-control input-sm", @placeholder = "Número del local", @type = "text", @required = "required", @maxlength = "3", @pattern = @"\d{3}", title = "ej. 001" })
+                                                                        @Html.ValidationMessageFor(model => model.local, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>*@
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="col-sm-6">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Condición  de Venta:</label>
+                                                                    <div class="col-sm-7">
+                                                                        @Html.DropDownListFor(model => model.ConditionSaleType, Model.ConditionSaleTypes, "Seleccione un Tipo", new { @id = "csales_DD", @class = "form-control", @required = "required" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                            </div>
+
+
+                                                        </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-lg-12">
+                                            <div class="ibox float-e-margins">
+                                                <!--Faltan Translates-->
+                                                <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25);">
+                                                <h5>Localidad <small> Toda la información sobre la dirección de la compañía</small></h5>
+                                                </div>
+                                                <div class="ibox-content">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 b-r">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Provincia:</label>
+                                                                    <div class="col-sm-8">
+
+                                                                        @Html.DropDownListFor(x => x.ProvinciaID, new SelectList(Model.Province, "Id", "NombreProvincia"), "Seleccione una Provincia", new
+                                                                   {
+                                                                       @class = "form-control",
+                                                                       @required = "required",
+                                                                       data_cascade_combo = "#canton_DD",
+                                                                       data_cascade_combo_source = Url.Action("GetCanton", "Tenants"),
+                                                                       data_cascade_combo_param_name = "provinciaId"
+                                                                   })
+                                                                        @Html.ValidationMessageFor(model => model.ProvinciaID, "", new { @class = "text-danger" })
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Canton:</label>
+                                                                    <div class="col-sm-8">
+                                                                        <div>
+                                                                            @if (Model.Cantons != null)
+                                                                            {
+                                                                                @Html.DropDownListFor(m => m.CantonID, new SelectList(Model.Cantons, "Id", "NombreCanton"), new
+                                                                           {
+                                                                               @id = "canton_DD",
+                                                                               @class = "form-control",
+                                                                               @required = "required",
+                                                                               data_cascade_combo = "#distrito_DD",
+                                                                               data_cascade_combo_source = Url.Action("GetDistritos", "Tenants"),
+                                                                               data_cascade_combo_param_name = "cantonId"
+                                                                           })
+                                                                            }
+                                                                            @Html.ValidationMessageFor(model => model.CantonID, "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Distrito:</label>
+                                                                    <div class="col-sm-8">
+                                                                        <div>
+                                                                            @if (Model.Distritos != null)
+                                                                            {
+                                                                                @Html.DropDownListFor(m => m.DistritoID, new SelectList(Model.Distritos, "Id", "NombreDistrito"), new
+                                                                           {
+                                                                               @id = "distrito_DD",
+                                                                               @class = "form-control",
+                                                                               @required = "required",
+                                                                               data_cascade_combo = "#barrio_DD",
+                                                                               data_cascade_combo_source = Url.Action("GetBarrios", "Tenants"),
+                                                                               data_cascade_combo_param_name = "distritoId"
+                                                                           })
+                                                                            }
+                                                                            @Html.ValidationMessageFor(model => model.DistritoID, "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-horizontal">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Barrio:</label>
+                                                                    <div class="col-sm-7">
+                                                                        <div>
+                                                                            @if (Model.BarriosList != null)
+                                                                            {
+                                                                                @Html.DropDownListFor(m => m.BarrioId, new SelectList(Model.BarriosList, "Id", "NombreBarrio"), new
+                                                                           {
+                                                                               @id = "barrio_DD",
+                                                                               @class = "form-control",
+                                                                               @required = "required"
+                                                                           })
+                                                                            }
+                                                                            @Html.ValidationMessageFor(model => model.BarrioId, "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">País:</label>
+                                                                    <div class="col-sm-7">
+                                                                        @{
+                                                                            SelectList countries = new SelectList(Model.CountrySelect.ToArray(), "Id", "CountryName");
+                                                                            <div>@Html.DropDownListFor(m => m.CountryID, countries, new { @id = "typeidentificacion_DD", @class = "form-control", @required = "required" })</div>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label">Otras señas:</label>
+                                                                    <div class="col-sm-7">
+                                                                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control input-sm", @placeholder = "ej. 500 mts oeste termales del bosque", @type = "text", @required = "required", @maxlength = "160" })
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="row ">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-sm-6" style="font-size:medium">
+                                                    <p><input type="checkbox" onchange="document.getElementById('submit').disabled = !this.checked;" /> Acepto los <a id="termsAndConditions">términos y condiciones de uso de TicoPay.</a></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-offset-5">
+                                                <a class="btn btn-default" href="@Url.Action("LandingPage", "Home")">Cancelar</a>
+                                                <button id="submit" type="submit" class="btn btn-primary" disabled>Guardar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#termsAndConditions").on("click", function (e) {
+            e.preventDefault();            
+
+            $.ajax({
+                url: '@Url.Action("TermsAndConditions", "Home")',
+                success: function (data) {
+                    $('#termsAndConditionsContent').html(data);
+                    $("#termsAndConditionsModal").modal("show");
+                },
+                fail: function () {
+                    alert("Error leyendo los terminos y condiciones.");
+                }
+            })
+        });
+
+        var edition = $("#EditionName").val();
+        if (edition == "Free") {
+            $("#FormaPago").css("display", "none");
+        }
+    });
+
+
+    $(document).on('change', '[data-cascade-combo]', function (event) {
+        var id = $(this).attr('data-cascade-combo');
+        var url = $(this).attr('data-cascade-combo-source');
+        var paramName = $(this).attr('data-cascade-combo-param-name');
+        var data = {};
+        data[paramName] = id;
+
+        $.ajax({
+            url: url,
+            data: {
+                id: $(this).val()
+            },
+            success: function (data) {
+                $(id).html('');
+                $.each(data.result, function (index, type) {
+                    var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                    $(id).append(content);
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,110 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#contentMaintenance > span.nav-label",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Clientes",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=searchCode",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=searchIdentification",
+      "Value": "333333368"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-success",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=span.glyphicon.glyphicon-edit",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=Email",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=Email",
+      "Value": "LCHACON22@YAHOO.COM"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-primary",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Cerrar",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=searchCode",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=searchIdentification",
+      "Value": "333333370"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-success",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "css=span.glyphicon.glyphicon-edit",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=Email",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=Email",
+      "Value": "LCHACON2@YAHOO.COM"
+    },
+    {
+      "Command": "click",
+      "Target": "css=button.btn.btn-primary",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Cerrar",
+      "Value": ""
+    }
+  ]
+}

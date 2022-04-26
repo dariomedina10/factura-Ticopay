@@ -1,0 +1,205 @@
+﻿@using System.Web.Optimization
+@using System.Threading
+@using System.Web.Optimization
+@using Abp.Timing
+@{
+    SetAntiForgeryCookie();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TicoPay | @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/font-awesome/css")
+    @Styles.Render("~/Bundles/vendor/css")
+    @Styles.Render("~/bundles/css")
+    @RenderSection("styles", required: false)
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/jsTree3/jquery.min.js")"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/style.min.css" />
+    <link href="~/Content/bootstrap-toggle.min.css" rel="stylesheet"/>
+    <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.blockUI.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/validator.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/plugins/chosen/chosen.jquery.js")" type="text/javascript"></script>
+    
+    <script src="~/Abp/Framework/scripts/abp.js"></script>
+    <script>
+        $(document).ready(function (e) {
+            abp.event.on('abp.notifications.received', function (userNotification) {
+                abp.notifications.showUiNotifyForUserNotification(userNotification);
+            });
+
+           
+
+            $("#linkOpendrawer").on("click", function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '@Url.Action("Open", "Drawers")',
+                    success: function (data) {
+                        $('#DrawersContent').html(data);
+                        $("#OpenDrawerModal").modal("show");
+                    },
+                    fail: function () {
+                        $('#DrawersContent').html("Error leyendo los terminos y condiciones.");
+                        $("#OpenDrawerModal").modal("show");
+                      //  alert("Error leyendo los terminos y condiciones.");
+                    }
+                })
+            });
+            $("#linkAbout").on("click", function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '@Url.Action("AboutUs", "Home")',
+                    success: function (data) {
+                        $('#aboutUsContent').html(data);
+                        $("#termsAndConditionsModal").modal("show");
+                    },
+                    fail: function () {
+                        $('#aboutUsContent').html("Error en apertura y cierre de cajas.");
+                      //  alert("Error leyendo los terminos y condiciones.");
+                    }
+                })
+            });
+            $("#OpenDrawerModal").on("hidden.bs.modal", function () {
+                window.location.assign("/");
+            });
+        })
+    </script>
+    <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+    <script>
+        var isFirefox = typeof InstallTrigger !== 'undefined';
+        if (isFirefox) {
+        
+            webshims.setOptions('forms-ext', { types: 'date' });
+            webshims.polyfill('forms forms-ext');
+            $.webshims.formcfg = {
+                en: {
+                    dFormat: '/',
+                    dateSigns: '/',
+                    patterns: {
+                        d: "dd/mm/yy"
+                    }
+                }
+            };
+
+        }</script>
+    <!-- CLDR -->
+    <script src="~/Scripts/cldr.js"></script>
+    <script src="~/Scripts/cldr/event.js"></script>
+    <script src="~/Scripts/cldr/supplemental.js"></script>
+    <!-- Globalize -->
+    <script src="~/Scripts/globalize.js"></script>
+    <script src="~/Scripts/globalize/number.js"></script>
+    <script src="~/Scripts/globalize/date.js"></script>
+    <!-- $ validate -->
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.globalize.js"></script>
+
+    <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+
+</head>
+@if (Request.IsAuthenticated)
+{
+<body>
+
+    <!-- Wrapper-->
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        @Html.Partial("_Navigation")
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg">
+
+            <!-- Top Navbar -->
+            @Html.Partial("_TopNavbar")
+
+            <div id="content">
+                <!-- Main view -->
+                @RenderBody()
+            </div>
+            <!-- Footer -->
+            @Html.Partial("_Footer")
+
+        </div>
+        <!-- End page wrapper-->
+
+    </div>
+    <!-- End wrapper-->
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/grid")
+    @Scripts.Render("~/bundles/chart")
+    @Scripts.Render("~/plugins/chosen")
+    @Scripts.Render("~/plugins/cronExpression")
+    @Scripts.Render("~/plugins/metsiMenu")
+    @Scripts.Render("~/plugins/pace")
+    @Scripts.Render("~/plugins/slimScroll")
+    @Scripts.Render("~/bundles/inspinia")
+    @Scripts.Render("~/plugins/datatable")
+    @RenderSection("scripts", required: false)
+
+    <div id="termsAndConditionsModal" class="modal fade" style="overflow-y: initial !important;z-index: 50000 !important;" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Acerca de TicoPay</h3>
+                </div>
+                <div id="aboutUsContent" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="OpenDrawerModal" class="modal fade" style="overflow-y: initial !important;z-index: 50000 !important;" role="dialog">
+        <div class="modal-dialog">
+            <div id="DrawersContent" class="modal-content">
+               
+            </div>
+        </div>
+    </div>
+</body>
+}
+else
+ {
+    <body class="gray-bg">
+
+        <!-- Wrapper-->
+        <div id="wrapper">
+            <!-- Page wraper -->
+            <div id="content" >
+                <!-- Main view -->
+                @RenderBody()
+                <!-- Footer -->
+                @*@Html.Partial("_Footer")*@
+            </div>
+            <!-- End page wrapper-->
+        </div>
+        <!-- End wrapper-->
+        @*@Scripts.Render("~/bundles/jquery")*@
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/plugins/metsiMenu")
+        @Scripts.Render("~/plugins/pace")
+        @Scripts.Render("~/plugins/slimScroll")
+        @Scripts.Render("~/Bundles/test")
+        @Scripts.Render("~/bundles/inspinia")
+        @Scripts.Render("~/plugins/pwstrength")
+        @RenderSection("scripts", required: false)
+    </body>
+}
+
+</html>

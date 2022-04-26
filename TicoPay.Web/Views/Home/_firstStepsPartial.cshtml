@@ -1,0 +1,83 @@
+﻿@model TicoPay.ReportClosing.Dto.DashboardDto
+<div class="wrapper ">
+    <div class="row m-b-lg">
+        <div class="col-sm-12 text-center">
+            <div class="navy-line"></div>
+            <h1>¡Estamos casi listos para comenzar a facturar!</h1>
+            <p>Complete su configuración de forma sencilla a través los siguientes pasos</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 text-center">
+            <div class="wrapper-content white-bg">
+                <div class="text-center">
+                    @*<i class="fa fa-building-o btn-primary btn-outline  fa-5x"></i>*@
+                    <img src='@string.Format("../images/ticopay-facturacion-electronica-tutorial-1-{0}.png", Convert.ToInt32(Model.IsTutorialCompania))' style="width:300px; height:300px" />
+                </div>
+                @*<h4><span class="navy">Configurar la compañía</span></h4>*@
+                <p>Registre la dirección Fiscal de su Compañía, certificados e información adicional.</p>
+                @if (Model.IsTutorialCompania)
+                {
+                    <p>¡Paso Completado!</p>
+                }
+                else
+                {
+                    <a id="btnCompanyT" href="#" class="btn btn-success">Iniciar</a>
+                }
+            </div>
+
+        </div>
+        <div class="col-sm-4 text-center">
+            <div class="wrapper-content white-bg">
+                <div class="text-center">
+                    <img src='@string.Format("../images/ticopay-facturacion-electronica-tutorial-2-{0}.png", Convert.ToInt32(Model.IsTutotialServices))' style="width:300px; height:300px" />
+                    @*<i class="fa fa-suitcase btn-primary btn-outline   fa-5x"></i>*@
+                </div>
+                @*<h4><span class="navy">Registrar Servicios</span></h4>*@
+                <p>Le mostramos como registrar su primer servicio y producto de forma rápida y sencilla.</p>
+                @if (Model.IsTutotialServices || Model.IsTutorialProduct)
+                {
+                    <p>¡Paso Completado!</p>
+                }
+                else
+                {
+                    <a id="btnServicesT" href="#" class="btn btn-success" style="padding-right: 15px;">Crear Servicio</a>
+                    <a id="btnProductT" href="#" class="btn btn-success">Crear Producto</a>
+                }
+
+            </div>
+            
+
+        </div>
+        <div class="col-sm-4 text-center">
+            <div class="wrapper-content white-bg">
+                <div class="text-center">
+                    <img src='@string.Format("../images/ticopay-facturacion-electronica-tutorial-3-{0}.png", Convert.ToInt32(Model.IsTutorialClients))' style="width:300px; height:300px" />
+                    @*<i class="fa fa-users  btn-primary btn-outline fa-5x"></i>*@
+                </div>
+                @*<h4><span class="navy">Registar Clientes</span></h4>*@
+                <p>Haga clic en Iniciar y añada sus clientes de forma rápida y segura.</p><br />
+                @if (Model.IsTutorialClients)
+                {
+                    <p>¡Paso Completado!</p>
+                }
+                else
+                {
+                    <a id="btnClientsT" href="#" class="btn btn-success">Iniciar</a>
+                }
+               
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+            <p>Para realizar el proceso de facturación es necesario realizar todos los pasos señalados.</p>
+        </div>
+    </div>
+</div>
+
+        
+
+

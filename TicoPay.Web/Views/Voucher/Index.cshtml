@@ -1,0 +1,95 @@
+﻿@model TicoPay.Vouchers.Dto.SearchVoucher
+
+@{
+    ViewBag.Title = "Confirmar XML";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/jquery.numeric.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/ListPager.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        function wError(control, msg, type) {
+            if (type === "success") {
+                abp.notify.success(msg, "");
+            } else if (type === "error") {
+                abp.notify.error(msg, "");
+                var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+                $("#" + control).html(alert);
+            } else { abp.notify.warn(msg, ""); }
+        }
+
+        $('#btnSearch').on('click', function () {
+            debugger;
+            var minAmount = parseInt($("#MinimumAmount_text").val());
+            var maxAmount = parseInt($("#MaxAmount_text").val());
+            if (maxAmount < minAmount) {
+                event.preventDefault();
+                wError('msgErrorAnyModal', "El monto máximo no puede ser menor al monto minimo", 'error');
+                abp.ui.clearBusy();
+            }
+        });
+
+        $("#Branch_DD").on("change", function () {
+
+            var id = $(this).attr('data-cascade-combo');
+
+            var url = $(this).attr('data-cascade-combo-source');
+
+            var paramName = $(this).attr('data-cascade-combo-param-name');
+
+            var data = {};
+            data[paramName] = id;
+
+            $.ajax({
+                url: url,
+                data: {
+                    id: $(this).val()
+                },
+                success: function (data) {
+                    $(id).html('');
+                    $(id).append('<option value="">Todas</option>');
+                    $.each(data.result, function (index, type) {
+                        var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                        $(id).append(content);
+                    });
+                }
+            });
+        });
+
+
+
+    });
+
+</script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-4">
+        <h2>Confirmar XML</h2>
+    </div>
+ 
+    @if (Model.Drawer != null)
+    {
+        <div class="col-lg-6">
+            <h2>Sucursal: @Model.Drawer.BranchOffice.Name - Caja: @Model.Drawer.Code</h2>
+        </div>
+        <br />
+        if (Model.isKey)
+        {
+            <a id="contentCreateNew" href="@Url.Action("Create","Voucher")" class="btn btn-default btnCreateForm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Cargar XML<span id="nav_New"></span></a>
+        }
+    }
+
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+
+@{Html.RenderPartial("_searchPartial", Model);}
+
+
+<br />
+<div id="anyListEntity">
+    @{Html.RenderPartial("_listPartial", Model);}
+</div>

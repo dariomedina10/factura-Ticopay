@@ -1,0 +1,226 @@
+﻿@using TicoPay.Core;
+@model TicoPay.Invoices.Dto.ReverseNoteDto
+@{
+    ViewBag.Title = "Reversar Nota";
+}
+
+@using (Ajax.BeginForm("ReverseNote", "Invoice", new AjaxOptions { HttpMethod = "POST", OnBegin = "onBegin()", OnSuccess = "OnSuccess(data)" }, new { @class = "form-horizontal", @id = "form" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.ClientId);
+    @Html.HiddenFor(model => model.InvoiceId);
+    @Html.HiddenFor(model => model.OrigenNoteId);
+    @Html.HiddenFor(model => model.Type);
+    @Html.HiddenFor(model => model.Reason);
+    @Html.HiddenFor(model => model.ErrorCode);
+    @Html.HiddenFor(model => model.ErrorDescription);
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Reversar Nota</h4>
+    </div>
+    if (Model != null)
+    {
+        <div class="modal-body">
+            <div class="">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-10">Nota Original</div>
+                            
+                            @if (Model.OrigenNoteType == TicoPay.Invoices.NoteType.Debito)
+                            {
+                                <div class="col-md-2 pull-right" style="color:red">Débito</div>
+                            }
+                            else
+                            {
+                                <div class="col-md-2 pull-right" style="color:green">Crédito</div>
+                            }
+                           
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CodigoMoneda, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.CodigoMoneda, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OrigenInvoiceNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.OrigenInvoiceNumber, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OrigenNoteNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.OrigenNoteNumber, new { htmlAttributes = new { @class = "form-control number", @disabled = "disabled" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OrigenNoteAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.OrigenNoteAmount, new { @class = "form-control", @type = "number", @step = "0.1", @disabled = "disabled" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OrigenNoteTax, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.OrigenNoteTax, new { @class = "form-control", @type = "number", @step = "0.1", @disabled = "disabled" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OrigenNoteTotal, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.OrigenNoteTotal, new { @class = "form-control", @type = "number", @step = "0.1", @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.CanBeReversed)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-10">Nota de Reverso</div>
+                                @if (Model.Type == TicoPay.Invoices.NoteType.Debito)
+                                {
+                                    <div class="col-md-2 pull-right" style="color:red">Débito</div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-2 pull-right" style="color:green">Crédito</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CodigoMoneda, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CodigoMoneda, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control", @type = "number", @step = "0.1" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.Tax, new { @class = "form-control", @type = "number", @step = "0.1" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Total, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @type = "number", @step = "0.1", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EnumDropDownListFor(model => model.Reason, new { @id = "Dd_Reason", @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <br />
+            @if (Model.ErrorCode == 1)
+            {
+                <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@Model.ErrorDescription</strong>
+                </div>
+            }
+            else if (Model.ErrorCode == -1)
+            {
+                <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@Model.ErrorDescription</strong>
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button id="btnCancel" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            @if (Model.CanBeReversed)
+            {
+                <button id="btnSubmit" type="submit" class="btn btn-primary">Guardar</button>
+            }
+        </div>
+    }
+}
+
+<script>
+    $(document).ready(function () {
+        $("#Amount").change(function (e) {
+            calculateTotal();
+            this.value = parseFloat(this.value).toFixed(2);
+            asignReason();
+        });
+        $("#Tax").change(function (e) {
+            calculateTotal();
+            this.value = parseFloat(this.value).toFixed(2);
+            asignReason();
+        });
+    });
+
+    function onBegin() {
+        abp.ui.setBusy($("#modalNoteReverseBody"));
+        $("#btnCancel").prop('disabled', true);
+        $("#btnSubmit").prop('disabled', true);
+    }
+
+    function OnSuccess(data) {
+        $("#btnCancel").prop('disabled', false);
+        //si hay error de validacion, se retorna la vista parcial _reverseNotePartial
+        //TODO: se hace de esta manera porque ErroCode no llega con valor al retornarlo desde el controller
+        var hasError = data.indexOf("action=") >= 0;
+        if (!hasError) {
+            $("#btnSubmit").prop('disabled', true);
+            $("#anyListEntity").html(data);
+            setTimeout(function () {
+                $('#btnCancel').click();
+            }, 1000);
+        } else {
+            $("#modalNoteReverseBody").html(data);
+        }
+        abp.ui.clearBusy();
+    }
+
+    function calculateTotal() {
+        var amount = parseFloat($("#Amount").val());
+        var tax = parseFloat($("#Tax").val());
+        if (amount == undefined || amount == null) {
+            amount = 0;
+        }
+        if (tax == undefined || tax == null) {
+            tax = 0;
+        }
+
+        $("#Total").val(parseFloat(amount + tax).toFixed(2));
+    }
+
+    function asignReason() {
+        debugger;
+        var origenNoteTotal = parseFloat($("#OrigenNoteTotal").val());
+        var reverseNoteTotal = parseFloat($("#Total").val());
+        if (origenNoteTotal == reverseNoteTotal) {
+            console.log("igual");
+            $("#Dd_Reason").val(0);
+            $("#Reason").val(0);
+        } else {
+            console.log("diferente");
+            $("#Dd_Reason").val(1);
+            $("#Reason").val(1);
+        }
+    }
+</script>

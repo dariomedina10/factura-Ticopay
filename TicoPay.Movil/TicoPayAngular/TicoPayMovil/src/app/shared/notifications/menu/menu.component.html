@@ -1,0 +1,17 @@
+<li class="text-center">
+  <a class="notification-menu" (click)="dismissAll()">Eliminar todas
+    <span class="glyphicon glyphicon-remove"></span>
+  </a>
+</li>
+<li role="separator" class="text-center divider"></li>
+<li *ngFor="let notification of notifications" class="text-center">
+  <div class="notify {{notification.type}}">
+    <!-- class="notify {{notification.type}}" -->
+    <a class="notification-menu" (click)="onDismissNotify(notification)">{{notification.message}}
+      <span class="glyphicon glyphicon-remove"></span>
+    </a>
+    <a class="notification-menu" *ngIf="notification.type === 'route'" (click)="navigate(notification)">
+      {{notification.routeText}}
+    </a>
+  </div>
+</li>

@@ -1,0 +1,89 @@
+﻿@using TicoPay.Invoices
+@model IList<Note>
+@if (Model != null && Model.Count > 0)
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+    <div style="text-align: center" class="table-responsive">
+        <h4>
+            Notas de la Factura
+        </h4>
+        <hr />
+        <table class="table  ">
+            <thead style="text-align: center">
+                <tr>
+                    <th style="text-align: center">
+                        Tipo
+                    </th>
+                    <th style="text-align: center">
+                        Descripción
+                    </th>
+                    <th style="text-align: center">
+                        Fecha
+                    </th>
+                    <th style="text-align: right">
+                        Total
+                    </th>
+
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderByDescending(n => n.CreationTime))
+                {
+                    if (item.IsDeleted == false)
+                    {
+                        <tr>
+                            <td style="text-align: center">
+                                @if (item.NoteType == NoteType.Credito)
+                                {
+                                    <span>Crédito</span>
+                                }
+                                else
+                                {
+                                    <span>Débito</span>
+                                }
+                            </td>
+                            <td style="text-align: center">
+                                @if (item.NoteReasons == NoteReason.Reversa_documento)
+                                {
+                                    <span>Reversar Documento</span>
+                                }
+                                else
+                                {
+                                    <span>Corregir monto factura</span>
+                                }
+                            </td>
+                            <td style="text-align: center">
+                                @item.CreationTime.ToString("dd/MM/yyyy")
+                            </td>
+                            <td style="text-align: right">
+                                @Html.FormatValue(@item.Total, currencyFmt)
+                            </td>
+
+                            <td style="text-align: center">
+                                <a title="Imprimir nota en formato PDF" class="btn btn-primary btn-rounded btn-block btn-outline btn-xs" href='@Url.Action("NoteDetails", "PdfGenerator", new { invoiceId = item.InvoiceId, noteId = item.Id })'><i class="fa fa-print"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <hr />
+    </div>
+}
+else
+{
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong class="text-center">¡No existen notas asociadas a esta factura!</strong>
+    </div>
+}

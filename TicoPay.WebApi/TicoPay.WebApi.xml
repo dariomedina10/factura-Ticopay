@@ -1,0 +1,956 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TicoPay.WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:TicoPay.Api.Controllers.AddressController">
+            <summary>
+            Conjunto de Métodos que manejan las direcciones
+            </summary>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AddressController.#ctor(TicoPay.Address.IAddressService)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AddressController.GetAllCountries">
+            <summary>
+            Obtiene la lista de países.
+            </summary>
+            <remarks>Obtiene la lista de países validado según hacienda</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AddressController.GetAllProvincias">
+            <summary>
+            Obtiene todas las provincias de Costa Rica.
+            </summary>
+            <remarks>Obtiene todas las provincias validad según Hacienda en Costa Rica</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AddressController.GetCanton(System.Int32)">
+            <summary>
+            Obtiene los Cantones de una Provincia.
+            </summary>
+            <param name="IdProvincia">Id de la Provincia.</param>
+            <remarks>Obtiene la lista de Catones pertenecientes a una Provincia especifica</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AddressController.GetDistrito(System.Int32)">
+            <summary>
+            Obtener los Distritos de un Canton.
+            </summary>
+            <param name="IdCanton">Id de Canton.</param>
+            <remarks>Obtiene todos los distritos de un canton especifico</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AddressController.GetBarrio(System.Int32)">
+            <summary>
+            Obtiene los Barrios de un Distrito.
+            </summary>
+            <param name="IdDistrito">Id del Distrito.</param>
+            <remarks>Obtiene todos los Barrios que pertenecen a un Distrito</remarks>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Api.Controllers.InvoiceController">
+            <summary>
+            Conjunto de Métodos que manejan la consulta y creación de Facturas , notas y otros documentos
+            </summary>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.#ctor(TicoPay.Invoices.IInvoiceAppService,TicoPay.Clients.IClientAppService,TicoPay.MultiTenancy.TenantManager,TicoPay.Users.UserManager,Abp.Dependency.IIocResolver,TicoPay.Invoices.IInvoiceManager,TicoPay.ReportsSettings.IReportSettingsAppService,Abp.Domain.Repositories.IRepository{TicoPay.Invoices.Invoice,System.Guid},Abp.Domain.Repositories.IRepository{TicoPay.Invoices.Note,System.Guid})">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.PostAsync(TicoPay.Invoices.Dto.CreateInvoiceDTO)">
+            <summary>
+            Crea una nueva Factura.
+            </summary>
+            <remarks>Crea una nueva factura con los datos proporcionados</remarks>
+            <param name="input">
+            Datos de la Factura :
+            Para Crear una factura a Crédito debe enviar el campo InvoicePaymentTypes con 0 elementos y debe enviar el campo CreditTerm con valor mayor a 0
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.PostInvoicesAsync(System.Collections.Generic.List{TicoPay.Invoices.Dto.CreateInvoiceDTO})">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.GetInvoices(TicoPay.Invoices.Dto.SearchInvoicesApi)">
+            <summary>
+            Búsqueda de Facturas.
+            </summary>
+            <remarks>
+            Busca facturar del Tenant de acuerdo a los parámetros proporcionados
+            </remarks>
+            <param name="input">Conjunto de Parámetros para la búsqueda. (En caso de no poner Fecha en Desde , solo se buscaran en los últimos dos meses)</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.ApplyNote(TicoPay.Invoices.Dto.NoteDto,System.Boolean)">
+            <summary>
+            Aplicar una Nota de Crédito o Débito a un documento.
+            </summary>
+            <remarks>
+            Aplica un Nota de Crédito o Débito a un documento, El tipo de nota se define en el Campo NoteType del input
+            </remarks>
+            <param name="input">Datos de la nota a generar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.GetNotes(TicoPay.Invoices.Dto.SearchNotesApi)">
+            <summary>
+            Obtiene las Notas de Crédito o Débito.
+            </summary>
+            <remarks>
+            Obtiene las Notas de Crédito o Débito de acuerdo a los parámetros solicitados
+            </remarks>
+            <param name="input">Parámetros de las notas a buscar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.ApplyNoteInBatch(System.Collections.Generic.List{TicoPay.Invoices.Dto.NoteDto})">
+            <summary>
+            Aplica notas en Batch.
+            </summary>
+            <remarks>
+            Aplica una lista de notas de Crédito o Débito
+            </remarks>
+            <param name="list">Lista de notas a Aplicar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.ApplyReverse(TicoPay.Invoices.Dto.NoteDto)">
+            <summary>
+            Aplica el Reverso de la Factura.
+            </summary>
+            <remarks>
+            Aplica el Reverso a una factura dejando su estado de Ticopay en Reversada
+            </remarks>
+            <param name="input">Datos de la Nota.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.Resend(System.Collections.Generic.List{System.Guid})">
+            <summary>
+            Reenvía los correos de las facturas enviadas por parámetro.
+            </summary>
+            <remarks>
+            Reenvía los correos de la lista de facturas enviadas por parámetro.
+            </remarks>
+            <param name="invoices">Lista de IDs de Facturas a Reenviar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.GetXML(System.Guid)">
+            <summary>
+            Obtiene el XML de una Factura.
+            </summary>
+            <remarks>
+            Obtiene el XML de una factura
+            </remarks>
+            <param name="id">Id de Factura.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.UpdateXML(System.Guid,System.String)">
+            <summary>
+            Actualiza el XML de una Factura de Firma Digital.
+            </summary>
+            <remarks>
+            Actualiza el XML de una Factura de Firma Digital una vez fue firmado
+            </remarks>
+            <param name="id">ID de la Factura a Actualizar.</param>
+            <param name="xmlContent">XML a Cargar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.GetNoteXML(System.Guid)">
+            <summary>
+            Obtiene el XML de una Nota.
+            </summary>
+            <remarks>
+            Obtiene el XML de una Nota de Crédito o Débito
+            </remarks>
+            <param name="id">ID de la Nota.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.InvoiceController.UpdateNoteXML(System.Guid,System.String)">
+            <summary>
+            Actualiza el XML de una Nota de Firma Digital.
+            </summary>
+            <remarks>
+            Actualiza el XML de una Nota de Firma Digital una vez fue firmado
+            </remarks>
+            <param name="id">ID de la Nota.</param>
+            <param name="xmlContent">XML de la Nota Firmado.</param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Api.Controllers.ReportsController">
+            <summary>
+            Conjunto de Métodos que manejan la consulta de Reportes
+            </summary>
+            <seealso cref="T:TicoPay.Api.Common.TicoPayApiController" />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ReportsController.#ctor(TicoPay.ReportInvoicesSentToTribunet.IReportInvoicesSentToTribunetAppService,TicoPay.Clients.IClientAppService,Abp.Domain.Uow.IUnitOfWorkManager)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ReportsController.InvoicesSentToTribunet(TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput,System.String)">
+            <summary>
+            Reporte de Facturas enviadas a Hacienda.
+            </summary>
+            <param name="input">Parámetros de Búsqueda.</param>
+            <param name="type">Envié "pdf" para recibir el documento en pdf , si es enviado con otro valor retorna el json con las facturas.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ReportsController.InvoicesSentToTribunetPost(TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput,System.String)">
+            <summary>
+            Reporte de Facturas enviadas a Hacienda.
+            </summary>
+            <param name="input">Parámetros de Búsqueda.</param>
+            <param name="type">Envié "pdf" para recibir el documento en pdf , si es enviado con otro valor retorna el json con las facturas.</param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Api.Controllers.TaxController">
+            <summary>
+            Conjunto de Métodos que manejan la consulta y creación de Impuestos
+            </summary>
+            <seealso cref="T:Abp.WebApi.Controllers.AbpApiController" />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TaxController.#ctor(TicoPay.Taxes.ITaxAppService,TicoPay.Groups.IGroupAppService,TicoPay.GroupConcept.IGroupConceptsAppService)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TaxController.GetAll(System.Boolean)">
+            <summary>
+            Obtiene la lista de impuestos.
+            </summary>
+            <remarks>
+            Obtiene la lista de impuestos que posee el Tenant
+            </remarks>
+            <param name="detallado">Si detallado <c>true</c> Trae todos los datos del impuesto , sino trae solo los campos indispensables.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TaxController.Get(System.Boolean,System.Guid)">
+            <summary>
+            Obtiene un Impuesto Especifico.
+            </summary>
+            <remarks>
+            Obtiene los datos de un Impuesto Especifico
+            </remarks>
+            <param name="detallado">Si <c>true</c> obtiene todos los campos, sino solo los indispensables.</param>
+            <param name="Id">Id de Impuesto.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TaxController.Put(TicoPay.Taxes.Dto.UpdateTaxInput)">
+            <summary>
+            Actualiza los Datos del Impuesto.
+            </summary>
+            <remarks>
+            Actualiza los Datos del Impuesto
+            </remarks>
+            <param name="input">Datos del Impuesto.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TaxController.Post(TicoPay.Taxes.Dto.CreateTaxInput)">
+            <summary>
+            Agrega un nuevo Impuesto.
+            </summary>
+            <remarks>
+            Agrega un nuevo impuesto al Tenant
+            </remarks>
+            <param name="input">Datos del Impuesto.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TaxController.Delete(System.Guid)">
+            <summary>
+            Elimina un Impuesto Especificado.
+            </summary>
+            <remarks>
+            Elimina un Impuesto especificado por parámetro
+            </remarks>
+            <param name="id">Id de Impuesto.</param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Api.Controllers.ServiceController">
+            <summary>
+            Conjunto de Métodos que manejan la Consulta, Creación, Actualización y Eliminación de Servicios
+            </summary>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.#ctor(TicoPay.Services.IServiceAppService,TicoPay.Groups.IGroupAppService,TicoPay.GroupConcept.IGroupConceptsAppService)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.GetAll(System.Boolean)">
+            <summary>
+            Obtiene Todos los Servicios.
+            </summary>
+            <remarks>
+            Obtiene Todos los Servicios del Tenant.
+            </remarks>
+            <param name="detallado">Si es <c>true</c> Trae todos los Datos del Servicio, sino solo trae los Indispensables.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.Get(System.Boolean,System.Guid)">
+            <summary>
+            Obtiene un Servicio Especifico.
+            </summary>
+            <remarks>
+            Obtiene los datos un Servicio Especifico.
+            </remarks>
+            <param name="detallado">Si es <c>true</c> Trae todos los Datos del Servicio, sino solo trae los Indispensables.</param>
+            <param name="Id">Id del Servicio.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.Put(TicoPay.Services.Dto.ServiceDto)">
+            <summary>
+            Actualiza un Servicio especifico.
+            </summary>
+            <remarks>
+            Actualiza los datos de un Servicio especifico.
+            </remarks>
+            <param name="input">Datos del Servicio a Actualizar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.Post(TicoPay.Services.Dto.ServiceDto)">
+            <summary>
+            Crea un Servicio.
+            </summary>
+            <remarks>
+            Crea un Servicio.
+            </remarks>
+            <param name="input">Datos del Servicio a Crear.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.Delete(System.Guid)">
+            <summary>
+            Elimina un Servicio especifico.
+            </summary>
+            <remarks>
+            Elimina un Servicio especifico.
+            </remarks>
+            <param name="id">Id del Servicio.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.GetGroupsAll(System.Boolean)">
+            <summary>
+            Obtiene todos los Grupos de Conceptos del Tenant.
+            </summary>
+            <remarks>
+            Obtiene todos los Grupos de Conceptos del Tenant (Usados para Facturación Recurrente).
+            </remarks>
+            <param name="detallado">Si <c>true</c> trae todos los Campos de los Grupos, sino solo trae los esenciales.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.GetGroup(System.Guid)">
+            <summary>
+            Obtiene un Grupo de Concepto especifico.
+            </summary>
+            <remarks>
+            Obtiene un Grupo de Concepto especifico (Usados para Facturación Recurrente).
+            </remarks>
+            <param name="Id">ID de Grupo de Concepto.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.PutGroups(TicoPay.GroupConcept.Dto.UpdateGroupConceptsInput)">
+            <summary>
+            Actualiza un Grupo de Conceptos especifico.
+            </summary>
+            <remarks>
+            Actualiza un Grupo de Conceptos especifico (Usados para Facturación Recurrente).
+            </remarks>
+            <param name="input">Datos del Grupo de Concepto Actualizados.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.PostGroup(TicoPay.GroupConcept.Dto.CreateGroupConceptsInput)">
+            <summary>
+            Agrega un Grupo de Conceptos.
+            </summary>
+            <remarks>
+            Agrega un Grupo de Conceptos (Usados para Facturación Recurrente).
+            </remarks>
+            <param name="input">Datos del Grupo de Conceptos.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ServiceController.DeleteGroup(System.Guid)">
+            <summary>
+            Eliminar un Grupo de Conceptos.
+            </summary>
+            <remarks>
+            Eliminar un Grupo de Conceptos (Usados para Facturación Recurrente).
+            </remarks>
+            <param name="id">ID del Grupo de Conceptos a Eliminar.</param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Api.Controllers.ClientController">
+            <summary>
+            Conjunto de Métodos que manejan la consulta y creación de clientes en Ticopay
+            </summary>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.#ctor(TicoPay.Clients.IClientAppService,TicoPay.Groups.IGroupAppService,Abp.Dependency.IIocResolver)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.GetAll(System.Boolean)">
+            <summary>
+            Obtiene la lista de todos los clientes.
+            </summary>
+            <remarks>Obtiene la lista de todos los clientes del Tenant en Ticopay , La opción de detallado permite retornar menos data (solo campos importantes) para mejorar tiempos de respuesta</remarks>
+            <param name="detallado">Si <c>true</c> [detallado] retorna toda la información de los clientes , sino retorna solo los datos principales.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.Get(System.Boolean,System.Guid)">
+            <summary>
+            Obtiene los datos de un Cliente especifico.
+            </summary>
+            <remarks>
+            Obtiene un cliente especifico, La opción de detallado permite retornar menos data (solo campos importantes) para mejorar tiempos de respuesta
+            </remarks>
+            <param name="detallado">Si <c>true</c> [detallado] retorna los datos completos del cliente , sino retorna solo los datos principales.</param>
+            <param name="Id">Id del Cliente.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.GetSearch(System.Boolean,System.String,System.String)">
+            <summary>
+            Busca un Cliente por su numero de identificación o su email.
+            </summary>
+            <remarks>
+            Obtiene la lista de todos los clientes que coinciden con la búsqueda (Puede existir mas de un cliente con el mismo Email en cuyo caso retornara el primero),
+            La opción de detallado permite retornar menos data (solo campos importantes) para mejorar tiempos de respuesta
+            </remarks>
+            <param name="detallado">Si <c>true</c> [detallado] retorna los datos completos del cliente , sino retorna solo los datos principales.</param>
+            <param name="Id">Número de Identificación (Cédula, NITE, DIMEX, Pasaporte, Etc).</param>
+            <param name="email">Correo Electrónico.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.Put(TicoPay.Clients.Dto.ClientDto)">
+            <summary>
+            Actualiza un Cliente Especifico.
+            </summary>
+            <remarks>
+            Actualiza los datos de un cliente especifico
+            </remarks>
+            <param name="input">Cliente con Datos Actualizados.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.Post(TicoPay.Clients.Dto.ClientDto)">
+            <summary>
+            Crea un Cliente.
+            </summary>
+            <remarks>
+            Crea un Cliente con los datos proporcionados
+            </remarks>
+            <param name="input">Cliente a Crear.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.Delete(System.Guid)">
+            <summary>
+            Elimina un Cliente Especifico.
+            </summary>
+            <remarks>
+            Elimina un Cliente especifico del Tenant
+            </remarks>
+            <param name="id">Id del Cliente.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.GetServices(System.Guid)">
+            <summary>
+            Obtiene los Servicios Recurrentes de un Cliente.
+            </summary>
+            <remarks>
+            Obtiene los Servicios Recurrentes de un Cliente (Utilizado en facturación Recurrente)
+            </remarks>
+            <param name="Id">Id del Cliente.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.PutServices(TicoPay.Clients.Dto.ClientServicesDto)">
+            <summary>
+            Actualizar Servicios recurrentes de un Cliente.
+            </summary>
+            <remarks>
+            Actualizar Servicios recurrentes de un Cliente (Utilizado en facturación Recurrente).
+            </remarks>
+            <param name="input">Datos del Cliente y los Servicios a Actualizar le.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.PostServices(TicoPay.Clients.Dto.ClientServicesDto)">
+            <summary>
+            Asigna Servicios Recurrentes a un Cliente.
+            </summary>
+            <remarks>
+            Asigna Servicios Recurrentes a un Cliente (Utilizado en facturación Recurrente).
+            </remarks>
+            <param name="input">The input.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.GetGroups(System.Guid)">
+            <summary>
+            Obtiene los Grupos o Categorías de un Cliente.
+            </summary>
+            <remarks>
+            Obtiene todos los Grupos o Categorías de un Cliente especifico
+            </remarks>
+            <param name="Id">Id de Cliente.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.PutGroups(TicoPay.Clients.Dto.ClientGroupsDto)">
+            <summary>
+            Actualiza los Grupos o Categorías de un cliente.
+            </summary>
+            <remarks>
+            Actualiza los Grupos o Categorías de un cliente
+            </remarks>
+            <param name="input">ID de Cliente y Grupos a Asignar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.PostGroups(TicoPay.Clients.Dto.ClientGroupsDto)">
+            <summary>
+            Agrega los Grupos o Categorías de un cliente.
+            </summary>
+            <remarks>
+            Agrega los Grupos o Categorías de un cliente
+            </remarks>
+            <param name="input">Id de Cliente y Grupos a Actualizar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.GetGroupConcepts(System.Guid)">
+            <summary>
+            Obtiene los Grupos de Conceptos de un Cliente.
+            </summary>
+            <remarks>
+            Obtiene los Grupos de Conceptos de un Cliente (Utilizado para la facturación Recurrente).
+            </remarks>
+            <param name="Id">ID de Cliente.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.PutGroupConcepts(TicoPay.Clients.Dto.ClientGroupsConceptsDto)">
+            <summary>
+            Actualiza los Grupos de Conceptos de un Cliente.
+            </summary>
+            <remarks>
+            Actualiza los Grupos de Conceptos de un Cliente (Utilizado para la Facturación Recurrente).
+            </remarks>
+            <param name="input">ID de Cliente y la Lista de grupos de conceptos a actualizar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.PostGroupConcepts(TicoPay.Clients.Dto.ClientGroupsConceptsDto)">
+            <summary>
+            Asigna los Grupos de Conceptos de un Cliente.
+            </summary>
+            <remarks>
+            Asigna los Grupos de Conceptos de un Cliente (Utilizado para la Facturación Recurrente).
+            </remarks>
+            <param name="input">ID de Cliente y la Lista de grupos de conceptos a asignar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.GetGroupAll(System.Boolean)">
+            <summary>
+            Obtiene la lista de Grupos o Categorías de Clientes.
+            </summary>
+            <remarks>
+            Obtiene la lista de Grupos o Categorías de Clientes del Tenant.
+            </remarks>
+            <param name="detallado">Si es <c>true</c> devuelve la información completa de las categorías , sino solo los campos esenciales.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.GetGroup(System.Boolean,System.Guid)">
+            <summary>
+            Obtiene la información de una Categoría de Cliente.
+            </summary>
+            <remarks>
+             Obtiene la información de una Categoría de Cliente especifica.
+            </remarks>
+            <param name="detallado">Si es <c>true</c> devuelve la información completa de las categorías , sino solo los campos esenciales.</param>
+            <param name="Id">Id de Categoría.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.PutGroup(TicoPay.Groups.Dto.UpdateGroupInput)">
+            <summary>
+            Actualiza un Categoría de Cliente.
+            </summary>
+            <remarks>
+            Actualiza un Categoría de Cliente del Tenant
+            </remarks>
+            <param name="input">Datos de la Categoría a actualizar.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.PostGroup(TicoPay.Groups.Dto.GroupDto)">
+            <summary>
+            Crea un Grupo o Categoría.
+            </summary>
+            <remarks>
+            Crea un Grupo o Categoría para el Tenant
+            </remarks>
+            <param name="input">Datos de la Categoría a Crear.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.ClientController.DeleteGroup(System.Guid)">
+            <summary>
+            Elimina un Grupo o Categoría de Cliente.
+            </summary>
+            <remarks>
+            Elimina un Grupo o Categoría de Cliente del Tenant.
+            </remarks>
+            <param name="id">Id del Cliente a Eliminar.</param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Api.Controllers.TenantController">
+            <summary>
+            Conjunto de Métodos que manejan los Datos del Tenant o Sub Dominio
+            </summary>
+            <seealso cref="T:Abp.WebApi.Controllers.AbpApiController" />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TenantController.#ctor(TicoPay.MultiTenancy.TenantManager,TicoPay.MultiTenancy.ITenantAppService)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TenantController.GetTenantByPort(System.Int32)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TenantController.GetAll(System.Boolean)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.TenantController.Get(System.Boolean)">
+            <summary>
+            Obtiene los Datos del Tenant o Sub Dominio.
+            </summary>
+            <remarks>
+            
+            </remarks>
+            <param name="detallado">if set to <c>true</c> [detallado].</param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Api.Controllers.UnattendedController">
+            <summary>
+            Conjunto de Métodos que manejan la consulta y Firmado de XML
+            </summary>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.UnattendedController.#ctor(TicoPay.Users.UserManager,TicoPay.MultiTenancy.TenantManager,TicoPay.Unattended.UnattendedAppService)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.UnattendedController.ReciveAndSendXml(System.Boolean,System.DateTime,System.String)">
+            <summary>
+            Recibe el XML del Cliente y lo Firma.
+            </summary>
+            <remarks>Recibe el XML del Cliente y lo Firma</remarks>
+            <param name="useConsecutive">true si se usa el consecutivo generado por TicoPay false si el cliente usa su propio consecutivo, el cliente debe generar su propia clave y enviar su nodo respectivo en el XML</param>
+            <param name="invoiceDate">La fecha que realiza la facturación.</param>
+            <param name="xml">El XML en bruto</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.UnattendedController.StatusFromComprobante(System.String)">
+            <summary>
+            Obtener respuesta de hacienda.
+            </summary>
+            <remarks>Obteniene la repuesta de Hacienda del XML firmado</remarks>
+            <param name="voucherKey">La clave del documento electrónico</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.UnattendedController.GetUnattendedPDF(System.String)">
+            <summary>
+            Obtener respuesta de hacienda.
+            </summary>
+            <remarks>Crea una nueva factura con los datos proporcionados</remarks>
+            <param name="voucherKey">La clave del documento electrónico</param>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Api.Controllers.VoucherController">
+            <summary>
+            Conjunto de Métodos que manejan los Comprobantes electrónicos
+            </summary>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.VoucherController.#ctor(TicoPay.Vouchers.VoucherAppService,Abp.Domain.Repositories.IRepository{TicoPay.Vouchers.Voucher,System.Guid})">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.VoucherController.GetVouchers(TicoPay.Vouchers.Dto.SearchVoucherApi)">
+            <summary>
+            Obtener comprobantes electrónicos.
+            </summary>
+            <param name="input">Estructura de parámetros opcionales para la personalización de la búsqueda de comprobantes. En caso de no querer utilizar un parámetro de la estructura colocar Null en su valor</param>
+            <remarks>Obtiene los comprobantes electrónicos registrados por el Tenant</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.VoucherController.GetVoucherXML(System.Guid)">
+            <summary>
+            Obtener el XML de un comprobante electrónico.
+            </summary>
+            <param name="id">Id del comprobante electrónico.</param>
+            <remarks>Obtiene el XML de un comprobante electrónico especifico que halla sido cargado con Firma Electrónica</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.VoucherController.UpdateVoucherXML(System.Guid,System.String)">
+            <summary>
+            Actualiza el XML Firmado de un comprobante electrónico.
+            </summary>
+            <param name="id">Id del comprobante electrónico.</param>
+            <param name="xmlContent">XML Firmado.</param>
+            <remarks>Actualiza el XML Firmado de un comprobante electrónico que haya sido cargado con Firma Digital</remarks>
+            <returns></returns>
+        </member>
+        <member name="T:TicoPay.Api.Controllers.AccountController">
+            <summary>
+            Conjunto de Métodos que manejan la seguridad del Web Api
+            </summary>
+        </member>
+        <member name="P:TicoPay.Api.Controllers.AccountController.OAuthBearerOptions">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.#ctor(TicoPay.Users.UserManager,TicoPay.MultiTenancy.TenantManager,TicoPay.Users.LogInManager,TicoPay.Roles.IRoleAppService,TicoPay.Users.IUserAppService,TicoPay.MultiTenancy.ITenantAppService,TicoPay.Clients.IClientAppService)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.GetTenantByPort(System.Int32)">
+            <exclude />
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.VerifyAllowedConnector(System.String,System.String)">
+            <summary>
+            Verifica si el Tenant tiene permiso para usar el Conector de Ticopay para su sistema.
+            </summary>
+            <remarks>
+            Verifica si el Tenant tiene permiso para usar el Conector de Ticopay para su sistema.
+            </remarks>
+            <param name="tenantName">Nombre del Tenant.</param>
+            <param name="ConnectorType">Nombre del Conector.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.VerifyDomain(System.String)">
+            <summary>
+            Verifica existencia de Tenant.
+            </summary>
+            <remarks>Verifica si el Tenant solicitado existe en Ticopay</remarks>
+            <param name="tenantName">Nombre del Tenant a chequear.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.Authenticate(TicoPay.Api.Models.LoginModel)">
+            <summary>
+            Autentifica al usuario.
+            </summary>
+            <remarks>Autentifica un usuario en Ticopay, si las credenciales son validas devuelve el token de sesión.
+            (El Token expira en 25 min)</remarks>
+            <param name="loginModel">Datos de inicio de sesión del usuario.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.InternalAuthenticate(TicoPay.Api.Models.LoginModel)">
+            <summary>
+            Autentifica al usuario (Solo para uso interno de Ticopay).
+            </summary>
+            <remarks>Autentifica un usuario en Ticopay (Solo para uso interno de Ticopay), si las credenciales son validas devuelve el token de sesión.
+            (El Token expira en 25 min)</remarks>
+            <param name="loginModel">Datos de inicio de sesión del usuario.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.RefreshToken(TicoPay.Api.Models.RefreshCredentials)">
+            <summary>
+            Extiende la duración de el tiempo de sesión de un token.
+            </summary>
+            <param name="currentToken">Token actual de sesión.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.GetRolesByUser(System.Int64)">
+            <summary>
+            Obtiene los Roles de un Usuario.
+            </summary>
+            <remarks>Obtiene los roles asignados a un usuario especifico del Tenant</remarks>
+            <param name="UserId">Código de identificación del usuario.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.GetPermissionsByUser(System.Int64)">
+            <summary>
+            Obtener los permisos de un Usuario.
+            </summary>
+            <remarks>Obtener los permisos asignados a un Usuario especifico del Tenant.</remarks>
+            <param name="UserId">Código del Usuario.</param>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.GetUsersAll">
+            <summary>
+            Obtiene todos los Usuarios.
+            </summary>
+            <remarks>Obtiene todos los Usuarios del Tenant</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:TicoPay.Api.Controllers.AccountController.CheckModelState">
+            <exclude />
+        </member>
+        <member name="T:TicoPay.Api.Models.InvoiceSentToTribunetModel">
+            <summary>
+            Clase que contiene la Información de las facturas enviadas a Hacienda
+            </summary>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.NumeroFactura">
+            <summary>
+            Obtiene el Número de Factura.
+            </summary>
+            <value>
+            Número de Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.DueDate">
+            <summary>
+            Obtiene la Fecha de Emisión de la factura.
+            </summary>
+            <value>
+            Fecha de Emisión.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.PaymentDate">
+            <summary>
+            Obtiene la Fecha de Pago de la factura.
+            </summary>
+            <value>
+            Fecha de Pago.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.PaymetnMethodType">
+            <summary>
+            Obtiene la Forma de Pago.
+            </summary>
+            <value>
+            Forma de Pago.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.NombreCliente">
+            <summary>
+            Obtiene el Nombre de Cliente de la factura.
+            </summary>
+            <value>
+            Nombre de Cliente.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.Status">
+            <summary>
+            Obtiene el Estado de la Factura según Ticopay.
+            </summary>
+            <value>
+            Estado de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.StatusTribunet">
+            <summary>
+            Obtiene el Estado de la Factura según Hacienda.
+            </summary>
+            <value>
+            Estado de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.IsInvoiceReceptionConfirmed">
+            <summary>
+            Obtiene si la Factura fue confirmada como recibida.
+            </summary>
+            <value>
+              <c>true</c> Si la Factura fue confirmada recibida; sino, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.TotalInvoiceLines">
+            <summary>
+            Obtiene el Total de la Factura.
+            </summary>
+            <value>
+            Total de la Factura.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.TotalNotasDebito">
+            <summary>
+            Obtiene el Total de las Notas de Débito.
+            </summary>
+            <value>
+            Total de las Notas de Débito.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.TotalNotasCredito">
+            <summary>
+            Obtiene el Total de las Notas de Crédito.
+            </summary>
+            <value>
+            Total de las Notas de Crédito.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.InvoiceSentToTribunetModel.TotalTaxes">
+            <summary>
+            Obtiene el Total de Impuesto.
+            </summary>
+            <value>
+            Total de Impuesto.
+            </value>
+        </member>
+        <member name="M:TicoPay.Api.Models.InvoiceSentToTribunetModel.#ctor(TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetDto)">
+            <exclude />
+        </member>
+        <member name="T:TicoPay.Api.Models.LoginModel">
+            <summary>
+            Clase utilizada para contener las credenciales de inicio de Sesión
+            </summary>
+        </member>
+        <member name="P:TicoPay.Api.Models.LoginModel.TenancyName">
+            <summary>
+            Obtiene o Almacena el nombre del Tenant o Sub Dominio.
+            </summary>
+            <value>
+            Nombre del Tenant o Sub Dominio.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.LoginModel.UsernameOrEmailAddress">
+            <summary>
+            Obtiene o Almacena el nombre de usuario a autentificar.
+            </summary>
+            <value>
+            Nombre de usuario.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.LoginModel.Password">
+            <summary>
+            Obtiene o Almacena la contraseña del usuario a autentificar.
+            </summary>
+            <value>
+            Contraseña del usuario.
+            </value>
+        </member>
+        <member name="T:TicoPay.Api.Models.Token">
+            <summary>
+            Clase que contiene el token de sesión
+            </summary>
+        </member>
+        <member name="P:TicoPay.Api.Models.Token.TokenAuthenticate">
+            <summary>
+            Obtiene el Token de sesión en Ticopay.
+            </summary>
+            <value>
+            Token de sesión.
+            </value>
+        </member>
+        <member name="T:TicoPay.Api.Models.RefreshCredentials">
+            <summary>
+            Clase que contiene las opciones a utilizar para extender el tiempo de vida del token de sesión
+            </summary>
+        </member>
+        <member name="P:TicoPay.Api.Models.RefreshCredentials.Token">
+            <summary>
+            Obtiene o Almacena el Token de sesión original obtenido con el método Authenticate.
+            </summary>
+            <value>
+            Token de sesión.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.RefreshCredentials.AdditionalTimeType">
+            <summary>
+            Obtiene o Almacena el tipo de extensión de tiempo a solicitar :
+            {Minutes , Hours , Days}.
+            </summary>
+            <value>
+            Tipo de extension de tiempo.
+            </value>
+        </member>
+        <member name="P:TicoPay.Api.Models.RefreshCredentials.AdditionalTimeAmount">
+            <summary>
+            Obtiene o Almacena la cantidad de tiempo de extensión a solicitar.
+            Minutes {entre 1.0 y 120.0} , Hours {entre 0.1 y 24.0} , Days {entre 1.0 y 30.0}
+            </summary>
+            <value>
+            Cantidad de tiempo.
+            </value>
+        </member>
+        <member name="T:TicoPay.Api.Models.TimeLapsType">
+            <summary>
+            Enumerado que especifica los Tipos de extensiones de tiempo disponibles para extender la duración del token
+            </summary>
+        </member>
+        <member name="F:TicoPay.Api.Models.TimeLapsType.Minutes">
+            <summary>
+            Minutos
+            </summary>
+        </member>
+        <member name="F:TicoPay.Api.Models.TimeLapsType.Hours">
+            <summary>
+            Horas
+            </summary>
+        </member>
+        <member name="F:TicoPay.Api.Models.TimeLapsType.Days">
+            <summary>
+            Días
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,20 @@
+.error {
+    color: #ec3131;
+}
+
+.success {
+    color: #30ce6c;
+}
+
+.route {
+    color: #30ce6c;
+}
+
+.warning {
+    color: #e4a216;
+}
+
+.notification-menu {
+    color: white;
+    /*font-weight: bold;*/
+}

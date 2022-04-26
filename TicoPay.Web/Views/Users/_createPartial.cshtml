@@ -1,0 +1,91 @@
+﻿@using Abp.Authorization.Users
+@model TicoPay.Users.Dto.CreateUserInput
+@{
+    ViewBag.Title = "Crear Usuario";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#ConfirmedPassword").keyup(function (e) {
+            var pass = $("#Password").val();
+            var re_pass = $("#ConfirmedPassword").val();
+
+            if (pass != re_pass) {
+                $("#ConfirmedPassword").css({ "background": "#EFA29F" }); //El input se pone rojo
+            }
+            else if (pass == re_pass) {
+                $("#ConfirmedPassword").css({ "background": "#82CD96" }); //El input se ponen verde
+            }
+        });//fin keyup repass
+    });
+</script>
+@using (Html.BeginForm("Create", "Users", FormMethod.Post, new { @class = "form-horizontal ", @id = "form" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Crear Usuario</h4>
+    </div>
+    if (Model != null)
+    {<div class="modal-body">
+        <fieldset>
+            <div class="well col-lg-10 col-lg-offset-1">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Usuario:</label>
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @id = "UserName", @Type = "text", @required = "required", @maxlength = @AbpUserBase.MaxUserNameLength, @minlength = "2" })
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "Name", @Type = "text", @required = "required", @maxlength = @TicoPay.Users.User.MaxNameLength })
+                    </div>
+                    <div class="form-group">
+                        <label>Apellidos:</label>
+                        @Html.TextBoxFor(model => model.Surname, new { @class = "form-control", @id = "Surname", @Type = "text", @required = "required", @maxlength = @TicoPay.Users.User.MaxSurnameLength })
+                    </div>
+                    <div class="form-group">
+                        <label>Correo Electrónico:</label>
+                        @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control", @id = "EmailAddress", @Type = "email", @required = "required", @maxlength = @TicoPay.Users.User.MaxEmailAddressLength })
+                    </div>
+                    <div class="form-group">
+                        <label>Rol:</label>
+                        @{
+                         SelectList types = new SelectList(Model.Roles.ToArray(), "Id", "name");
+                         @Html.DropDownListFor(m => m.IdRol, types, new { @id = "rol_DD", @class = "form-control", @required = "required" })
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña:</label>
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @id = "Password", @Type = "password", @required = "required", @minlength = "8", @maxlength = "16", @pattern = @"(?=^.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$", @title = "Debe ingresar al menos 8 caracteres, incluyendo número, letra mayúscula y letra minúscula" })
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar contraseña:</label>
+                        @Html.TextBoxFor(model => model.ConfirmedPassword, new { @class = "form-control", @id = "ConfirmedPassword", @Type = "password", @required = "required", @minlength = "8", @maxlength = "16", @pattern = @"(?=^.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$", @title = "Debe ingresar al menos 8 caracteres, incluyendo número, letra mayúscula y letra minúscula" })
+                        @Html.ValidationMessageFor(model => model.ConfirmedPassword, "", new { @class = "text-danger" })
+                    </div>
+                    @if (Model.ErrorCode == 1)
+                    {
+                        <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>@Model.ErrorDescription</strong>
+                        </div>
+                    }
+                    else if (Model.ErrorCode == -1)
+                    {
+                        <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>@Model.ErrorDescription</strong>
+                        </div>
+                    }
+                </div>
+            </div>
+        </fieldset>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+
+    }
+}

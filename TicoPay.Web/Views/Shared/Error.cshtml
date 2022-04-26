@@ -1,0 +1,116 @@
+﻿@using Abp.Collections.Extensions
+@model Abp.Web.Mvc.Models.ErrorViewModel
+
+<div>
+    <div class="signup-backdrp"></div>
+    <div class="container-fluid">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                </div>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-lg-12">
+                @if (Model.Exception != null && Model.Exception.ToString().Contains("ComponentActivator: could not instantiate TicoPay.EntityFramework.TicoPayDbContext"))
+                {
+                    <div class="well bs-component" align="center">
+                        <div align="center">
+                            <img class="responsive-img" src="~/images/ticopay-facturacion-electronica-logo-completo-verde-azul.png" id="header-logo" alt="Logo" style="max-width: 25%; height: auto;" />
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Volveremos en breve...</h3>
+                        </div>
+                        <div class="panel-body">
+                            <img class="responsive-img" src="~/images/ticopay-facturacion-ectronica-mantenimiento.png" id="header-logo" alt="Logo" style="max-width: 30%; height: auto;" />
+                        </div>
+                    </div>
+                }
+                else if (Model.Exception != null && Model.Exception.ToString().Contains("The request limit for the database"))
+                {
+                    <div class="well bs-component" align="center">
+                        <div align="center">
+                            <img class="responsive-img" src="~/images/ticopay-facturacion-electronica-logo-completo-verde-azul.png" id="header-logo" alt="Logo" style="max-width: 25%; height: auto;" />
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">La plataforma se encuentra fuera de servicio temporalmente...</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Para cualquier información comuniquese con soporte@ticopays.com</p>
+                        </div>
+                    </div>
+                }
+                else if (Model.Exception != null && Model.Exception.ToString().Contains("Request timed out"))
+                {
+                    <div class="well bs-component" align="center">
+                        <div align="center">
+                            <img class="responsive-img" src="~/images/ticopay-facturacion-electronica-logo-completo-verde-azul.png" id="header-logo" alt="Logo" style="max-width: 25%; height: auto;" />
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">En estos momentos presentamos alto tráfico en nuestros servicios, en un breve momento estaremos en linea para brindarles el mejor servicio.</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Para cualquier información comuniquese con soporte@ticopays.com</p>
+                        </div>
+                    </div>
+                }
+                else if(Model.ErrorInfo != null)
+                {
+                    <div class="well bs-component" align="center">
+                        <div align="center">
+                            <img class="responsive-img" src="~/images/ticopay-facturacion-electronica-logo-completo-verde-azul.png" id="header-logo" alt="Logo" style="max-width: 15%; height: auto;" />
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Html.Raw(Model.ErrorInfo.Message)</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                @if (!string.IsNullOrEmpty(Model.ErrorInfo.Details))
+                                {
+                                    @Html.Raw(Model.ErrorInfo.Details)
+                                }
+                                else if (Model.Exception != null && !string.IsNullOrEmpty(Model.Exception.Message))
+                                {
+                                    @Html.Raw(Model.Exception.Message)
+                                }
+                                else
+                                {
+                                    @Model.ErrorInfo.Message
+                                }
+                            </p>
+                            @* Show validation errors *@
+                            @if (!Model.ErrorInfo.ValidationErrors.IsNullOrEmpty())
+                            {
+                                <ul>
+                                    @foreach (var validationError in Model.ErrorInfo.ValidationErrors)
+                                    {
+                                        <li>
+                                            @validationError.Message
+                                            @if (validationError.Members != null && validationError.Members.Any())
+                                            {
+                                                <text>(@string.Join(", ", validationError.Members))</text>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                }
+                else {
+                     <div class="well bs-component" align="center">
+                        <div align="center">
+                            <img class="responsive-img" src="~/images/ticopay-facturacion-electronica-logo-completo-verde-azul.png" id="header-logo" alt="Logo" style="max-width: 25%; height: auto;" />
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">En estos presentamos inconvenientes con nuestros servicios.</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Para cualquier información comuniquese con soporte@ticopays.com</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

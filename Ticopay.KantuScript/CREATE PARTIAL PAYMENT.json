@@ -1,0 +1,255 @@
+﻿{
+  "CreationDate": "2018-9-24",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Invoice/Index",
+      "Value": ""
+    },
+    {
+      "Command": "storeEval",
+      "Target": "var d= new Date(); var m=((d.getMonth()+1)<10)?'0'+(d.getMonth()+1):(d.getMonth()+1); var el=((d.getDate())<10)?'0'+(d.getDate()):(d.getDate()); d.getFullYear()+\"-\"+m+\"-\"+el;",
+      "Value": "eldia"
+    },
+    {
+      "Command": "echo",
+      "Target": "${eldia}",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=StartDueDate",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=StartDueDate",
+      "Value": "${eldia}"
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"frmSearchInvoices\"]/div/div[5]/div[2]/div/div/button",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"anyListEntity\"]/div/div/div[2]/table/tbody/tr[1]/td[4]",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"1\"]/div/div/div/div/div/div[2]/div/div/button",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=CashChk",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=cashText",
+      "Value": "100"
+    },
+    {
+      "Command": "click",
+      "Target": "id=cashText",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=CreditCardChk",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=creditCardText",
+      "Value": "100"
+    },
+    {
+      "Command": "click",
+      "Target": "id=creditCardText",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=nroCreditCardText",
+      "Value": "100"
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=UserCreditCardText",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=UserCreditCardText",
+      "Value": "BANCO"
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=CheckChk",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=checkText",
+      "Value": "100"
+    },
+    {
+      "Command": "click",
+      "Target": "id=checkText",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=nroCheckText",
+      "Value": "200"
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=DepositChk",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=depositText",
+      "Value": "100"
+    },
+    {
+      "Command": "click",
+      "Target": "id=depositText",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=nroDepositText",
+      "Value": "100"
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=listBank",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=listBank",
+      "Value": "label=BANCO NACIONAL DE COSTA RICA"
+    },
+    {
+      "Command": "click",
+      "Target": "id=listBank",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=btnPayInvoice",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"return_modal\"]/div/div/div[3]/button",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "assertText",
+      "Target": "//*[@id=\"anyListEntity\"]/div/div/div[2]/table/tbody/tr[1]/td[5]/span",
+      "Value": "Parcialmente Pagada"
+    }
+  ]
+}

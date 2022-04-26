@@ -1,0 +1,180 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using Microsoft.Owin.Security
+@model TicoPay.Web.Models.Account.LoginFormViewModel
+@{
+    ViewBag.Title = "Inicio de Sesion";
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Views/Account/Login.js")
+}
+
+@section styles
+{
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 200px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+        /* The Close Button */
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #36733C;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 2px 16px;
+        }
+
+        .modal-footer {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+    </style>
+}
+
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    @*<div id="device" style="text-align: center; border:1px dotted black; color:green;"></div>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            testExp = new RegExp('Android|webOS|iPhone|iPad|' +
+                'BlackBerry|Windows Phone|' +
+                'Opera Mini|IEMobile|Mobile',
+                'i');
+
+            if (testExp.test(navigator.userAgent)) {
+                console.log('Your device is a Mobile Device');
+                var modal = document.getElementById('myModal');
+                modal.style.display = "block";
+            }
+            else
+                console.log('Your device is NOT a Mobile Device');
+
+            var btn = document.getElementById("myBtn");
+            btn.onclick = function () {
+                var url = window.location.href;
+                var tenancyName = url.substring(url.indexOf('://') + 3, url.indexOf('.'));
+                window.location.replace("https://ticopaymovil.azurewebsites.net?tenancyName=" + tenancyName);
+            }
+
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+    </script>
+    @*<div>*@
+    @*<div>
+
+        </div>*@
+    <img src="~/images/ticopay-facturacion-electronica-logo-completo-verde-azul-vertical.png" alt="Login">
+    <div id="IndexAlerts">
+
+    </div>
+    <div style="margin-top: 20px;width:100%; padding: 30px 30px 20px 30px;background-color: #f7f7f7; -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);">
+        <div>
+            <h3>Bienvenidos</h3>
+            <p>Inicio de Sesión</p>
+        </div>
+        <form id="LoginForm" class="form-horizontal" action="@(Url.Action("Login", "Account"))?returnUrl=@(Model.ReturnUrl)" method="POST">
+            <fieldset>
+                @*<div class="form-group has-feedback">
+                        <input type="text" class="form-control" id="TenancyName" placeholder="Nombre de la empresa" required="required" maxlength="@TicoPay.MultiTenancy.Tenant.MaxTenancyNameLength">
+                    </div>*@
+                <div class="form-group has-feedback">
+
+                    <input type="text" class="form-control" id="EmailAddressInput" placeholder="@L("UserNameOrEmail")" required maxlength="64">
+
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" id="PasswordInput" placeholder="@L("Password")" required maxlength="@TicoPay.Users.User.MaxPlainPasswordLength">
+                </div>
+                <div class="form-group has-feedback">
+                    <div class="text-left">
+                        <a href="@Url.Action("RestorePassword", "Account")">¿Olvidó la contraseña?</a>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <div class="checkbox pull-left">
+                        <label>
+                            <input type="checkbox" id="RememberMeInput">
+                            <span class="ripple"></span>
+                            <span class="check"></span> @L("RememberMe")
+                        </label>
+                    </div>
+                    <button id="LoginButton" type="submit" class="btn btn-primary pull-right"><i class="fa fa-sign-in"></i> @L("LogIn")</button>
+                </div>
+
+                <input id="ReturnUrlHash" type="hidden" name="returnUrlHash" />
+
+            </fieldset>
+        </form>
+        @*</div>*@
+    </div>
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h4>¿Desea ir a la versión móvil de TicoPay?</h4>
+            </div>
+            <div class="modal-body text-center">
+                <p>Para una mejor experiencia en facturación electrónica en su dispositivo disponemos de una versión móvil.</p>
+                <p>Haga clic en el botón para re direccionar.</p>
+                <button id="myBtn" style="background-color:#2A3159;color:white;">Ir a versión móvil</button>
+            </div>
+        </div>
+    </div>
+</div>

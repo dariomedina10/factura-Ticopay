@@ -1,0 +1,119 @@
+﻿@model TicoPay.Roles.Dto.UpdateRoleInput
+@{
+    ViewBag.Title = "Editar Rol";
+}
+<script>
+
+    $(document).ready(function () {
+
+        $('#tree').jstree({
+            "checkbox": {
+                "keep_selected_style": false
+            },
+            "plugins": ["checkbox"],
+            checkbox: {
+                three_state: false
+            }
+        });
+
+        $('#tree').on("changed.jstree", function (e, data) {
+            var checked_ids = [];
+            var node;
+            if (data.selected.length) {
+                $(data.selected).each(function (idx) {
+                    node = data.instance.get_node(data.selected[idx]);
+                    checked_ids.push(data.instance.get_node(data.selected[idx]).data.value);
+                });
+
+                $('#permisos').val(checked_ids);
+            }
+        });
+
+        $('#Guardar').click(function () {
+            //$('#form').submit();
+            $("#anyModalForm").modal("hide");
+        });
+  });
+</script>
+
+
+@using (Ajax.BeginForm("Edit", "Roles", new AjaxOptions { HttpMethod = "POST" }, new { @class = "form-horizontal ", @id = "form" , UpdateTargetId = "modalTreeDiv" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Editar @Model.Name</h4>
+    </div>
+    if (Model != null)
+    {<div class="modal-body" id="modalTreeDiv">
+        <fieldset>
+            <input id="nodes" type="hidden">
+            @Html.HiddenFor(m => m.permisos)
+            @Html.HiddenFor(m => m.Id)
+            <div class="well col-lg-10 col-lg-offset-1">
+                <div class="wrapper">
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                    <div class="input-group col-lg-12">
+                       @Html.DisplayFor(model => model.Name)
+                    </div>
+                </div>
+                <br />
+                <div class="wrapper">
+                    @Html.LabelFor(model => model.PermissionNames, new { @class = "control-label" })
+                    <div class="input-group col-lg-12" id="tree">
+                        <ul>
+                            @foreach (var item in Model.PermissionNames)
+                            {
+
+
+
+                                <li data-jstree='{"opened":true,"icon":"glyphicon glyphicon-ok-sign" @{if (item.Attr.selected) { <text> ,"selected":true </text>    } }}' @{if (item.Attr.selected) { <text> class="jstree-checked" </text>         } }  data-value="@item.Id">
+
+                                    @item.Data
+
+                                    @if (item.Children.Count > 0)
+                                    {
+                                        <ul>
+                                            @foreach (var child in item.Children)
+                                            {
+                                                <li data-jstree='{"opened":true, "icon":"glyphicon glyphicon-ok-sign" @{if (child.Attr.selected) { <text> ,"selected":true </text>    } }}' @{if (child.Attr.selected) { <text> class="jstree-checked" </text>         } }  data-value="@child.Id">@child.Data</li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+
+                    </div>
+                </div>
+                <br />
+
+                @if (Model.ErrorCode == 1)
+                {
+                    <hr />
+                    <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+                else if (Model.ErrorCode == -1)
+                {
+                    <br />
+                    <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button class="btn btn-primary" id="Guardar">Guardar</button>
+    </div>
+
+    }
+}
+
+

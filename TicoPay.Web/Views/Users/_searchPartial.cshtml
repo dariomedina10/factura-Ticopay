@@ -1,0 +1,53 @@
+﻿@using System.Web.Mvc.Html
+@model TicoPay.Users.Dto.SearchUsersInput
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    @using (Html.BeginForm(Model.Action, Model.Control, FormMethod.Post, new { @id = "searchForm" }))
+    {
+        <div class="row">
+            <div class="col-lg-2">
+                <label>
+                    Nombres
+                </label>
+            </div>
+            <div class="col-lg-3">
+                @Html.TextBoxFor(model => model.NameFilter, new { @placeholder = "Introducir Nombre...", @id = "searchName", @type = "text", @class = "form-control", maxlength = "50", size = "50" })
+            </div>
+            <div class="col-lg-2">
+                <label>
+                    Apellidos
+                </label>
+            </div>
+            <div class="col-lg-3">
+                @Html.TextBoxFor(model => model.SurnameFilter, new { @placeholder = "Introducir Apellido...", @id = "searchSurName", @type = "text", @class = "form-control", maxlength = "50", size = "50" })
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-2">
+                <label>
+                    Correo
+                </label>
+            </div>
+            <div class="col-lg-3">
+                @Html.TextBoxFor(model => model.EmailAddressFilter, new { @placeholder = "Introducir Correo...", @id = "searchEmailAddress", @type = "text", @class = "form-control", maxlength = "50", size = "50" })
+            </div>
+            <div class="col-lg-2">
+                <label>
+                    Rol
+                </label>
+            </div>
+            <div class="col-lg-3">
+                @{
+                    SelectList roles = new SelectList(Model.Roles.ToArray(), "Id", "Name");
+                    @Html.DropDownListFor(m => m.IdRolFilter, roles, "Todos", new { @id = "Roles_DD", @class = "form-control" })
+                }
+            </div>
+            <div class="col-lg-2">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-success">Buscar</button>
+                </span>
+            </div>
+        </div>
+    }
+</div>

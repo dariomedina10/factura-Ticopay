@@ -1,0 +1,179 @@
+﻿@using System.Globalization
+@using TicoPay.Invoices
+@model TicoPay.ReportAccountsReceivable.Dto.ReportAccountsReceivableInputDto
+@{
+    ViewBag.Title = "Reporte de Cuentas por Cobrar";
+}
+<div class="ibox float-e-margins">
+
+    <div class="ibox-title">
+        <h5>Opciones de búsqueda</h5>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+
+        </div>
+    </div>
+    <div class="ibox-content">
+        @using (Html.BeginForm(Model.Action, Model.Control, FormMethod.Post, new { @id = "searchForm" }))
+    {
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-lg-1">
+                    </div>
+                    <div class="col-lg-5">
+                        @Html.Label(" Fecha Inicial:", new { @class = "control-label col-lg-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.InitialDate, new { @class = "form-control", @type = "date" })
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        @Html.Label(" Fecha Final:", new { @class = "control-label col-lg-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.FinalDate, new { @class = "form-control", @type = "date" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-lg-1">
+                    </div>
+                    <div class="col-lg-5">
+                        @Html.Label(" Sucursal:", new { @class = "control-label col-lg-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.BranchOfficeId, new SelectList(Model.BranchOffice.ToArray(), "Id", "Name"), "Todas",
+                                       new
+                                       {
+                                           @class = "form-control",
+                                           data_cascade_combo = "#Drawer_DD",
+                                           data_cascade_combo_source = Url.Action("GetDrawer", "ReportClosing"),
+                                           data_cascade_combo_param_name = "id",
+
+                                           @title = "Seleccione una Sucursal",
+                                                      //  onchange = "getCajas();",
+                                                      @Id = "Branch_DD"
+                                       }
+                                       )
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        @Html.Label(" Caja:", new { @class = "control-label col-lg-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.DrawerId, Model.DrawerUser, "Todas",
+                                       new
+                                       {
+                                           @class = "form-control",
+
+                                           @title = "Seleccione una Caja",
+                                           @id = "Drawer_DD"
+
+                                       })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-lg-1">
+                    </div>
+                    <div class="col-lg-5">
+                        @Html.Label(" Estado:", new { @class = "control-label col-lg-4" })
+                        <div class="col-md-8">
+                            @{
+                            IList<SelectListItem> statusInvoice = new List<SelectListItem>();
+                            statusInvoice.Add(new SelectListItem { Value = ((int)Status.Parked).ToString(CultureInfo.InvariantCulture), Text = "Pendientes" });
+                            statusInvoice.Add(new SelectListItem { Value = ((int)Status.Completed).ToString(CultureInfo.InvariantCulture), Text = "Pagadas" });
+                            @Html.DropDownListFor(m => m.Status, statusInvoice, "Todos", new { @id = "Status_DD", @class = "form-control" })}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        @Html.Label(" Forma de Pago:", new { @class = "control-label col-lg-4" })
+                        <div class="col-md-8">
+                            @{
+                            IList<SelectListItem> typePayment = new List<SelectListItem>();
+                            typePayment.Add(new SelectListItem { Value = ((int)PaymetnMethodType.Cash).ToString(CultureInfo.InvariantCulture), Text = "Efectivo" });
+                            typePayment.Add(new SelectListItem { Value = ((int)PaymetnMethodType.Card).ToString(CultureInfo.InvariantCulture), Text = "Tarjeta" });
+                            typePayment.Add(new SelectListItem { Value = ((int)PaymetnMethodType.Check).ToString(CultureInfo.InvariantCulture), Text = "Cheque" });
+                            typePayment.Add(new SelectListItem { Value = ((int)PaymetnMethodType.Deposit).ToString(CultureInfo.InvariantCulture), Text = "Deposito/Transferencia" });
+                            @Html.DropDownListFor(m => m.PaymetnMethodType, typePayment, "Todos", new { @id = "type_DD", @class = "form-control" })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-lg-1">
+                </div>
+                <div class="col-lg-5">
+                    @Html.Label(" Moneda:", new { @class = "control-label col-lg-4" })
+                    <div class="col-md-8">
+                        @{
+                        IList<SelectListItem> codigoMoneda = new List<SelectListItem>();
+                        codigoMoneda.Add(new SelectListItem { Value = ((int)NoteCodigoMoneda.CRC).ToString(CultureInfo.InvariantCulture), Text = "CRC" });
+                        codigoMoneda.Add(new SelectListItem { Value = ((int)NoteCodigoMoneda.USD).ToString(CultureInfo.InvariantCulture), Text = "USD" });
+                        @Html.DropDownListFor(m => m.CodigoMoneda, codigoMoneda, "Todos", new { @id = "type_DD", @class = "form-control" })}
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    @Html.Label(" Nro Documento:", new { @class = "control-label col-lg-4" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.ConsecutiveNumber, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-lg-1">
+                </div>
+                <div class="col-md-5 ">
+                    @Html.Label(" Categoría de Cliente", new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @{
+                        SelectList categoria = new SelectList(Model.Groups, "Id", "Name");
+                        @Html.DropDownListFor(m => m.GroupsId, categoria, "Todos", new { @id = "moneda_DD", @class = "form-control" })
+                        }
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    @Html.Label("Tipo documento", new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @{
+                            @Html.DropDownListFor(m => m.TypeDocument, Model.ListTypeDocument, "Todos", new { @id = "typeDoc_DD", @class = "form-control" })
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-lg-1">
+                </div>
+                <div class="col-md-5 ">
+                   
+                </div>
+                <div class="col-lg-5">
+                    <div class="col-lg-4"></div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <button class="btn btn-primary " type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;Buscar</button>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+    </div>
+      
+</div>

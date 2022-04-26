@@ -1,0 +1,166 @@
+﻿@using TicoPay.Invoices
+@model TicoPay.Invoices.Dto.SearchInvoicesInput
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Facturación";
+}
+@if (Model != null && Model.Entities != null && Model.Entities.Count() > 0)
+{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+    string tarjet = "";
+    string ariaControls = "";
+    int count = 1;
+   
+    <div class="wrapper wrapper-content animated fadeInRight white-bg">
+        <div class="wrapper-content">
+            <div style="text-align: right">
+                @*@Html.Pager(Model.Entities.PageSize, Model.Entities.PageNumber, Model.Entities.TotalItemCount, 
+                new AjaxOptions { UpdateTargetId = "anyListEntity", OnBegin = "return abp.ui.setBusy();", OnComplete = "return abp.ui.clearBusy();" }
+                ).Options(o => o.Action("AjaxPage").DisplayTemplate("Bootstrap3Pagination").AddRouteValue("clientId", Model.ClientId).AddRouteValue("status", Model.Status).AddRouteValue("startDueDate", Model.StartDueDate).AddRouteValue("endDueDate", Model.EndDueDate))*@
+
+                Página @(Model.Entities.PageCount < Model.Entities.PageNumber ? 0 : Model.Entities.PageNumber) de @Model.Entities.PageCount
+
+                @Html.PagedListPager(Model.Entities, page => Url.Action("AjaxPage", new { page, clientId = Model.ClientId, status = Model.Status, startDueDate= Model.StartDueDate, endDueDate= Model.EndDueDate, documentType = Model.TypeDocument }),
+                       PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "anyListEntity", OnBegin = "onBegin(this)", OnComplete = "onComplete(this)" }))
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Tipo Documento</th>
+                            <th>Nro. Documento </th>
+                            <th>Fecha </th>
+                            <th>Nombre </th>
+                            <th>Estado </th>
+                            <th>Factura</th>
+                            <th>Débitos</th>
+                            <th>Créditos</th>
+                            <th>Total</th>
+                            <th>Nro. Referencia</th>
+                        </tr>
+                    </thead>
+                    <tbody role="tablist">
+                        @foreach (var item in Model.Entities.OrderByDescending(a => a.ConsecutiveNumber))
+                        {
+                            //Cambiar precio por unidad por total
+                            tarjet = "#" + count;
+                            ariaControls = "aria" + count;
+                            decimal total = @item.Total + @item.Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.Total) - @item.Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.Total);
+                        <tr data-toggle="collapse" data-target="@tarjet" role="tab" data-parent="#accordion" aria-controls="@ariaControls">
+                            <td>@TicoPay.Application.Helpers.EnumHelper.GetDescription(item.TypeDocument)</td>
+                            <td>@item.ConsecutiveNumber</td>
+                            <td>@item.DueDate.ToString("dd/MM/yyyy")</td>
+                            @if (!String.IsNullOrWhiteSpace(item.ClientName))
+                            {
+                                <td>@item.ClientName</td>
+                            }
+                            else
+                            {
+                                <td>-</td>
+                            }
+                            <td>
+
+
+                                @if (item.Status == Status.Completed)
+                                {
+                                    <span class="label label-warning">Pagada</span>
+                                }
+                                @if (item.Status == Status.Parked)
+                                {
+                                    <span class="label label-primary">Pendiente</span>
+                                }
+                                @if (item.Status == Status.Voided)
+                                {
+                                    <span class="label label-danger">Anulada</span>
+                                }
+                                @if (item.Status == Status.Returned)
+                                {
+                                    <span class="label label-danger">Reversada</span>
+                                }
+                            </td>
+                            <td>
+                                @item.CodigoMoneda @Html.FormatValue(@item.Total, currencyFmt)
+                            </td>
+                            <td>@item.CodigoMoneda @Html.FormatValue(@item.Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.Total), currencyFmt)</td>
+                            <td>@item.CodigoMoneda @Html.FormatValue(@item.Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.Total), currencyFmt)</td>
+                            <td>
+                                @if (total > 0)
+                                {@item.CodigoMoneda @Html.FormatValue(@total, currencyFmt)}
+                            else
+                            {<p> @item.CodigoMoneda 0.00 </p>}
+
+                            </td>
+                            <td>
+                                @if (item.ExternalReferenceNumber != null)
+                                {@item.ExternalReferenceNumber}
+                            else
+                            {<p> N/A </p>}
+
+                            </td>
+
+                        </tr>
+                            if (Model.InvoiceSelect != null && Model.InvoiceSelect == item.Id)
+                            {
+                                <tr>
+                                    <td class="hiddenRow" colspan="12">
+                                        <div class="accordian-body collapse in" role="tabpanel" id="@count.ToString()">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div>
+                                                        <div class="ibox-content" style="padding-top: 10px; padding-right: 10px; padding-bottom: 0px;">
+                                                            @{
+                                                                Html.RenderPartial("_itemPartial", item);
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td class="hiddenRow" colspan="12">
+                                        <div class="accordian-body collapse" role="tabpanel" id="@count.ToString()">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div>
+                                                        <div class="ibox-content" style="padding-top: 10px; padding-right: 10px; padding-bottom: 0px;">
+                                                            @{
+                                                                if (item.ListItems != null)
+                                                                {
+                                                                    Html.RenderPartial("_itemPartial", item);
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            }
+                            tarjet = "";
+                            ariaControls = "";
+                            count++;
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    }
+    else
+    {
+        <div class="alert alert-warning alert-dismissible text-center" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>¡Seleccione un criterio de búsqueda y presione el botón buscar!</strong>
+        </div>
+    }

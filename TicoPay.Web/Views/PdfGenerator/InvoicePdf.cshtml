@@ -1,0 +1,269 @@
+﻿@using TicoPay.Invoices
+@model TicoPay.Invoices.Dto.InvoiceDto
+@{
+    ViewBag.Title = "InvoicePdf";
+}
+@{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+}
+
+<div class="row ">
+    <div class="col-md-6 pull-left">
+        @*//<img style="width: 200px; height: 150px" src='@Server.MapPath("~/Content/images/logo.png")' alt="Logo" />*@
+        <br />
+        <p><strong>@Model.Tenant.ComercialName</strong></p>
+        <p ><strong>@Model.TenantName</strong></p>
+        <p >@Model.Tenant.IdentificationType @Model.Tenant.IdentificationNumber</p>
+        <p >Telf: @Model.Tenant.PhoneNumber , Móvil: @Model.Tenant.Fax</p>
+        <p >Email: @Model.Tenant.Email</p>
+    </div>
+
+    <div class="col-md-6 pull-right">
+        <br />
+        <br />
+        <br />
+        <br />
+        <p style="font-size: small">
+
+            <b>Fecha de emisión:</b> @DateTime.Now.ToString("dd/MM/yyyy")<br />
+            <b>
+                Estado Factura:
+            </b>
+                @if (Model.Status == Status.Completed)
+                {
+                    <b><span style="color: green">Pagada</span></b>
+                }
+                else if (Model.Status == Status.Parked)
+                {
+                    <b><span style="color: royalblue">Pendiente</span></b>
+                }
+                else if (Model.Status == Status.Voided)
+                {
+                    <b><span style="color: red">Anulada</span></b>
+                }
+            <br />
+            <b>Factura Número:</b> @Model.ConsecutiveNumber<br />
+
+        </p>
+
+    </div>
+
+</div>
+<div class="row"><p>&nbsp;&nbsp;&nbsp;</p></div>
+@*<div class="row"><p>&nbsp;&nbsp;&nbsp;</p></div>*@
+<table class="table table-condensed" style="font-size: small">
+    <tbody>
+  
+        <tr>
+            <td style="text-align: left">
+                <strong>Nombre: </strong>
+            </td>
+            <td style="text-align: left">
+                @Html.DisplayFor(model => model.Client.Name)
+            </td>
+            <td style="text-align: right">
+                <strong>Identificación: </strong>
+            </td>
+            <td style="text-align: left">
+                @Html.DisplayFor(model => model.Client.IdentificationType) @Html.Raw(" ")
+                @Html.DisplayFor(model => model.Client.Identification)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: left">
+                <strong>Teléfono: </strong>
+            </td>
+            <td style="text-align: left">
+                @Model.Client.MobilNumber
+            </td>
+
+            <td style="text-align: right">
+                <strong>Email: </strong>
+            </td>
+            <td style="text-align: left">
+               @Model.Client.Email
+            </td>
+
+        </tr>
+        <tr>
+            <td style="text-align: left">
+                <strong>Dirección: </strong>
+            </td>
+            <td style="text-align: left" >
+
+                <p class="">
+                    @Model.Client.Address
+                </p>
+
+            </td>
+            <td style="text-align: right">
+                <strong>Nombre Comercial: </strong>
+            </td>
+            <td style="text-align: left">
+               
+                    <p class="">@Model.Client.NameComercial</p>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+<b>Detalles de la factura</b>
+<table class="table table-striped table-bordered table-condensed" style="font-size: small">
+    <thead style="background-color: #BDBDBD; text-align: center">
+    <tr>
+        <th style="text-align: center; font-size: small">
+            Nombre
+        </th>
+        <th style="text-align: center; font-size: small">
+            Cant.
+        </th>
+        <th style="text-align: center; font-size: small">
+            Precio
+        </th>
+        <th style="text-align: center; font-size: small">
+            % Desc.
+        </th>
+        <th style="text-align: center; font-size: small">
+            Impuesto
+        </th>
+        <th style="text-align: center; font-size: small">
+            Total
+        </th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.InvoiceLines != null && Model.InvoiceLines.Any())
+    {
+
+        foreach (var item in Model.InvoiceLines)
+        {
+            <tr>
+                <td style="text-align: center; font-size: small">
+                    @item.Service.Name
+                </td>
+                <td style="text-align: center; font-size: small">
+                    @item.Quantity
+                </td>
+                <td style="text-align: center; font-size: small">
+                    @item.Service.Price
+                </td>
+                <td style="text-align: center; font-size: small">
+                    @Html.FormatValue(@item.DiscountPercentage, currencyFmt) 
+                </td>
+                <td style="text-align: center; font-size: small">
+                    @Html.FormatValue(@item.TaxAmount, currencyFmt)  
+                </td>
+                <td style="text-align: center; font-size: small">
+                    @Html.FormatValue(@item.SubTotal, currencyFmt)  
+                </td>
+
+            </tr>
+        }
+        @*foreach (var item in Model.Notes)
+        {
+            <tr>
+                <td style="text-align: center; font-size: small">
+                    @if (item.NoteType == NoteType.Credito)
+                    {
+                        <p>Nota de Crédito</p>
+                    }
+                    else if (item.NoteType == NoteType.Debito)
+                    {
+                        <p>Nota de Dédito</p>
+                    }
+                </td>
+                <td style="text-align: center; font-size: small">
+                    1
+                </td>
+                <td style="text-align: center; font-size: small">
+                    @item.Amount
+                </td>
+                <td style="text-align: center; font-size: small">
+                    @item.TaxAmount
+                </td>
+                <td style="text-align: center; font-size: small">
+                    @item.Total
+                </td>
+
+            </tr>
+        }*@
+
+    decimal subtotal = @Model.InvoiceLines.Sum(a => a.Total);
+    decimal descuento = (@Model.InvoiceLines.Sum(a => a.DiscountPercentage) * @Model.InvoiceLines.Sum(a => a.Total))/100;
+    decimal impuesto = Model.InvoiceLines.Sum(a => a.TaxAmount);
+    decimal total = (subtotal- descuento) + impuesto;
+    //decimal subtotal = @Model.FirstOrDefault().InvoiceLines.Sum(a => a.Total) + @Model.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.Amount) - @Model.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.Amount);
+    //decimal impuestototal = @Model.FirstOrDefault().InvoiceLines.Sum(a => a.TaxAmount) + @Model.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Debito).Sum(a => a.TaxAmount) - @Model.FirstOrDefault().Notes.Where(a => a.NoteType == NoteType.Credito).Sum(a => a.TaxAmount);
+    //decimal total = subtotal + impuestototal;
+        <tr>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="text-align: center">
+                <b>Sub Total:</b>
+            </td>
+            <td style="text-align: center">
+                <b>@Html.FormatValue(@subtotal, currencyFmt)  </b>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="text-align: center">
+                <b>Descuento:</b>
+            </td>
+            <td style="text-align: center">
+                <b>@Html.FormatValue(@descuento, currencyFmt)  </b>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="text-align: center">
+                <b>Impuesto:</b>
+            </td>
+            <td style="text-align: center">
+                <b>@Html.FormatValue(@impuesto, currencyFmt) </b>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="border: 0"></td>
+            <td style="text-align: center">
+                <b>Total:</b>
+            </td>
+            <td style="text-align: center">
+                <b>@Html.FormatValue(@total, currencyFmt)  </b>
+            </td>
+        </tr>
+
+    }
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<div >
+    <p style="font-size: small">
+        **Incluido en el Registro de Facturación Electrónica, según normativa, DGT-R-48-2016
+    </p>
+        @*<p style="font-size: small">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                ________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <b>* Consulte sus recibos pendientes en</b>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span style="font-size: xx-small">Sello de la Empresa</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <b>ticopayproduccion.cloudapp.net/ConsultaRecibos</b>
+            </p>*@
+</div>

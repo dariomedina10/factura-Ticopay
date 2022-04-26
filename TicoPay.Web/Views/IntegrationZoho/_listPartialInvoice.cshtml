@@ -1,0 +1,88 @@
+﻿@using TicoPay.Invoices
+@model TicoPay.ReportStatusInvoices.Dto.ReportStatusInvoicesInputDto<TicoPay.ReportStatusInvoices.Dto.IntegracionZohoSVConta>
+@{
+    string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+}
+<table id="TableListEntity" class="table table-striped table-hover" style="font-size: 12px">
+    <thead>
+        <tr>
+            @*<th style="text-align: center">
+                    Tipo de Documento
+                </th>*@
+            <th style="text-align: center">
+                Nro Documento
+            </th>
+            <th style="text-align: center">
+                Cliente
+            </th>
+            <th style="text-align: center">
+                Fecha Documento
+            </th>
+            <th style="text-align: center">
+                Fecha de Vencimiento
+            </th>
+            <th style="text-align: center">
+                Moneda
+            </th>
+            <th style="text-align: center">
+                itemPrice
+            </th>
+            <th style="text-align: center">
+                servicio
+            </th>
+            <th style="text-align: center">
+                item tax %
+            </th>
+            <th style="text-align: center">
+                Item Tax1 Amount
+            </th>
+            <th style="text-align: center">
+                Total
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.InvoicesList)
+        {
+            foreach (var line in item.InvoiceSVContaLines)
+            {
+                <tr>
+                    <td style="text-align: center">
+                        @Int64.Parse(item.ConsecutiveNumber)
+                    </td>
+                    <td style="text-align: center">
+                        @item.ClientName
+                    </td>
+                    <td style="text-align: center; width:10px">
+                        <p>@item.DateDocument.ToString("dd/MM/yyyy")</p>
+                    </td>
+                    <td style="text-align: center; width:10px">
+                        @if (item.ExpirationDate != null)
+                        {
+                            <p>@item.ExpirationDate.Value.ToString("dd/MM/yyyy")</p>
+                        }
+                    </td>
+                    <td style="text-align: center">
+                        <p>@item.CodigoMoneda</p>
+                    </td>
+                    <td style="text-align: center">
+                        <p>@Html.FormatValue(line.ItemPrice, currencyFmt)</p>
+                    </td>
+                    <td style="text-align: center">
+                        <p>@line.Servicio</p>
+                    </td>
+                    <td style="text-align: center">
+                        <p>@Html.FormatValue(line.ItemTax, currencyFmt)</p>
+                    </td>
+                    <td style="text-align: center">
+                        <p>@Html.FormatValue(line.ItemTaxAmount, currencyFmt)</p>
+                    </td>
+                    <td style="text-align: center">
+                        @Html.FormatValue(line.Total, currencyFmt)
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>

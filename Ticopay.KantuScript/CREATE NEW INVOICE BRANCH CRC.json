@@ -1,0 +1,200 @@
+﻿{
+  "CreationDate": "2018-9-9",
+  "Commands": [
+    {
+      "Command": "csvRead",
+      "Target": "libro1.csv",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "open",
+      "Target": "${!COL1}/Home/Index",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "//*[@id=\"side-menu\"]/li[4]/a/span",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"side-menu\"]/li[4]/ul/li[2]/a/span",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"content\"]/div[1]/a",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=#btnShowClientsList > span",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=div.btn.btn-default.btn-xs",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "clickAt",
+      "Target": "//*[@id=\"CoinTypes_DD_chosen\"]/a/div/b",
+      "Value": "1,1"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "clickAt",
+      "Target": "//*[@id=\"CoinTypes_DD_chosen\"]/div/ul/li[1]",
+      "Value": "1,1"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=newLine",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "css=input.listaServicio.typeahead_3.form-control",
+      "Value": "SERVICIO DE BASES DE DATOS"
+    },
+    {
+      "Command": "click",
+      "Target": "link=SERVICIO DE BASES DE DATOS",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=CreditCardChk",
+      "Value": "on"
+    },
+    {
+      "Command": "click",
+      "Target": "id=CreditCardChk",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=nroCreditCardText",
+      "Value": "121213"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "//*[@id=\"observacionGeneral\"]/div/div[2]/textarea",
+      "Value": "OBSERVACION GENERAL"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=GenerateInvoice_btn",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "6000",
+      "Value": ""
+    },
+    {
+      "Command": "clickAndWait",
+      "Target": "link=Cerrar",
+      "Value": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "6000",
+      "Value": ""
+    },
+    {
+      "Command": "storeEval",
+      "Target": "var d= new Date(); var m=((d.getMonth()+1)<10)?'0'+(d.getMonth()+1):(d.getMonth()+1); var el=((d.getDate())<10)?'0'+(d.getDate()):(d.getDate()); d.getFullYear()+\"-\"+m+\"-\"+el;",
+      "Value": "eldia"
+    },
+    {
+      "Command": "echo",
+      "Target": "${eldia}",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=StartDueDate",
+      "Value": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=StartDueDate",
+      "Value": "${eldia}"
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=Status",
+      "Value": ""
+    },
+    {
+      "Command": "select",
+      "Target": "id=Status",
+      "Value": "label=Pagada"
+    },
+    {
+      "Command": "click",
+      "Target": "id=Status",
+      "Value": ""
+    },
+    {
+      "Command": "click",
+      "Target": "//*[@id=\"frmSearchInvoices\"]/div/div[5]/div[2]/div/div/button",
+      "Value": ""
+    }
+  ]
+}

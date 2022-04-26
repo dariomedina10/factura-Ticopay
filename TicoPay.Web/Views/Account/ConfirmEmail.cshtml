@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Email Confirmado";
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+<style>
+    body {
+        background-repeat: round;
+        background-image: url('../../images/ticopay-facturacion-electronica-factura-register-background.png');
+        height: 100%;
+    }
+
+    .signup-backdrp {
+        background-color: #050505;
+        opacity: .8;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+    }
+</style>
+
+<div class="signup-backdrp"></div>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+            </div>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="well bs-component">
+                <div align="center">
+                    <img src="~/images/ticopay-facturacion-electronica-logo-completo-verde-azul.png" id="header-logo" alt="Logo" />
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title" style="background-color: rgba(47, 64, 80, 0.25);">
+                                <h1>¡@ViewBag.Title!</h1>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <br />
+                                    <p>@*Gracias por confirmar tu cuenta de correo electrónico. Por favor, @Html.ActionLink("Haga click aquí para iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })*@</p>
+                                    <p>Gracias por confirmar tu cuenta de correo electrónico. Por favor,
+                                        <a href="@ViewBag.LoginUrl">Haga click aquí para iniciar sesión</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

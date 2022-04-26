@@ -1,0 +1,51 @@
+﻿@using System.Web.Mvc.Html
+@model TicoPay.ConsultaRecibos.Dto.SearchConsultaRecibosInput
+<div class="wrapper wrapper-content animated fadeInRight white-bg">
+    @*@using (Html.BeginForm(Model.Action, Model.Control, FormMethod.Post, new { @id = "searchForm" }))
+        {*@
+    <div class="text-center">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <label style="text-align: center">
+                    Seleccione su empresa:
+                </label>
+                @{
+                    SelectList tenants = new SelectList(Model.Tenants.ToArray(), "Id", "Name");
+                    <div>@Html.DropDownListFor(m => m.TenantId, tenants, new { @id = "Tenants_DD", @class = "form-control" })</div>
+                }
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <label style="text-align: center">
+                    No. Cédula:
+                </label>
+                <div class="">
+                    <div class="input-group">
+                        <span class="input-group-addon">#</span>
+                        @Html.TextBoxFor(model => model.Identification, new { @placeholder = "...", id = "identificationText", @type = "text", @class = "form-control" })
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-warning" data-toggle="popover" title="Alerta" data-content="El número de cédula debe digitarse sin guiones - ni espacios ' '"><span class="glyphicon glyphicon-question-sign"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+
+                <button class="btn btn-primary " id="btnSubmit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;Buscar</button>
+
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+    </div>
+    @* }  *@
+</div>

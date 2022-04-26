@@ -1,0 +1,86 @@
+<div class="container-fluid">
+  <form autocomplete="off" method="POST" novalidate #createQuickServiceForm="ngForm" (submit)="submitQuickService(createQuickServiceForm)"
+    class="form" role="form">
+    <div class="wrapper border-bottom white-bg page-heading">
+      <div class="col-lg-12 text-center">
+        <h4>Crear un nuevo servicio</h4>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label class="control-label" for="serviceName">Nombre</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <input #serviceName="ngModel" name="serviceName" id="serviceName" minlength="2" maxlength="79" [(ngModel)]='_service.name'
+            type="text" required placeholder="ej. Eliminación de plagas" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label class="control-label" for="servicePrice">Precio</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <input #servicePrice="ngModel" name="servicePrice" id="servicePrice" [(ngModel)]='_service.price' type="number" min="1" required
+            placeholder="ej. 125,00" class="form-control" maxlength="13" (keypress)="onDecimalValueChange($event)" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label class="control-label" for="serviceTax">Tipo de impuesto</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <select #serviceTax="ngModel" name="serviceTax" id="serviceTax" required [(ngModel)]="_service.taxId" class="form-control">
+            <option disabled selected [ngValue]="undefined"> Seleccione ... </option>
+            <option *ngFor='let tax of _taxes' [value]="tax.id">{{tax.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-left">
+          <label class="control-label" for="serviceUnitMeasurement">Unidad de Medida</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-12 text-center">
+          <select #serviceUnitMeasurement="ngModel" name="serviceUnitMeasurement" id="serviceUnitMeasurement" required [(ngModel)]="_service.unitMeasurement"
+            class="form-control">
+            <option value="{{unitMeasurement.ServiciosProfesionales}}">Servicios Profesionales</option>
+            <option value="{{unitMeasurement.Segundo}}">Segundo</option>
+            <option value="{{unitMeasurement.MetroCuadrado}}">Metro Cuadrado</option>
+            <option value="{{unitMeasurement.MetroCubico}}">Metro Cubico</option>
+            <option value="{{unitMeasurement.Minutos}}">Minutos</option>
+            <option value="{{unitMeasurement.Hora}}">Hora</option>
+            <option value="{{unitMeasurement.Dia}}">Dia</option>
+            <option value="{{unitMeasurement.Otros}}">Otros</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="_service.unitMeasurement == unitMeasurement.Otros">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-left">
+            <label class="control-label" for="serviceOther">Especifique</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12 text-center">
+            <input #serviceOther="ngModel" name="serviceOther" id="serviceOther" minlength="2" maxlength="79" [(ngModel)]='_service.unitMeasurementOthers'
+              type="text" required class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <!-- style="padding: 15px 1px;" -->
+        <div class="col-xs-12 col-md-12 text-right">
+          <button class="btn btn-primary btn-responsive" [disabled]="!createQuickServiceForm.form.valid" type="submit">Agregar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

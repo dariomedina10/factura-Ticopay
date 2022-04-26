@@ -1,0 +1,206 @@
+﻿@using System.Web.Optimization
+@using System.Threading
+@using System.Web.Optimization
+@using Abp.Timing
+
+
+@{
+    SetAntiForgeryCookie();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Facturación Electrónica - Ticopay</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Ticopay es un software de facturación electrónica conectado con Hacienda de Costa Rica, que te permite generar facturas electrónicas recurrentes u ocasionales">
+    <meta name="keywords" content="ticopay,factura electronica, costa rica, software, sistema, factura digital, facturacion electronica, gratis, payment, invoice, electronic, software, system, cloud, support, data, money, free">
+    <meta name="viewport" content="initial-scale = 1.0, user-scalable = no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property='og:locale' content='es_ES' />
+    <meta property='og:type' content='website' />
+    <meta property='og:title' content='Ticopay' />
+    <meta property='og:description' content='Ticopay es un software de facturación electrónica adaptado a Costa Rica, que te permite generar facturas electrónicas recurrentes u ocasionales' />
+    <meta property='og:url' content='http://www.ticopays.com/' />
+    <meta property='og:site_name' content='Ticopay' />
+    <!-- <meta property="og:image" content="Imagen_del_articulo_pagina.jpg"> -->
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/apprap-css.css" rel="stylesheet" />
+    <link href="~/Content/apprap-responsive-css.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Material+Icons" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>
+
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-820337574"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'AW-820337574');</script>
+</head>
+<body id="background">
+    <!-- JavaScript image slider: open "apprap-js.js" in the "apprap-js" folder to change images. -->
+    <img id="slider" src="/" alt="El mejor software de facturación electrónica en Costa Rica" title="Ticopay: Software de facturación electrónica en Costa Rica">
+
+    <!-- To edit the background of the header, open the "apprap-css.css" file located in the "apprap-css" folder and see section 3.1 -->
+    <header>
+        <span class="filter grad"></span> <!-- This makes the background image appear darker -->
+
+        <div class="container">
+            <!-- Navigation bar -->
+            <nav>
+                <!-- Logo -->
+                <!-- Replace the logo.png image in the "images" folder with your logo. To change the width and height of the logo, open the "apprap-css.css" file located in the "apprap-css" folder and see section 2 -->
+                @*<img src="~/images/Sibolo-TP-fondo-trans-2-01-01.png" id="header-logo" alt="Ticopay, genera facturas electrónicas y con respaldo en la nube" title="Ticopay">*@
+                <img src="~/images/ticopay-facturacion-electronica-logo-completo-blanco.png" id="header-logo" alt="Ticopay respalda tus facturas electrónicas en la nube" title="Ticopay, facturación electrónica en Costa Rica" />
+                <!-- Links -->
+                <div id="links">
+                    <a href="#features" onclick="gtag_report_conversion('#features')">Características</a>
+                    <a href="#pricing" onclick="gtag_report_conversion('#pricing')">Planes y precios</a>
+                    <a href="#contact" onclick="gtag_report_conversion('#contact')">Contacto</a>
+                    <a href="https://blog.ticopays.com" target="_blank" onclick="gtag_report_conversion('https://blog.ticopays.com')">Blog</a>
+                    <a id="linklogin" class="download smooth">Inicia Sesión</a>
+                </div>
+
+                <!-- Responsive Header Popup -->
+                <!-- This is the responsive navigation popup, it will only display on tablet and mobile devices. -->
+                <span onClick="openPopup(this);" class="popup-nav-btn"><i class="material-icons">menu</i></span>
+                <div class="popup">
+                    <div class="popup-nav">
+                        <a onclick="closePopup();" href="#features">Características</a>
+                        <a onclick="closePopup();" href="#pricing">Planes y precios</a>
+                        <a onclick="closePopup();" href="#contact">Contacto</a>
+                        <a onclick="closePopup();" href="https://blog.ticopays.com" target="_blank">Blog</a>
+                        <a onclick="closePopup();" id="linklogin">Inicia Sesión</a>
+                        <a onclick="closePopup();">Cerrar</a>
+                    </div>
+                </div>
+
+                <span class="clearfix"></span>
+            </nav>
+
+            <!-- Title -->
+            <h1>ticopay</h1> <!-- Replace with the name of your app -->
+            <!-- Typewriter -->
+            <div class="typewriter">
+                <h2>Te hace la vida más fácil.</h2> <!-- Replace with your short slogan / tagline -->
+            </div>
+
+            <!-- Paragraph -->
+            <p>Genera tus facturas electrónicas para Costa Rica únicas o recurrentes de manera automática y con respaldo en la nube.</p> <!-- Replace with a short description of your app -->
+            <!-- Buttons -->
+            <!-- These buttons automatically scroll to the relevant sections below -->
+
+
+            <a href="#pricing" class="btn2 smooth">Regístrate ahora</a>
+            <a href="#overview" id="about-btn">Descubre más</a>
+
+            <!-- Mockup Image -->
+            <img src="~/images/ticopay-facturacion-electronica-factura-software-aplicacion-movil.png" class="mockup" alt="Crea fácil tú factura digital con Ticopay" title="Ticopay es la mejor opción en Software de Facturación Electrónica en Costa Rica"> <!-- Replace the 'SRC' URL to direct to your mockup image -->
+        </div>
+    </header>
+    @RenderBody()
+
+    <footer class="white">
+        <a href="https://www.facebook.com/Ticopay-120530858579183/" target="_blank"><img src="~/images/facturacion-electronica-ticopays-facebook.png" height="50" alt="Ticopay, Software de Facturación Electrónica en Facebook" title="¡Ticopay, Software de Facturación Electrónica está en Facebook!"></a>
+        <a href="http://www.twitter.com/ticopay" target="_blank"><img src="~/images/facturacion-electronica-ticopays-twitter.png" alt="Ticopay, Software de Facturación Electrónica en Twitter" title="Mira el Twitter de Ticopay, el Software de Facturación Electrónica de Costa Rica"></a>
+        <a href="http://www.instagram.com/ticopay" target="_blank"><img src="~/images/facturacion-electronica-ticopays-instagram.png" alt="Ticopay, Software de Facturación Electrónica en Instagram" title="Visita nuestro Instagram, Ticopay, el Software de Facturación Electrónica de Costa Rica"></a>
+        <a href="https://www.linkedin.com/company/ticopay/" target="_blank"><img src="./images/iconoLinkedIn_paginaticopay-12.png" alt="Ticopay en Linkedin" title="Visita nuestro Linkedin, y conoce las noticias más relavantes de la Facturación Electrónica en Costa Rica"></a>
+        <a href="https://www.youtube.com/channel/UC4baMtghFkWQBe70e0XeNrA/videos?disable_polymer=1" target="_blank"><img src="~/images/facturacion-electronica-ticopays-youtube.png" alt="Ticopay, Software de Facturación Electrónica en YouTube" title="Visita el canal de YouTube de Ticopay y aprende como generar tu factura electrónica"></a>
+    </footer>
+
+    <div id="modalLogin" class="modal fade" style="overflow-y: initial !important;z-index: 50000 !important;" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Acceder a TicoPay - Facturación Electrónica</h4>
+                </div>
+                @Html.Partial("_login")
+            </div>
+        </div>
+    </div>
+    @*<script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>*@
+
+    <script src="@Url.Content("~/Scripts/apprap-js.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        function gtag_report_conversion(url)
+        {
+            var callback = function () {
+                if (typeof (url) != 'undefined')
+                {
+                    window.location = url;
+                } 
+        };
+            gtag('event', 'conversion',
+                {
+                    'send_to': 'AW-820337574/f9H9CKfAuIoBEKa3lYcD',
+                    'event_callback': callback
+                }); return false;
+        } 
+
+        $(document).ready(function () {
+            String.format = function () {
+                var s = arguments[0];
+                for (var i = 0; i < arguments.length - 1; i++) {
+                    var reg = new RegExp("\\{" + i + "\\}", "gm");
+                    s = s.replace(reg, arguments[i + 1]);
+                }
+
+                return s;
+            }
+            $("#form").submit(function (event) {
+
+                // Aqui evitamos que el formulario haga el submit
+                event.preventDefault();
+
+                // Get Asignamos valores para enviarlos mediante ajax:
+                var tenat = $("#TenancyName").val();
+                var domain = window.location.host.replace("www.", "");
+                var protocolo = window.location.protocol;
+                var urlLogin = '@Url.Action("RedirectLogin", "Home",new { TenancyName= "tenat", Domain="myDomain", Protocolo="myProtocolo" })';
+                urlLogin = urlLogin.replace("tenat", tenat).replace("myDomain", domain).replace("myProtocolo", protocolo).replace(/&amp;/g,"&");
+
+                $.ajax({
+                    url: urlLogin,
+                    success: function (data) {
+                        if (data.result.success)
+                        {
+                            //$(location).attr("href", data.result.message);
+                            window.open(data.result.message, '_blank');
+                            //window.location = data.message;
+                        } else {
+                            $('#errContent').html(data.result.message);
+                            $('#divError').removeClass("hidden");
+                        }
+
+                    },
+                    fail: function () {
+
+                        $('#errContent').html("<strong>Error consultando sub-dominio.</strong>");
+                        $('#divError').removeClass("hidden");
+
+                    }
+
+                })
+            });
+
+
+
+
+            $('#linklogin').on('click', function (e) {
+                e.preventDefault();
+                $("#modalLogin").modal("show");
+
+            });
+        });
+
+
+    </script>
+</body>
+</html>

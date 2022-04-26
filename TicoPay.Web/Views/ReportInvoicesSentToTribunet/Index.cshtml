@@ -1,0 +1,73 @@
+﻿@model TicoPay.ReportInvoicesSentToTribunet.Dto.ReportInvoicesSentToTribunetSearchInput
+@{
+    ViewBag.Title = "Reporte de Facuras Enviadas a Hacienda";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Reporte de Facturas Enviadas a Hacienda</h2>
+    </div>
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchPartial", Model);}
+<br />
+<div id="anyListEntity">
+    @{Html.RenderPartial("_listPartial", Model);}
+</div>
+<div id="anyModalForm" class="modal fade" style="background-color: white;width: 60%;margin-left: 22%;height: 92%;top: 4%; overflow-x: auto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    $(document).ready(function () {
+        $('#btnShowClienteList').click(function (e) {
+            clearErrors();
+            abp.ui.setBusy();
+            $.ajax({
+                url: '@Url.Action("ShowClienteList", "ReportInvoicesSentToTribunet")',
+                type: "POST",
+                cache: false,
+                success: function (data) {
+                    $('#anyModalForm').html(data);
+                    $('#anyModalForm').modal('show');
+                    abp.ui.clearBusy();
+                }, error: function (err) {
+                    writeError('msgErrorAnyModal', err, 'error');
+                    abp.ui.clearBusy();
+                }
+            });
+        });
+    });
+
+    function clearErrors() {
+        $('#msgErrorAnyModal').html('');
+        $('#IndexAlerts').html('');
+        $('#alertPaymentInvoice').html('');
+        $('#msgNotaError').html('');
+    }
+
+    function writeError(control, msg, type) {
+        if (type === "success") {
+            abp.notify.success(msg, "");
+        } else if (type === "error") {
+            abp.notify.error(msg, "");
+            var alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + msg + '</strong></div>';
+            $("#" + control).html(alert);
+        } else { abp.notify.warn(msg, ""); }
+    }
+
+    function saveClienteData(clientId, name, code) {
+        $('#ClienteName_text').val(name);
+        $('#ClienteId_hidden').val(clientId);
+    }
+</script>
